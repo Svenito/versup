@@ -13,21 +13,21 @@ def is_repo_dirty():
 
 def get_latest_tag():
     repo = get_repo()
-    latest_tag = repo.git.tag(sort='creatordate').split('\n')[-1]
+    latest_tag = repo.git.tag(sort="creatordate").split("\n")[-1]
     return latest_tag
 
 
 def create_new_tag(new_version):
     repo = get_repo()
-    repo.create_tag(new_version, message='[Bumper] tagged "{0}"'.format(new_version))
+    repo.create_tag(new_version, message="[Bumper] tagged '{0}'".format(new_version))
 
 
 def create_commit(new_version):
     repo = get_repo()
     files = repo.git.diff(None, name_only=True)
-    for f in files.split('\n'):
+    for f in files.split("\n"):
         repo.git.add(f)
 
-    commit_msg = '[Bumper] Set version to {}'.format(new_version)
+    commit_msg = "[Bumper] Set version to {}".format(new_version)
 
-    repo.git.commit('-m', commit_msg)
+    repo.git.commit("-m", commit_msg)
