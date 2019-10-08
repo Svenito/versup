@@ -1,18 +1,19 @@
 import re
+import bumper.template as template
+from bumper.conf_reader import get_conf_value
 
 
-def do_replace(data, replace_list, new_version):
+def update_file_data(data, replace_list):
     regex = replace_list[0]
     new_text = replace_list[1]
 
-    new_text = re.sub(r"\[version\]", new_version, new_text)
     updated_data = re.sub(regex, new_text, data, flags=re.M)
     return updated_data
 
 
-def update_files(new_version, conf):
+def update_files(new_version):
     try:
-        file_re = conf["files"]
+        file_re = get_conf_value("files")
     except KeyError:
         # No files to update
         return
@@ -27,12 +28,14 @@ def update_files(new_version, conf):
             print("Unable to find {} to update.".format(filename))
             continue
 
-        # If it"s only one entry make it a list to simply program flow
+        # If it's only one entry make it a list to simply program flow
         if not any(isinstance(el, list) for el in file_re[filename]):
             file_re[filename] = [file_re[filename]]
 
+        template.token_data['version'] = new_version
         for replace in file_re[filename]:
-            data = do_replace(data, replace, new_version)
+            replace[1] = template.render(replace[1])
+            data = update_file_data(data, replace)
 
         with open(filename, "w") as file_h:
             file_h.write(data)
