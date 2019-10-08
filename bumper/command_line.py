@@ -3,7 +3,7 @@ import click
 import re
 import sys
 import os
-from bumper.conf_reader import get_conf_value
+from bumper.conf_reader import get_conf_value, merge_config_with_default
 from bumper.custom_cmd_group import DefaultCommandGroup
 import bumper.file_updater as file_updater
 import bumper.gitops as gitops
@@ -21,7 +21,7 @@ class BumperContext(object):
 @click.pass_context
 @click.version_option(version=__version__)
 def cli(ctx, **kwargs):
-    conf_reader.merge_config_with_default()
+    merge_config_with_default()
 
 
 @cli.command(default_command=True)
