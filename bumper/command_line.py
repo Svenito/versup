@@ -2,15 +2,18 @@ import json
 import click
 import re
 import sys
+import os
 from bumper.default_conf import default_conf
 from bumper.custom_cmd_group import DefaultCommandGroup
 import bumper.file_updater as file_updater
 import bumper.gitops as gitops
 import semver
 
+__version__ = "0.0.1"
 
 class BumperContext(object):
     conf = None
+    version = None
 
 
 def command_tree(obj):
@@ -20,12 +23,14 @@ def command_tree(obj):
 
 
 def parse_config_file():
-    with open("bumper.json", "r") as conf_file:
+    cwd = os.getcwd()
+    with open(os.path.join(cwd, "bumper.json"), "r") as conf_file:
         d = json.loads(conf_file.read())
     return d
 
 
 def merge_config_with_default():
+    print("")
     config = parse_config_file()
     for k in config.keys():
         default_conf[k] = config[k]
@@ -34,10 +39,10 @@ def merge_config_with_default():
 
 @click.group(cls=DefaultCommandGroup)
 @click.pass_context
-@click.version_option(version="0.1.0")
+@click.version_option(version=__version__)
 def cli(ctx, **kwargs):
     try:
-        conf = merge_config_with_default(conf)
+        conf = merge_config_with_default()
     except:
         conf = default_conf
     bctx = BumperContext()
@@ -46,7 +51,7 @@ def cli(ctx, **kwargs):
 
 
 @cli.command(default_command=True)
-@click.pass_obj
+@click.pass_context
 @click.argument("increment")
 def do_bump(ctx, **kwargs):
     """
@@ -54,36 +59,18 @@ def do_bump(ctx, **kwargs):
     and optionally create changelog
     """
     increment = kwargs["increment"]
-    if increment in ctx.conf["version"]["increments"]:
+
+    if increment in ctx.obj.conf["version"]["increments"]:
         print("do bump", increment)
     else:
-        print("Invalid increment")
-
-
-@cli.command()
-@click.pass_obj
-@click.argument("version")
-def version(ctx, **kwargs):
-    print("version")
-    return
-    try:
-        latest_version = gitops.get_latest_tag()
-    except:
-        print("Unable to get latest tag from repo")
-        latest_version = ctx.conf["version"]["initial"]
-
-    if kwargs["version"] in ctx.conf["version"]["increments"]:
-        version = bump_it(latest_version, kwargs["version"])
-    else:
         try:
-            version = semver.parse(kwargs["version"])
+            # Parse to see if format is ok
+            semver.parse_version_info(increment)
+            print (increment)
         except ValueError:
-            print("Supplied version is not a valid SemVer string or increment")
-            sys.exit(1)
-
-        print(version)
-
-    apply_bump(version)
+            print("no man")
+            return
+    ctx.invoke(version, version=increment)
 
 
 def bump_it(latest_version, increment):
@@ -91,29 +78,70 @@ def bump_it(latest_version, increment):
     return semver.__dict__[func](latest_version)
 
 
-def apply_bump(version):
-    print(version)
-    # apply version to files
+@cli.command()
+@click.pass_context
+@click.argument("version")
+def version(ctx, **kwargs):
+    if gitops.is_repo_dirty():
+        print("Repo is dirty. Cannot continue")
+        # TODO raise exception
+        sys.exit(1)
+
+    try:
+        latest_version = gitops.get_latest_tag()
+    except:
+        print("Unable to get latest tag from repo")
+        latest_version = ctx.obj.conf["version"]["initial"]
+
+    if kwargs["version"] in ctx.obj.conf["version"]["increments"]:
+        version = bump_it(latest_version, kwargs["version"])
+    else:
+        try:
+            semver.parse_version_info(kwargs["version"])
+            version = kwargs["version"]
+        except ValueError:
+            print("Supplied version is not a valid SemVer string or increment")
+            sys.exit(1)
+
+        print(version)
+    ctx.obj.version = version
+    apply_bump(ctx, version)
+
+
+def apply_bump(ctx, version):
+    print("APPLY:", version)
+    file_updater.update_files(version, ctx.obj.conf)
 
     # create new commit with version
+    ctx.invoke(commit, version=version)
     # tag commit
+    ctx.invoke(tag, version=version)
     # create changelog.
 
 
 @cli.command()
-def changelog():
+@click.pass_context
+def commit(ctx, **kwargs):
+    if not gitops.is_repo_dirty():
+        print("No unstaged changes to repo. Cannot make a commit.")
+        sys.exit(1)
+    gitops.create_commit(kwargs['version'], ctx.obj.conf)
+    pass
+
+
+@cli.command()
+@click.pass_context
+def tag(ctx, **kwargs):
+    if gitops.is_repo_dirty():
+        print("Unstaged changes to repo. Cannot make a tag.")
+        sys.exit(1)
+    gitops.create_new_tag(kwargs['version'], ctx.obj.conf)
+
+
+@cli.command()
+@click.pass_context
+def changelog(ctx, **kwargs):
     print("changelog")
-    pass
-
-
-@cli.command()
-def commit():
-    print("commit")
-    pass
-
-
-@cli.command()
-def tag():
     pass
 
 
@@ -123,23 +151,4 @@ def release():
 
 
 def main():
-    if gitops.is_repo_dirty():
-        print("Repo is dirty. Cannot continue")
-        sys.exit(1)
-
     cli()
-    return
-
-    try:
-        latest_tag = gitops.get_latest_tag()
-    except:
-        print("Unable to get latest tag from repo")
-
-        latest_tag = conf["version"]["initial"]
-
-    new_version = semver.bump_minor(latest_tag)
-
-    file_updater.update_files(conf, new_version)
-
-    gitops.create_commit(new_version)
-    gitops.create_new_tag(new_version)

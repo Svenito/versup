@@ -10,7 +10,7 @@ def do_replace(data, replace_list, new_version):
     return updated_data
 
 
-def update_files(conf, new_version):
+def update_files(new_version, conf):
     try:
         file_re = conf["files"]
     except KeyError:
