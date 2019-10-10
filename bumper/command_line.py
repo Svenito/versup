@@ -56,7 +56,7 @@ def apply_bump(ctx, increment):
         ctx.invoke(commit, version=version)
 
     # tag commit
-    #ctx.invoke(tag, version=version)
+    # ctx.invoke(tag, version=version)
 
     # create changelog.
 
@@ -97,7 +97,7 @@ def version(ctx, **kwargs):
             sys.exit(1)
 
     # Update value in template data struct
-    template.token_data['version'] = version
+    template.token_data["version"] = version
     return version
 
 
