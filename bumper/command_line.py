@@ -10,8 +10,6 @@ import bumper.gitops as gitops
 import bumper.template as template
 import semver
 
-__version__ = "0.0.1"
-
 
 class BumperContext(object):
     conf = None

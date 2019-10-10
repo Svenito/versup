@@ -9,6 +9,7 @@ python = "^3.6"
 gitpython = "^3.0"
 click = "^7.0"
 semver = "^2.8"
+pytest-cov = "^2.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
