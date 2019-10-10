@@ -40,7 +40,25 @@ def do_bump(ctx, **kwargs):
             print("ERROR WITH VERSION ARG")
             return
 
-    ctx.invoke(version, version=increment)
+    apply_bump(ctx, increment)
+
+
+def apply_bump(ctx, increment):
+    # Run through all stages of a release
+    # Bump the version
+    version = ctx.invoke(version, version=increment)
+
+    # Update the files specified in config
+    file_updater.update_files(version)
+
+    # create new commit with version
+    if get_conf_value("commit/enabled"):
+        ctx.invoke(commit, version=version)
+
+    # tag commit
+    #ctx.invoke(tag, version=version)
+
+    # create changelog.
 
 
 def bump_version(latest_version, increment):
@@ -52,6 +70,12 @@ def bump_version(latest_version, increment):
 @click.pass_context
 @click.argument("version")
 def version(ctx, **kwargs):
+    """
+    version is either an increment or a semantic version. Given an increment
+    the current version (based on the latest git commit, or the initial version
+    from the config) is incremented.
+    Given a version, that version is used as is provided it is valid
+    """
     if gitops.is_repo_dirty():
         print("Repo is dirty. Cannot continue")
         # TODO raise exception
@@ -73,23 +97,8 @@ def version(ctx, **kwargs):
             sys.exit(1)
 
     # Update value in template data struct
-    template.token_data["version"] = version
-    ctx.obj.version = version
-    # Do the work
-    apply_bump(ctx)
-
-
-def apply_bump(ctx):
-    # Run through all stages of a release
-    file_updater.update_files(ctx.obj.version)
-
-    # create new commit with version
-    if get_conf_value("commit/enabled"):
-        ctx.invoke(commit, version=version)
-
-    # tag commit
-    # ctx.invoke(tag, version=version)
-    # create changelog.
+    template.token_data['version'] = version
+    return version
 
 
 @cli.command()
