@@ -32,11 +32,10 @@ def update_files(new_version):
         if not any(isinstance(el, list) for el in file_re[filename]):
             file_re[filename] = [file_re[filename]]
 
-        template.token_data['version'] = new_version
+        template.token_data["version"] = new_version
         for replace in file_re[filename]:
             replace[1] = template.render(replace[1])
             data = update_file_data(data, replace)
 
         with open(filename, "w") as file_h:
             file_h.write(data)
-

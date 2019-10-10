@@ -12,6 +12,7 @@ import semver
 
 __version__ = "0.0.1"
 
+
 class BumperContext(object):
     conf = None
     version = None
@@ -74,7 +75,7 @@ def version(ctx, **kwargs):
             sys.exit(1)
 
     # Update value in template data struct
-    template.token_data['version'] = version
+    template.token_data["version"] = version
     ctx.obj.version = version
     # Do the work
     apply_bump(ctx)
@@ -89,7 +90,7 @@ def apply_bump(ctx):
         ctx.invoke(commit, version=version)
 
     # tag commit
-    #ctx.invoke(tag, version=version)
+    # ctx.invoke(tag, version=version)
     # create changelog.
 
 
@@ -98,8 +99,8 @@ def apply_bump(ctx):
 def commit(ctx, **kwargs):
     if not gitops.is_repo_dirty():
         print("No unstaged changes to repo. Cannot make a commit.")
-        #sys.exit(1)
-    gitops.create_commit(kwargs['version'])
+        # sys.exit(1)
+    gitops.create_commit(kwargs["version"])
 
 
 @cli.command()
@@ -108,7 +109,7 @@ def tag(ctx, **kwargs):
     if gitops.is_repo_dirty():
         print("Unstaged changes to repo. Cannot make a tag.")
         sys.exit(1)
-    gitops.create_new_tag(kwargs['version'])
+    gitops.create_new_tag(kwargs["version"])
 
 
 @cli.command()
