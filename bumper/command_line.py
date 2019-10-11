@@ -3,7 +3,7 @@ import click
 import re
 import sys
 import os
-from bumper.conf_reader import get_conf_value, merge_config_with_default
+from bumper.conf_reader import get_conf_value, merge_configs_with_default
 from bumper.custom_cmd_group import DefaultCommandGroup
 import bumper.file_updater as file_updater
 import bumper.gitops as gitops
@@ -13,7 +13,7 @@ import semver
 
 class BumperContext(object):
     conf = None
-    version = None
+    template = None
 
 
 @click.group(cls=DefaultCommandGroup)
@@ -21,8 +21,8 @@ class BumperContext(object):
 #@click.version_option(version=__version__)
 def cli(ctx, **kwargs):
     bobj = BumperContext()
-
     bobj.conf = merge_configs_with_default()
+    bobj.template_data = template.token_data
     ctx.obj = bobj
 
 
@@ -43,7 +43,7 @@ def do_bump(ctx, **kwargs):
             print("ERROR WITH VERSION ARG")
             return
 
-    apply_bump(ctx, increment)
+    apply_bump(ctx, version)
 
 
 def apply_bump(ctx, increment):
@@ -89,6 +89,8 @@ def version(ctx, **kwargs):
         latest_version = gitops.get_latest_tag()
     except:
         latest_version = get_conf_value(ctx.obj.conf, "version/initial")
+
+    # TODO: What happens if there's no latest version?
 
     if kwargs["version"] in get_conf_value(ctx.obj.conf, "version/increments"):
         version = bump_version(latest_version, kwargs["version"])

@@ -2,6 +2,7 @@ from git import Repo
 import os
 import bumper.template as template
 from bumper.conf_reader import get_conf_value
+import semver
 
 
 def get_repo():
@@ -15,8 +16,15 @@ def is_repo_dirty():
 
 def get_latest_tag():
     repo = get_repo()
-    latest_tag = repo.git.tag(sort="creatordate").split("\n")[-1]
-    return latest_tag
+    latest_tags = repo.git.tag(sort="-creatordate").split("\n")[:10]
+    for tag in latest_tags:
+        try:
+            semver.parse_version_info(tag)
+        except ValueError:
+            continue
+        return tag
+
+    raise ValueError
 
 
 def create_new_tag(new_version, conf):

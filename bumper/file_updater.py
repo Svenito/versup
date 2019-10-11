@@ -12,11 +12,12 @@ def update_file_data(data, replace_list):
 
 
 def update_files(new_version, files):
-    if files is None:
+    if not files:
         # No files to update
         return
 
     filenames = list(files.keys())
+    template_data = {"version": new_version}
 
     for filename in filenames:
         try:
@@ -26,13 +27,12 @@ def update_files(new_version, files):
             print("Unable to find {} to update.".format(filename))
             continue
 
-        # If it's only one entry make it a list to simply program flow
+        # If it's only one entry make it a list to simplify program flow
         if not any(isinstance(el, list) for el in files[filename]):
             files[filename] = [files[filename]]
 
-        template.token_data["version"] = new_version
         for replace in files[filename]:
-            replace[1] = template.render(replace[1])
+            replace[1] = template.render(replace[1], template_data)
             data = update_file_data(data, replace)
 
         with open(filename, "w") as file_h:
