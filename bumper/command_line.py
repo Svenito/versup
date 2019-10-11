@@ -18,11 +18,11 @@ class BumperContext(object):
 
 @click.group(cls=DefaultCommandGroup)
 @click.pass_context
-@click.version_option(version=__version__)
+#@click.version_option(version=__version__)
 def cli(ctx, **kwargs):
     bobj = BumperContext()
 
-    bobj.conf = merge_config_with_default()
+    bobj.conf = merge_configs_with_default()
     ctx.obj = bobj
 
 
@@ -49,7 +49,7 @@ def do_bump(ctx, **kwargs):
 def apply_bump(ctx, increment):
     # Run through all stages of a release
     # Bump the version
-    version = ctx.invoke(version, version=increment)
+    new_version = ctx.invoke(version, version=increment)
 
     # Update the files specified in config
     files_to_update = get_conf_value(ctx.obj.conf, "files")
