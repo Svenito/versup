@@ -3,6 +3,9 @@ name = "bumper"
 version = "0.1.0"
 description = ""
 authors = ["Sven Steinbauer <sven@unlogic.co.uk>"]
+license = "MIT"
+readme = "README.rst"
+repository = "https://gitlab.com/unlogic/bumper"
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -14,6 +17,7 @@ pytest-cov = "^2.8"
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
 black = {version = "^18.3-alpha.0", allows-prereleases = true}
+
 [tool.poetry.scripts]
 bumper = "bumper.__main__:main"
 

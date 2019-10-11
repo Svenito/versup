@@ -11,14 +11,12 @@ def update_file_data(data, replace_list):
     return updated_data
 
 
-def update_files(new_version):
-    try:
-        file_re = get_conf_value("files")
-    except KeyError:
+def update_files(new_version, files):
+    if files is None:
         # No files to update
         return
 
-    filenames = list(file_re.keys())
+    filenames = list(files.keys())
 
     for filename in filenames:
         try:
@@ -29,11 +27,11 @@ def update_files(new_version):
             continue
 
         # If it's only one entry make it a list to simply program flow
-        if not any(isinstance(el, list) for el in file_re[filename]):
-            file_re[filename] = [file_re[filename]]
+        if not any(isinstance(el, list) for el in files[filename]):
+            files[filename] = [files[filename]]
 
         template.token_data["version"] = new_version
-        for replace in file_re[filename]:
+        for replace in files[filename]:
             replace[1] = template.render(replace[1])
             data = update_file_data(data, replace)
 

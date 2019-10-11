@@ -20,7 +20,10 @@ class BumperContext(object):
 @click.pass_context
 @click.version_option(version=__version__)
 def cli(ctx, **kwargs):
-    merge_config_with_default()
+    bobj = BumperContext()
+
+    bobj.conf = merge_config_with_default()
+    ctx.obj = bobj
 
 
 @cli.command(default_command=True)
@@ -32,9 +35,9 @@ def do_bump(ctx, **kwargs):
     and optionally create changelog
     """
     increment = kwargs["increment"]
-    if not increment in get_conf_value("version/increments"):
+    if not increment in get_conf_value(ctx.obj.conf, "version/increments"):
         try:
-            # Parse to see if format is ok
+            # Parse to see if version format is ok
             semver.parse_version_info(increment)
         except ValueError:
             print("ERROR WITH VERSION ARG")
@@ -49,10 +52,11 @@ def apply_bump(ctx, increment):
     version = ctx.invoke(version, version=increment)
 
     # Update the files specified in config
-    file_updater.update_files(version)
+    files_to_update = get_conf_value(ctx.obj.conf, "files")
+    file_updater.update_files(version, files_to_update)
 
     # create new commit with version
-    if get_conf_value("commit/enabled"):
+    if get_conf_value(ctx.obj.conf, "commit/enabled"):
         ctx.invoke(commit, version=version)
 
     # tag commit
@@ -71,7 +75,7 @@ def bump_version(latest_version, increment):
 @click.argument("version")
 def version(ctx, **kwargs):
     """
-    version is either an increment or a semantic version. Given an increment
+    :version: is either an increment or a semantic version. Given an increment
     the current version (based on the latest git commit, or the initial version
     from the config) is incremented.
     Given a version, that version is used as is provided it is valid
@@ -84,9 +88,9 @@ def version(ctx, **kwargs):
     try:
         latest_version = gitops.get_latest_tag()
     except:
-        latest_version = get_conf_value("version/initial")
+        latest_version = get_conf_value(ctx.obj.conf, "version/initial")
 
-    if kwargs["version"] in get_conf_value("version/increments"):
+    if kwargs["version"] in get_conf_value(ctx.obj.conf, "version/increments"):
         version = bump_version(latest_version, kwargs["version"])
     else:
         try:
@@ -107,7 +111,7 @@ def commit(ctx, **kwargs):
     if not gitops.is_repo_dirty():
         print("No unstaged changes to repo. Cannot make a commit.")
         # sys.exit(1)
-    gitops.create_commit(kwargs["version"])
+    gitops.create_commit(kwargs["version"], ctx.obj.conf)
 
 
 @cli.command()
@@ -116,7 +120,7 @@ def tag(ctx, **kwargs):
     if gitops.is_repo_dirty():
         print("Unstaged changes to repo. Cannot make a tag.")
         sys.exit(1)
-    gitops.create_new_tag(kwargs["version"])
+    gitops.create_new_tag(kwargs["version"], ctx.obj.conf)
 
 
 @cli.command()

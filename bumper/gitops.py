@@ -19,20 +19,20 @@ def get_latest_tag():
     return latest_tag
 
 
-def create_new_tag(new_version):
+def create_new_tag(new_version, conf):
     repo = get_repo()
     template.token_data["version"] = new_version
-    tag_name = template.render(get_conf_value("tag/name"))
+    tag_name = template.render(get_conf_value(conf, "tag/name"))
     repo.create_tag(new_version, message=tag_name)
 
 
-def create_commit(new_version):
+def create_commit(new_version, conf):
     repo = get_repo()
     files = repo.git.diff(None, name_only=True)
     for f in files.split("\n"):
         repo.git.add(f)
 
     template.token_data["version"] = new_version
-    commit_msg = template.render(get_conf_value("commit/message"))
+    commit_msg = template.render(get_conf_value(conf, "commit/message"))
 
     repo.git.commit("-m", commit_msg)

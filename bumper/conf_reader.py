@@ -12,24 +12,25 @@ def parse_config_file():
 
 def merge_config_with_default():
     # TODO: Add support for user, local, and dynamic settings
+    current_config = default_conf
     try:
         config = parse_config_file()
     except:
-        return default_conf
+        return current_config
 
     for k in config.keys():
-        default_conf[k] = config[k]
-    return default_conf
+        current_config[k] = config[k]
+    return current_config
 
 
-def get_conf_value(key_path):
+def get_conf_value(config_data, key_path):
     paths = key_path.split("/")
-    root = default_conf
+    root = config_data
 
     for p in paths:
         try:
             v = root[p]
             root = v
         except KeyError:
-            break
+            return None
     return v
