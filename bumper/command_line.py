@@ -1,15 +1,15 @@
-import json
-import click
-import re
 import sys
-import os
-from bumper.conf_reader import get_conf_value, merge_configs_with_default
+
+import click
+import semver
+
+from bumper import __version__
+from bumper.conf_reader import get_conf_value, merge_config_with_default
 from bumper.custom_cmd_group import DefaultCommandGroup
 import bumper.file_updater as file_updater
 import bumper.gitops as gitops
 import bumper.template as template
 import bumper.changelog as changelog
-import semver
 
 
 class BumperContext(object):
