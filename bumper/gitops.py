@@ -44,3 +44,25 @@ def create_commit(new_version, conf):
     commit_msg = template.render(get_conf_value(conf, "commit/message"))
 
     repo.git.commit("-m", commit_msg)
+
+
+def get_commit_messages():
+    # git log --pretty=oneline HEAD...0.2.0
+    latest_tag = get_latest_tag()
+    repo = get_repo()
+    commits = repo.git.log(
+        "--pretty=format:%H||%an||%ae||%at||%s", "HEAD...{}".format(latest_tag)
+    ).split("\n")
+    out = []
+    for commit in commits:
+        data = dict()
+        split_commit = commit.split("||")
+        print(split_commit)
+        data["hash"] = split_commit[0]
+        data["author_name"] = split_commit[1]
+        data["author_email"] = split_commit[2]
+        data["date"] = split_commit[3]
+        data["msg"] = split_commit[4]
+
+        out.append(data)
+    return out

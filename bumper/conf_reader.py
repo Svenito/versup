@@ -17,13 +17,28 @@ def parse_config_file(config_file):
     return d
 
 
+def merge(a, b, path=None):
+    "merges b into a"
+    if path is None: path = []
+    for key in b:
+        if key in a:
+            if isinstance(a[key], dict) and isinstance(b[key], dict):
+                merge(a[key], b[key], path + [str(key)])
+            elif a[key] == b[key]:
+                pass # same leaf value
+            else:
+                a[key] = b[key]
+        else:
+            a[key] = b[key]
+    return a
+
+
 def merge_configs_with_default():
     # TODO: Add support for user, local, and dynamic settings
     current_config = default_conf
     for config_file in config_files:
         config = parse_config_file(config_file)
-        current_config = {**current_config, **config}
-
+        merge(current_config, config)
     return current_config
 
 
