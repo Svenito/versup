@@ -51,5 +51,6 @@ def get_conf_value(config_data, key_path):
             v = root[p]
             root = v
         except KeyError:
+            # TODO: Raise here?
             return None
     return v
