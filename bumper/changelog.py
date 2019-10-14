@@ -29,29 +29,23 @@ def write(conf, version):
     # Read original changelog
     with open(changelog_file, "r") as fh:
         original_data = fh.read()
-    print(original_data)
 
-    data = dict()
-    data["version"] = version
-    version = template.render(get_conf_value(conf, "changelog/version"), data)
+    version = template.render(
+        get_conf_value(conf, "changelog/version"), {"version": version}
+    )
     with open(changelog_file, "w") as fh:
-        fh.write(version + "\n\n")
+        fh.write(version + "\n")
         for commit_data in commits:
-            data["hash"] = commit_data["hash"]
-            data["hash4"] = commit_data["hash"][:4]
-            data["hash7"] = commit_data["hash"][:7]
-            data["hash8"] = commit_data["hash"][:8]
-            data["message"] = commit_data["msg"]
-            data["author_name"] = commit_data["author_name"]
-            data["author_email"] = commit_data["author_email"]
+            commit_data["hash4"] = commit_data["hash"][:4]
+            commit_data["hash7"] = commit_data["hash"][:7]
+            commit_data["hash8"] = commit_data["hash"][:8]
 
             commit_line = template.render(
-                get_conf_value(conf, "changelog/commit"), data
+                get_conf_value(conf, "changelog/commit"), commit_data
             )
-            fh.write(commit_line)
-            fh.write(get_conf_value(conf, "changelog/separator"))
+            fh.write(commit_line + "\n")
 
-        fh.write("\n" + original_data)
+        fh.write(get_conf_value(conf, "changelog/separator") + original_data)
 
     if get_conf_value(conf, "changelog/open"):
         show_file(changelog_file)

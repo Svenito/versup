@@ -62,7 +62,7 @@ def get_commit_messages():
         data["author_name"] = split_commit[1]
         data["author_email"] = split_commit[2]
         data["date"] = split_commit[3]
-        data["msg"] = split_commit[4]
+        data["message"] = split_commit[4]
 
         out.append(data)
     return out

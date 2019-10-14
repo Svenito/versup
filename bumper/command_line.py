@@ -116,7 +116,6 @@ def version(ctx, **kwargs):
 def do_changelog(ctx, **kwargs):
     changelog_file = get_conf_value(ctx.obj.conf, "changelog/file")
     # If no changelog file and create is off, prompt
-    print(changelog_file)
     if not os.path.isfile(changelog_file):
         if not get_conf_value(ctx.obj.conf, "changelog/create"):
             if not click.confirm("No changelog file found. Create it?"):
