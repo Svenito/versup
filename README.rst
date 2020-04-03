@@ -1,6 +1,8 @@
 BUMPER
 ======
 
+MIT license
+
 ** Still in early stages, so use with caution **
 
 Bump your project version, update version numbers in your files, create a changelog,
