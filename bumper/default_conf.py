@@ -27,24 +27,11 @@ default_conf = {
     },
     "commit": {
         "enabled": True,  # Commit the changes automatically
-        "message": "[Bumper] Set version to [version]",  # Template for the commit message
+        "message": "Update version to [version]",  # Template for the commit message
     },
     "tag": {
         "enabled": True,  # Tag the bump commit
         "name": "v[version]",  # Template for the name of the tag
-    },
-    "release": {
-        "enabled": False,  # Release to any enabled release providers
-        "github": {
-            "enabled": False,  # Make a GitHub release
-            "open": True,  # Open the release/draft page
-            "draft": True,  # Mark it as a draft
-            "prerelease": False,  # Mark it as a prerelease
-            "files": [],  # Globs of files to attach to the release
-            "token": "",  # GitHub OAuth token with `public_repo` priviledge
-            "owner": "",  # GitHub repository owner
-            "repo": "",  # GitHub repository name
-        },
     },
     "tokens": {
         "date": {

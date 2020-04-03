@@ -3,7 +3,17 @@ import json
 from bumper.default_conf import default_conf
 
 
-config_files = ["./.bumper.json", "~/.config/bumper.json"]
+config_files = [
+    "~/.config/bumper.json",
+    "./.bumper.json",
+]
+
+
+def write_default_to_home():
+    home_file = os.path.expanduser(config_files[0])
+    if not os.path.isfile(home_file):
+        with open(home_file, "w+") as f:
+            f.write(json.dumps(default_conf))
 
 
 def parse_config_file(config_file):
@@ -36,7 +46,8 @@ def merge(a, b, path=None):
 
 def merge_configs_with_default():
     # TODO: Add support for user, local, and dynamic settings
-    current_config = default_conf
+    write_default_to_home()
+    current_config = {}
     for config_file in config_files:
         config = parse_config_file(config_file)
         merge(current_config, config)
