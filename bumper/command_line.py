@@ -131,7 +131,7 @@ def get_new_version(config, version):
     if gitops.is_repo_dirty():
         print("Repo is dirty. Cannot continue")
         # TODO raise exception
-        # sys.exit(1)
+        sys.exit(1)
 
     try:
         latest_version = gitops.get_latest_tag()
