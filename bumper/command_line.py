@@ -169,8 +169,8 @@ def do_changelog(config, version):
 @script_runner.prepost_script("commit")
 def commit(config, version):
     if not gitops.is_repo_dirty():
-        print("No unstaged changes to repo. Cannot make a commit.")
-        sys.exit(1)
+        print("No unstaged changes to repo. Making no.")
+        return
     template.token_data["version"] = version
     commit_msg = template.render(get_conf_value(config, "commit/message"))
     gitops.create_commit(commit_msg)
