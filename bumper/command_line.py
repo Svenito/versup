@@ -1,10 +1,11 @@
 import sys
+import os
 
 import click
 import semver
 
 from bumper import __version__
-from bumper.conf_reader import get_conf_value, merge_config_with_default
+from bumper.conf_reader import get_conf_value, merge_configs_with_default
 from bumper.custom_cmd_group import DefaultCommandGroup
 import bumper.file_updater as file_updater
 import bumper.gitops as gitops
@@ -62,7 +63,8 @@ def apply_bump(ctx):
         ctx.invoke(commit)
 
     # tag commit
-    ctx.invoke(tag)
+    if get_conf_value(ctx.obj.conf, "tag/enabled"):
+        ctx.invoke(tag)
 
 
 def bump_version(latest_version, increment):
@@ -106,6 +108,7 @@ def version(ctx, **kwargs):
 
     # Update the files specified in config
     files_to_update = get_conf_value(ctx.obj.conf, "files")
+
     file_updater.update_files(ctx.obj.version, files_to_update)
 
     return ctx.obj.version
