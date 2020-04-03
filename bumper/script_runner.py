@@ -10,7 +10,7 @@ def prepost_script(taskname):
             if pre_script:
                 subprocess.run(pre_script.split() + [version])
 
-            value = function(config, version)
+            value = function(config, version, **kwargs)
 
             post_script = get_conf_value(config, "scripts/post{}".format(taskname))
             if post_script:

@@ -94,21 +94,20 @@ def do_bump(ctx, **kwargs):
 @script_runner.prepost_script("bump")
 def apply_bump(config, version, **kwargs):
     # Run through all stages of a release
-
     # Update the files specified in config
     files_to_update = get_conf_value(config, "files")
     file_updater.update_files(version, files_to_update)
 
     # create changelog
-    if not kwargs["no-changelog"] and get_conf_value(config, "changelog/enabled"):
+    if not kwargs["no_changelog"] and get_conf_value(config, "changelog/enabled"):
         do_changelog(config, version)
 
     # create new commit with version
-    if not kwargs["no-commit"] and get_conf_value(config, "commit/enabled"):
+    if not kwargs["no_commit"] and get_conf_value(config, "commit/enabled"):
         commit(config, version)
 
     # tag commit
-    if not kwargs["no-tag"] and get_conf_value(config, "tag/enabled"):
+    if not kwargs["no_tag"] and get_conf_value(config, "tag/enabled"):
         tag(config, version)
 
 
