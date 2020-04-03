@@ -25,7 +25,7 @@ class BumperContext(object):
 
 @click.group(cls=DefaultCommandGroup)
 @click.pass_context
-# @click.version_option(version=__version__)
+@click.version_option(version=__version__)
 def cli(ctx, **kwargs):
     bobj = BumperContext()
     bobj.conf = merge_configs_with_default()
@@ -48,15 +48,18 @@ def show_config(ctx, **kwargs):
     pprint.pprint(config)
 
 
-@cli.command(default_command=True)
+@cli.command(default_command=True, name="increment/version")
 @click.pass_context
 @click.argument("increment")
+@click.option("--no-commit", is_flag=True)
+@click.option("--no-changelog", is_flag=True)
+@click.option("--no-tag", is_flag=True)
 def do_bump(ctx, **kwargs):
     """
-    INCREMENT Bump up version in all documents, make commit, tag commit,
-    and optionally create changelog
+    Bump up version by increment or version
     """
     ctx.obj.version = kwargs["increment"]
+
     if not ctx.obj.version in get_conf_value(ctx.obj.conf, "version/increments"):
         try:
             # Parse to see if version format is ok
@@ -67,13 +70,13 @@ def do_bump(ctx, **kwargs):
 
     version = get_new_version(ctx.obj.conf, ctx.obj.version)
 
-    apply_bump(ctx.obj.conf, version)
+    apply_bump(ctx.obj.conf, version, kwargs)
 
 
 @script_runner.prepost_script("bump")
-def apply_bump(config, version):
+def apply_bump(config, version, **kwargs):
     # Run through all stages of a release
-
+    print(kwargs)
     # Update the files specified in config
     files_to_update = get_conf_value(config, "files")
     file_updater.update_files(version, files_to_update)

@@ -12,7 +12,7 @@ def show_file(changelog_file):
 
     try:
         pager = run(
-            ["less", "-F", "-R", "-S", "-X", "-K"],
+            ["`which less`", "-F", "-R", "-S", "-X", "-K"],
             stdout=sys.stdout,
             input=data,
             encoding="ascii",

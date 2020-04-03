@@ -45,7 +45,6 @@ def merge(a, b, path=None):
 
 
 def merge_configs_with_default():
-    # TODO: Add support for user, local, and dynamic settings
     write_default_to_home()
     current_config = {}
     for config_file in config_files:

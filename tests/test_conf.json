@@ -1,0 +1,18 @@
+{
+  "files": {
+    "README.rst": [
+      ["Version ([\\d\\.]+) ", "Version [version] "],
+      ["Version is ([\\d\\.]+)", "Version is [version]"]
+    ]
+  },
+  "scripts": {
+    "prebump": "echo PRE",
+    "postbump": "echo POST",
+    "prechangelog": "",
+    "postchangelog": "",
+    "precommit": "",
+    "postcommit": "",
+    "pretag": "",
+    "posttag": ""
+  }
+}
