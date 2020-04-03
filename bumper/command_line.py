@@ -3,6 +3,7 @@ import os
 import click
 import semver
 import datetime
+from colorama import Fore, Back, Style
 
 from bumper import __version__
 from bumper.conf_reader import (
@@ -130,7 +131,7 @@ def get_new_version(config, version):
     if gitops.is_repo_dirty():
         print("Repo is dirty. Cannot continue")
         # TODO raise exception
-        sys.exit(1)
+        # sys.exit(1)
 
     try:
         latest_version = gitops.get_latest_tag()
@@ -164,16 +165,18 @@ def do_changelog(config, version):
                 return
             # Ok to create/update it now
     changelog.write(config, version)
+    print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Changelog updated")
 
 
 @script_runner.prepost_script("commit")
 def commit(config, version):
     if not gitops.is_repo_dirty():
-        print("No unstaged changes to repo. Making no.")
+        print("No unstaged changes to repo. Making no new commit.")
         return
     template.token_data["version"] = version
     commit_msg = template.render(get_conf_value(config, "commit/message"))
     gitops.create_commit(commit_msg)
+    print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Commit created")
 
 
 @script_runner.prepost_script("tag")
@@ -185,6 +188,8 @@ def tag(config, version):
     template.token_data["version"] = version
     tag_name = template.render(get_conf_value(config, "tag/name"))
     gitops.create_new_tag(version, tag_name)
+
+    print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Tag {} created".format(tag_name))
 
 
 def main():
