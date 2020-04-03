@@ -54,6 +54,10 @@ def apply_bump(ctx):
     # Bump the version
     ctx.obj.version = ctx.invoke(version, version=ctx.obj.version)
 
+    # Update the files specified in config
+    files_to_update = get_conf_value(ctx.obj.conf, "files")
+    file_updater.update_files(ctx.obj.version, files_to_update)
+
     # create changelog
     if get_conf_value(ctx.obj.conf, "changelog/enabled"):
         ctx.invoke(do_changelog)
@@ -105,11 +109,6 @@ def version(ctx, **kwargs):
 
     # Update value in template data struct
     template.token_data["version"] = ctx.obj.version
-
-    # Update the files specified in config
-    files_to_update = get_conf_value(ctx.obj.conf, "files")
-
-    file_updater.update_files(ctx.obj.version, files_to_update)
 
     return ctx.obj.version
 
