@@ -100,15 +100,15 @@ def apply_bump(config, version, **kwargs):
     file_updater.update_files(version, files_to_update)
 
     # create changelog
-    if get_conf_value(config, "changelog/enabled"):
+    if not kwargs["no-changelog"] and get_conf_value(config, "changelog/enabled"):
         do_changelog(config, version)
 
     # create new commit with version
-    if get_conf_value(config, "commit/enabled"):
+    if not kwargs["no-commit"] and get_conf_value(config, "commit/enabled"):
         commit(config, version)
 
     # tag commit
-    if get_conf_value(config, "tag/enabled"):
+    if not kwargs["no-tag"] and get_conf_value(config, "tag/enabled"):
         tag(config, version)
 
 
