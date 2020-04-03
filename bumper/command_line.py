@@ -106,8 +106,12 @@ def apply_bump(config, version, **kwargs):
     if not kwargs["no_commit"] and get_conf_value(config, "commit/enabled"):
         commit(config, version)
 
-    # tag commit
-    if not kwargs["no_tag"] and get_conf_value(config, "tag/enabled"):
+    # tag commit (only if a commit is made)
+    if (
+        not kwargs["no_commit"]
+        and not kwargs["no_tag"]
+        and get_conf_value(config, "tag/enabled")
+    ):
         tag(config, version)
 
 
