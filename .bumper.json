@@ -5,6 +5,9 @@
       ["Version is ([\\d\\.]+)", "Version is [version]"]
     ]
   },
+  "changelog": {
+    "commit": "- [sha7] [message]"
+  },
   "scripts": {
     "prebump": "echo PRE",
     "postbump": "echo POST",
