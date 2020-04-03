@@ -6,7 +6,7 @@
     ]
   },
   "changelog": {
-    "commit": "- [sha7] [message]"
+    "commit": "- [hash7] [message]"
   },
   "scripts": {
     "prebump": "echo PRE",
