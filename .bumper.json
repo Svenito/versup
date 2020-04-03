@@ -13,8 +13,6 @@
     "precommit": "",
     "postcommit": "",
     "pretag": "",
-    "posttag": "",
-    "prerelease": "",
-    "postrelease": ""
+    "posttag": ""
   }
 }

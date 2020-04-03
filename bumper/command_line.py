@@ -70,7 +70,7 @@ def do_bump(ctx, **kwargs):
     apply_bump(ctx.obj.conf, version)
 
 
-@script_runner.bump
+@script_runner.prepost_script("bump")
 def apply_bump(config, version):
     # Run through all stages of a release
 
@@ -130,6 +130,7 @@ def get_new_version(config, version):
     return new_version
 
 
+@script_runner.prepost_script("changelog")
 def do_changelog(config, version):
     changelog_file = get_conf_value(config, "changelog/file")
     # If no changelog file and create is off, prompt
@@ -141,6 +142,7 @@ def do_changelog(config, version):
     changelog.write(config, version)
 
 
+@script_runner.prepost_script("commit")
 def commit(config, version):
     if not gitops.is_repo_dirty():
         print("No unstaged changes to repo. Cannot make a commit.")
@@ -148,16 +150,12 @@ def commit(config, version):
     gitops.create_commit(version, config)
 
 
+@script_runner.prepost_script("tag")
 def tag(config, version):
     if gitops.is_repo_dirty():
         print("Unstaged changes to repo. Cannot make a tag.")
         sys.exit(1)
     gitops.create_new_tag(version, config)
-
-
-@cli.command()
-def release():
-    pass
 
 
 def main():
