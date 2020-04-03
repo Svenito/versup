@@ -13,7 +13,7 @@ def write_default_to_home():
     home_file = os.path.expanduser(config_files[0])
     if not os.path.isfile(home_file):
         with open(home_file, "w+") as f:
-            f.write(json.dumps(default_conf))
+            f.write(json.dumps(default_conf, indent=4))
 
 
 def parse_config_file(config_file):

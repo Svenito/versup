@@ -2,6 +2,7 @@ import sys
 import os
 import click
 import semver
+import datetime
 
 from bumper import __version__
 from bumper.conf_reader import (
@@ -70,13 +71,30 @@ def do_bump(ctx, **kwargs):
 
     version = get_new_version(ctx.obj.conf, ctx.obj.version)
 
+    # Update the token_data with what we know
+    template.token_data["version"] = version
+
+    today = datetime.date.today()
+    template_date = today.strftime(get_conf_value(ctx.obj.conf, "tokens/date/format"))
+    template.token_data["date"] = template_date
+
+    template_date = today.strftime(
+        get_conf_value(ctx.obj.conf, "tokens/version_date/format")
+    )
+    template.token_data["version_date"] = template_date
+
+    template.token_data["author_name"] = gitops.get_username()
+    template.token_data["author_email"] = gitops.get_email()
+
+    template.token_data["message"] = get_conf_value(ctx.obj.conf, "commit/message")
+
     apply_bump(ctx.obj.conf, version, kwargs)
 
 
 @script_runner.prepost_script("bump")
 def apply_bump(config, version, **kwargs):
     # Run through all stages of a release
-    print(kwargs)
+
     # Update the files specified in config
     files_to_update = get_conf_value(config, "files")
     file_updater.update_files(version, files_to_update)
@@ -109,7 +127,7 @@ def get_new_version(config, version):
     if gitops.is_repo_dirty():
         print("Repo is dirty. Cannot continue")
         # TODO raise exception
-        sys.exit(1)
+        # sys.exit(1)
 
     try:
         latest_version = gitops.get_latest_tag()
@@ -149,8 +167,10 @@ def do_changelog(config, version):
 def commit(config, version):
     if not gitops.is_repo_dirty():
         print("No unstaged changes to repo. Cannot make a commit.")
-        # sys.exit(1)
-    gitops.create_commit(version, config)
+        sys.exit(1)
+    template.token_data["version"] = version
+    commit_msg = template.render(get_conf_value(config, "commit/message"))
+    gitops.create_commit(commit_msg)
 
 
 @script_runner.prepost_script("tag")
@@ -158,7 +178,10 @@ def tag(config, version):
     if gitops.is_repo_dirty():
         print("Unstaged changes to repo. Cannot make a tag.")
         sys.exit(1)
-    gitops.create_new_tag(version, config)
+
+    template.token_data["version"] = version
+    tag_name = template.render(get_conf_value(config, "tag/name"))
+    gitops.create_new_tag(version, tag_name)
 
 
 def main():

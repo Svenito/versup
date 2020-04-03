@@ -1,12 +1,20 @@
 from git import Repo
 import os
-import bumper.template as template
-from bumper.conf_reader import get_conf_value
 import semver
 
 
 def get_repo():
     return Repo(os.getcwd())
+
+
+def get_username():
+    repo = get_repo()
+    return repo.config_reader().get_value("user", "name")
+
+
+def get_username():
+    repo = get_repo()
+    return repo.config_reader().get_value("user", "email")
 
 
 def is_repo_dirty():
@@ -27,22 +35,16 @@ def get_latest_tag():
     raise ValueError
 
 
-def create_new_tag(new_version, conf):
+def create_new_tag(new_version, tag_name):
     repo = get_repo()
-    template.token_data["version"] = new_version
-    tag_name = template.render(get_conf_value(conf, "tag/name"))
     repo.create_tag(new_version, message=tag_name)
 
 
-def create_commit(new_version, conf):
+def create_commit(commit_msg):
     repo = get_repo()
     files = repo.git.diff(None, name_only=True)
     for f in files.split("\n"):
         repo.git.add(f)
-
-    template.token_data["version"] = new_version
-    commit_msg = template.render(get_conf_value(conf, "commit/message"))
-
     repo.git.commit("-m", commit_msg)
 
 

@@ -12,7 +12,7 @@ def show_file(changelog_file):
 
     try:
         pager = run(
-            ["`which less`", "-F", "-R", "-S", "-X", "-K"],
+            ["less", "-F", "-R", "-S", "-X", "-K"],
             stdout=sys.stdout,
             input=data,
             encoding="ascii",
@@ -36,6 +36,7 @@ def write(conf, version):
     with open(changelog_file, "w") as fh:
         fh.write(version + "\n")
         for commit_data in commits:
+            commit_data["hash"] = commit_data["hash"]
             commit_data["hash4"] = commit_data["hash"][:4]
             commit_data["hash7"] = commit_data["hash"][:7]
             commit_data["hash8"] = commit_data["hash"][:8]

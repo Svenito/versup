@@ -35,10 +35,10 @@ default_conf = {
     },
     "tokens": {
         "date": {
-            "format": "YYYY-MM-DD"  # Moment.js format to use when generating the `[date]` token
+            "format": "%Y-%m-%d"  # Python datetime format to use when generating the `[date]` token
         },
         "version_date": {
-            "format": "YYYY-MM-DD"  # Moment.js format to use when generating the `[version_date]` token
+            "format": "%Y-%m-%d"  # Python datetime format to use when generating the `[version_date]` token
         },
     },
     "scripts": {
