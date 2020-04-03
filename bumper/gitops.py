@@ -12,7 +12,7 @@ def get_username():
     return repo.config_reader().get_value("user", "name")
 
 
-def get_username():
+def get_email():
     repo = get_repo()
     return repo.config_reader().get_value("user", "email")
 
