@@ -88,7 +88,7 @@ def do_bump(ctx, **kwargs):
 
     template.token_data["message"] = get_conf_value(ctx.obj.conf, "commit/message")
 
-    apply_bump(ctx.obj.conf, version, kwargs)
+    apply_bump(ctx.obj.conf, version, **kwargs)
 
 
 @script_runner.prepost_script("bump")
@@ -127,7 +127,7 @@ def get_new_version(config, version):
     if gitops.is_repo_dirty():
         print("Repo is dirty. Cannot continue")
         # TODO raise exception
-        # sys.exit(1)
+        sys.exit(1)
 
     try:
         latest_version = gitops.get_latest_tag()
