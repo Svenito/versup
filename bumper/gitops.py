@@ -50,11 +50,15 @@ def create_commit(commit_msg):
 
 def get_commit_messages():
     # git log --pretty=oneline HEAD...0.2.0
-    latest_tag = get_latest_tag()
+    try:
+        latest_tag = get_latest_tag()
+        commit_range = "HEAD...{}".format(latest_tag)
+    except ValueError:
+        commit_range = "HEAD"
     repo = get_repo()
-    commits = repo.git.log(
-        "--pretty=format:%H||%an||%ae||%at||%s", "HEAD...{}".format(latest_tag)
-    ).split("\n")
+    commits = repo.git.log("--pretty=format:%H||%an||%ae||%at||%s", commit_range).split(
+        "\n"
+    )
     out = []
     for commit in commits:
         data = dict()
