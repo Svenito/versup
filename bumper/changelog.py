@@ -27,13 +27,16 @@ def write(conf, version):
     commits = gitops.get_commit_messages()
 
     # Read original changelog
-    with open(changelog_file, "r") as fh:
-        original_data = fh.read()
+    try:
+        with open(changelog_file, "r") as fh:
+            original_data = fh.read()
+    except FileNotFoundError:
+        original_data = ""
 
     version = template.render(
         get_conf_value(conf, "changelog/version"), {"version": version}
     )
-    with open(changelog_file, "w") as fh:
+    with open(changelog_file, "w+") as fh:
         fh.write(version + "\n")
         for commit_data in commits:
             commit_data["hash"] = commit_data["hash"]

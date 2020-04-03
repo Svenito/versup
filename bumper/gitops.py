@@ -63,7 +63,6 @@ def get_commit_messages():
     for commit in commits:
         data = dict()
         split_commit = commit.split("||")
-        print(split_commit)
         data["hash"] = split_commit[0]
         data["author_name"] = split_commit[1]
         data["author_email"] = split_commit[2]
