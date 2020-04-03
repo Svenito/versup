@@ -15,7 +15,7 @@ token_data = {
 }
 
 
-def render(string, data):
+def render(string, data={}):
     # Merge new data with default
     new_data = {**token_data, **data}
     for k, v in new_data.items():
