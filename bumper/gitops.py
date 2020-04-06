@@ -40,6 +40,11 @@ def create_new_tag(new_version, tag_name):
     repo.create_tag(new_version, message=tag_name)
 
 
+def add_changed_files():
+    repo = get_repo()
+    index = repo.index
+    index.add(repo.untracked_files)
+
 def create_commit(commit_msg):
     repo = get_repo()
     files = repo.git.diff(None, name_only=True)
