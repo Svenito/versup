@@ -1,5 +1,5 @@
 ### Version 0.2.0
-- 0dee3fe Fix adding of files
+- 5be9c34 Fix adding of files
 - 998f475 Add changed files to staging
 - 3cd3bad Fix bad logic in test_dirty
 - 5b806c1 remove changelog
