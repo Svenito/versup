@@ -189,7 +189,6 @@ def commit(config, version, **kwargs):
     if kwargs["dryrun"]:
         print("Create commit with commit msg: {}".format(commit_msg))
     else:
-        gitops.add_changed_files()
         gitops.create_commit(commit_msg)
     print_ok("Commit created")
 
