@@ -10,7 +10,7 @@ def prepost_script(taskname):
 
             if pre_script:
                 if kwargs["dryrun"]:
-                    print("Execute pre script `{}`".format(pre_script))
+                    print("Execute pre script `{}`\n".format(pre_script))
                 else:
                     subprocess.run(pre_script.split() + [version])
 
@@ -19,7 +19,7 @@ def prepost_script(taskname):
             post_script = get_conf_value(config, "scripts/post{}".format(taskname))
             if post_script:
                 if kwargs["dryrun"]:
-                    print("Execute post script `{}`".format(post_script))
+                    print("Execute post script `{}`\n".format(post_script))
                 else:
                     subprocess.run(post_script.split())
 
