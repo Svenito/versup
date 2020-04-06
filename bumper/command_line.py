@@ -16,7 +16,7 @@ import bumper.gitops as gitops
 import bumper.template as template
 import bumper.changelog as changelog
 import bumper.script_runner as script_runner
-from bumper.printer import print_ok, print_error
+from bumper.printer import print_ok, print_error, print_warn
 
 
 class BumperContext(object):
@@ -71,7 +71,7 @@ def do_bump(ctx, **kwargs):
             print_error("Supplied version is invalid")
             return
 
-    version = get_new_version(ctx.obj.conf, ctx.obj.version)
+    version = get_new_version(ctx.obj.conf, ctx.obj.version, **kwargs)
 
     # Update the token_data with what we know
     template.token_data["version"] = version
@@ -122,7 +122,7 @@ def bump_version(latest_version, increment):
     return semver.__dict__[func](latest_version)
 
 
-def get_new_version(config, version):
+def get_new_version(config, version, **kwargs):
     """
     :version: is either an increment or a semantic version. Given an increment
     the current version (based on the latest git commit, or the initial version
@@ -130,9 +130,12 @@ def get_new_version(config, version):
     Given a version, that version is used as is provided it is valid
     """
     if gitops.is_repo_dirty():
-        print_error("Repo is dirty. Cannot continue")
-        # TODO raise exception
-        sys.exit(1)
+        if kwargs["dryrun"]:
+            print_warn("Repo is dirty.")
+        else:
+            print_error("Repo is dirty. Cannot continue")
+            # TODO raise exception
+            sys.exit(1)
 
     try:
         latest_version = gitops.get_latest_tag()
@@ -177,9 +180,10 @@ def commit(config, version, **kwargs):
     if not get_conf_value(config, "commit/enabled"):
         return
 
-    if not gitops.is_repo_dirty():
+    if not kwargs["dryrun"] and not gitops.is_repo_dirty():
         print("No unstaged changes to repo. Making no new commit.")
         return
+
     template.token_data["version"] = version
     commit_msg = template.render(get_conf_value(config, "commit/message"))
     if kwargs["dryrun"]:

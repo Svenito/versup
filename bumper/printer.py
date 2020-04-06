@@ -7,3 +7,7 @@ def print_ok(message):
 
 def print_error(message):
     print(Fore.RED + Style.BRIGHT + u"\u2717 " + Style.RESET_ALL + message + "\n")
+
+
+def print_warn(message):
+    print(Fore.RED + Style.BRIGHT + u"! " + Style.RESET_ALL + message + "\n")
