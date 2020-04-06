@@ -3,7 +3,6 @@ import os
 import click
 import semver
 import datetime
-from colorama import Fore, Back, Style
 
 from bumper import __version__
 from bumper.conf_reader import (
@@ -17,6 +16,7 @@ import bumper.gitops as gitops
 import bumper.template as template
 import bumper.changelog as changelog
 import bumper.script_runner as script_runner
+from bumper.printer import print_ok, print_error
 
 
 class BumperContext(object):
@@ -53,9 +53,9 @@ def show_config(ctx, **kwargs):
 @cli.command(default_command=True, name="increment/version")
 @click.pass_context
 @click.argument("increment")
-@click.option("--no-commit", is_flag=True)
-@click.option("--no-changelog", is_flag=True)
-@click.option("--no-tag", is_flag=True)
+@click.option("--no-commit", is_flag=True, help="Skip making commit")
+@click.option("--no-changelog", is_flag=True, help="Skip changelog update")
+@click.option("--no-tag", is_flag=True, help="Skip creating tag")
 @click.option("-n", "--dryrun", is_flag=True, help="Show what will be done.")
 def do_bump(ctx, **kwargs):
     """
@@ -206,14 +206,6 @@ def tag(config, version, **kwargs):
         gitops.create_new_tag(version, tag_name)
 
     print_ok("Tag {} created".format(tag_name))
-
-
-def print_ok(message):
-    print(Fore.GREEN + u"\u2713 " + Fore.RESET + message)
-
-
-def print_error(message):
-    print(Fore.RED + Style.BRIGHT + u"\u2717 " + Style.RESET_ALL + message)
 
 
 def main():
