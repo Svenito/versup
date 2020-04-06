@@ -19,7 +19,7 @@ def get_email():
 
 def is_repo_dirty():
     repo = get_repo()
-    return repo.is_dirty() and len(repo.untracked_files) > 0
+    return repo.is_dirty() or len(repo.untracked_files) > 0
 
 
 def get_latest_tag():
