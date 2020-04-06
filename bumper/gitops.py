@@ -19,7 +19,7 @@ def get_email():
 
 def is_repo_dirty():
     repo = get_repo()
-    return repo.is_dirty()
+    return repo.is_dirty() and len(repo.untracked_files) > 0
 
 
 def get_latest_tag():
@@ -44,6 +44,7 @@ def add_changed_files():
     repo = get_repo()
     index = repo.index
     index.add(repo.untracked_files)
+
 
 def create_commit(commit_msg):
     repo = get_repo()
