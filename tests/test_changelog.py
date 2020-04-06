@@ -1,4 +1,4 @@
-import bumper.changelog as changelog
+import versup.changelog as changelog
 import pytest
 
 

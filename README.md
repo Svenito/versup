@@ -1,7 +1,7 @@
-# BUMPER
+# versup
 
 Bump your project version, update version numbers in your files, create a changelog,
-make a commit, and tag it, all in one easy step. Bumper is also quite configurable.
+make a commit, and tag it, all in one easy step. versup is also quite configurable.
 
 # Install
 
@@ -15,18 +15,18 @@ or pip
 
 # Quick start
 
-To get started all bumper needs to know is the new version increment or number.
+To get started all versup needs to know is the new version increment or number.
 You can provide it with a valid semantic version increase such as `patch`, `minor`,
 `major` etc, or an entirely new semantic version like `1.2.5`.
 
-If you specifiy a version number, then bumper will take that version and apply
+If you specifiy a version number, then versup will take that version and apply
 it to the current project as is. If you provide an increment, it will get the
 last version number from either the latest git tag that has a valid version,
 or from the default version in the config file.
 
 # Configuration
 
-One intial launch, bumper copies a default config to your home directory (`~/.config/bumper.json`) which has some good defaults.
+One intial launch, versup copies a default config to your home directory (`~/.config/versup.json`) which has some good defaults.
 
 ```
 {
@@ -87,8 +87,8 @@ One intial launch, bumper copies a default config to your home directory (`~/.co
 }
 ```
 
-You can edit this file to affect all bumps, or create a `.bumper.json` file in your project root
-and bumper will use these values to override the global ones.
+You can edit this file to affect all bumps, or create a `.versup.json` file in your project root
+and versup will use these values to override the global ones.
 
 # Template tags
 
@@ -107,7 +107,7 @@ These support tag fields that are replaced with information. Know fields are:
 
 # Updating files
 
-Bumper can update versions in files. The way this works is by configuring a regex
+versup can update versions in files. The way this works is by configuring a regex
 for each file that you want to update. So for example:
 
 ```

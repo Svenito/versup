@@ -4,22 +4,22 @@ import click
 import semver
 import datetime
 
-from bumper import __version__
-from bumper.conf_reader import (
+from versup import __version__
+from versup.conf_reader import (
     get_conf_value,
     merge_configs_with_default,
     parse_config_file,
 )
-from bumper.custom_cmd_group import DefaultCommandGroup
-import bumper.file_updater as file_updater
-import bumper.gitops as gitops
-import bumper.template as template
-import bumper.changelog as changelog
-import bumper.script_runner as script_runner
-from bumper.printer import print_ok, print_error, print_warn
+from versup.custom_cmd_group import DefaultCommandGroup
+import versup.file_updater as file_updater
+import versup.gitops as gitops
+import versup.template as template
+import versup.changelog as changelog
+import versup.script_runner as script_runner
+from versup.printer import print_ok, print_error, print_warn
 
 
-class BumperContext(object):
+class versupContext(object):
     conf = None
     template = None
     version = None
@@ -29,7 +29,7 @@ class BumperContext(object):
 @click.pass_context
 @click.version_option(version=__version__)
 def cli(ctx, **kwargs):
-    bobj = BumperContext()
+    bobj = versupContext()
     bobj.conf = merge_configs_with_default()
     bobj.template_data = template.token_data
     ctx.obj = bobj
@@ -44,9 +44,9 @@ def show_config(ctx, **kwargs):
 
     config = ctx.obj.conf
     if kwargs["local"]:
-        config = parse_config_file("./.bumper.json")
+        config = parse_config_file("./.versup.json")
     if kwargs["global"]:
-        config = parse_config_file("~/.config/bumper.json")
+        config = parse_config_file("~/.config/versup.json")
     pprint.pprint(config)
 
 
@@ -57,9 +57,9 @@ def show_config(ctx, **kwargs):
 @click.option("--no-changelog", is_flag=True, help="Skip changelog update")
 @click.option("--no-tag", is_flag=True, help="Skip creating tag")
 @click.option("-n", "--dryrun", is_flag=True, help="Show what will be done.")
-def do_bump(ctx, **kwargs):
+def do_versup(ctx, **kwargs):
     """
-    Bump up version by increment or version
+    Increment or set project version
     """
     ctx.obj.version = kwargs["increment"]
 

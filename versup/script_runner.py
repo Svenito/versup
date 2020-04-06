@@ -1,6 +1,6 @@
 import subprocess
 
-from bumper.conf_reader import get_conf_value
+from versup.conf_reader import get_conf_value
 
 
 def prepost_script(taskname):

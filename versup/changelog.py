@@ -1,7 +1,7 @@
-from bumper.conf_reader import get_conf_value
-import bumper.gitops as gitops
+from versup.conf_reader import get_conf_value
+import versup.gitops as gitops
 import sys
-import bumper.template as template
+import versup.template as template
 from subprocess import run, PIPE
 import sys
 

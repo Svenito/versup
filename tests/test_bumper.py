@@ -1,4 +1,4 @@
-from bumper import __version__
+from versup import __version__
 
 
 def test_version():

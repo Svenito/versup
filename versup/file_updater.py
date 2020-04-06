@@ -1,6 +1,6 @@
 import re
-import bumper.template as template
-from bumper.conf_reader import get_conf_value
+import versup.template as template
+from versup.conf_reader import get_conf_value
 
 
 def update_file_data(data, replace_list):

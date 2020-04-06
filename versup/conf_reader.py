@@ -1,11 +1,11 @@
 import os
 import json
-from bumper.default_conf import default_conf
+from versup.default_conf import default_conf
 
 
 config_files = [
-    "~/.config/bumper.json",
-    "./.bumper.json",
+    "~/.config/versup.json",
+    "./.versup.json",
 ]
 
 

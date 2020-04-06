@@ -1,4 +1,4 @@
-import bumper.conf_reader as conf_reader
+import versup.conf_reader as conf_reader
 import pytest
 
 

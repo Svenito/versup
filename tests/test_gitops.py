@@ -1,4 +1,4 @@
-import bumper.gitops as gitops
+import versup.gitops as gitops
 import pytest
 
 
