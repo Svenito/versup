@@ -56,6 +56,7 @@ def show_config(ctx, **kwargs):
 @click.option("--no-commit", is_flag=True)
 @click.option("--no-changelog", is_flag=True)
 @click.option("--no-tag", is_flag=True)
+@click.option("-n", "--dryrun", is_flag=True, help="Show what will be done.")
 def do_bump(ctx, **kwargs):
     """
     Bump up version by increment or version
@@ -101,11 +102,11 @@ def apply_bump(config, version, **kwargs):
 
     # create changelog
     if not kwargs["no_changelog"] and get_conf_value(config, "changelog/enabled"):
-        do_changelog(config, version)
+        do_changelog(config, version, **kwargs)
 
     # create new commit with version
     if not kwargs["no_commit"] and get_conf_value(config, "commit/enabled"):
-        commit(config, version)
+        commit(config, version, **kwargs)
 
     # tag commit (only if a commit is made)
     if (
@@ -113,7 +114,7 @@ def apply_bump(config, version, **kwargs):
         and not kwargs["no_tag"]
         and get_conf_value(config, "tag/enabled")
     ):
-        tag(config, version)
+        tag(config, version, **kwargs)
 
 
 def bump_version(latest_version, increment):
@@ -131,7 +132,7 @@ def get_new_version(config, version):
     if gitops.is_repo_dirty():
         print("Repo is dirty. Cannot continue")
         # TODO raise exception
-        sys.exit(1)
+        # sys.exit(1)
 
     try:
         latest_version = gitops.get_latest_tag()
@@ -156,38 +157,53 @@ def get_new_version(config, version):
 
 
 @script_runner.prepost_script("changelog")
-def do_changelog(config, version):
+def do_changelog(config, version, **kwargs):
+    if not get_conf_value(config, "changelog/enabled"):
+        return
+
     changelog_file = get_conf_value(config, "changelog/file")
     # If no changelog file and create is off, prompt
-    if not os.path.isfile(changelog_file):
+    if not kwargs["dryrun"] and not os.path.isfile(changelog_file):
         if not get_conf_value(config, "changelog/create"):
             if not click.confirm("No changelog file found. Create it?"):
                 return
             # Ok to create/update it now
-    changelog.write(config, version)
+    changelog.write(config, version, kwargs["dryrun"])
     print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Changelog updated")
 
 
 @script_runner.prepost_script("commit")
-def commit(config, version):
+def commit(config, version, **kwargs):
+    if not get_conf_value(config, "commit/enabled"):
+        return
+
     if not gitops.is_repo_dirty():
         print("No unstaged changes to repo. Making no new commit.")
         return
     template.token_data["version"] = version
     commit_msg = template.render(get_conf_value(config, "commit/message"))
-    gitops.create_commit(commit_msg)
+    if kwargs["dryrun"]:
+        print("Create commit with commit msg: {}".format(commit_msg))
+    else:
+        gitops.create_commit(commit_msg)
     print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Commit created")
 
 
 @script_runner.prepost_script("tag")
-def tag(config, version):
-    if gitops.is_repo_dirty():
+def tag(config, version, **kwargs):
+    if not get_conf_value(config, "tag/enabled"):
+        return
+
+    if not kwargs["dryrun"] and gitops.is_repo_dirty():
         print("Unstaged changes to repo. Cannot make a tag.")
         sys.exit(1)
 
     template.token_data["version"] = version
     tag_name = template.render(get_conf_value(config, "tag/name"))
-    gitops.create_new_tag(version, tag_name)
+    if kwargs["dryrun"]:
+        print("Create tag {} with msg {}".format(version, tag_name))
+    else:
+        gitops.create_new_tag(version, tag_name)
 
     print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Tag {} created".format(tag_name))
 
