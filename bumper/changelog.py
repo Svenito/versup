@@ -37,7 +37,8 @@ def write(conf, version, dryrun=False):
             commit_line = template.render(
                 get_conf_value(conf, "changelog/commit"), commit_data
             )
-            print(commit_line + "\n")
+            print(commit_line)
+        print(get_conf_value(conf, "changelog/separator"))
     else:
         # Read original changelog
         try:

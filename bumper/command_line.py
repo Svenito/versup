@@ -68,7 +68,7 @@ def do_bump(ctx, **kwargs):
             # Parse to see if version format is ok
             semver.parse_version_info(ctx.obj.version)
         except ValueError:
-            print("ERROR WITH VERSION ARG")
+            print_error("Supplied version is invalid")
             return
 
     version = get_new_version(ctx.obj.conf, ctx.obj.version)
@@ -130,9 +130,9 @@ def get_new_version(config, version):
     Given a version, that version is used as is provided it is valid
     """
     if gitops.is_repo_dirty():
-        print("Repo is dirty. Cannot continue")
+        print_error("Repo is dirty. Cannot continue")
         # TODO raise exception
-        # sys.exit(1)
+        sys.exit(1)
 
     try:
         latest_version = gitops.get_latest_tag()
@@ -147,7 +147,7 @@ def get_new_version(config, version):
             semver.parse_version_info(version)
             new_version = version
         except ValueError:
-            print("Supplied version is not a valid SemVer string or increment")
+            print_error("Supplied version is not a valid SemVer string or increment")
             sys.exit(1)
 
     # Update value in template data struct
@@ -169,7 +169,7 @@ def do_changelog(config, version, **kwargs):
                 return
             # Ok to create/update it now
     changelog.write(config, version, kwargs["dryrun"])
-    print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Changelog updated")
+    print_ok("Changelog updated")
 
 
 @script_runner.prepost_script("commit")
@@ -186,7 +186,7 @@ def commit(config, version, **kwargs):
         print("Create commit with commit msg: {}".format(commit_msg))
     else:
         gitops.create_commit(commit_msg)
-    print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Commit created")
+    print_ok("Commit created")
 
 
 @script_runner.prepost_script("tag")
@@ -205,7 +205,15 @@ def tag(config, version, **kwargs):
     else:
         gitops.create_new_tag(version, tag_name)
 
-    print(Fore.GREEN + u"\u2713 " + Fore.RESET + "Tag {} created".format(tag_name))
+    print_ok("Tag {} created".format(tag_name))
+
+
+def print_ok(message):
+    print(Fore.GREEN + u"\u2713 " + Fore.RESET + message)
+
+
+def print_error(message):
+    print(Fore.RED + Style.BRIGHT + u"\u2717 " + Style.RESET_ALL + message)
 
 
 def main():
