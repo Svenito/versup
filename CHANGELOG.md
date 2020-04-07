@@ -1,3 +1,19 @@
+### Version 0.3.0
+- Fix file update newline character
+- Move pycov to dev deps
+- Add badges to readme
+- Merge branch 'next'
+- Update docs
+- Merge branch 'changelog-fix' into next
+- Merge branch 'dry-run-files' into next
+- Fix changelog entries including last tag
+- Add dry run to fileupdater
+- Remove conf_parses from changelog
+- Start writing docs and doc strings
+- Rename project from bumper to versup
+- Update version to 0.2.0
+- Update version to 0.2.0
+
 ### Version 0.2.0
 - 5be9c34 Fix adding of files
 - 998f475 Add changed files to staging
