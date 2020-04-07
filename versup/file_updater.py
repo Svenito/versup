@@ -16,7 +16,7 @@ def show_updates(filename, data, replace_list):
     regex = replace_list[0]
     new_text = replace_list[1]
 
-    lines = data.split("/n")
+    lines = data.split("\n")
     for line in lines:
         line = line.strip()
         m = re.match(regex, line)
