@@ -2,6 +2,9 @@
 
 MIT license
 
+[![Documentation Status](https://readthedocs.org/projects/versup/badge/?version=latest)](https://versup.readthedocs.io/en/latest/?badge=latest)
+[![PyPI version](https://badge.fury.io/py/versup.svg)](https://badge.fury.io/py/versup)
+
 ** Still in early stages, so use with caution **
 
 Bump your project version, update version numbers in your files, create a changelog,
