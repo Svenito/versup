@@ -124,7 +124,7 @@ def bump_version(latest_version, increment):
 
 def get_new_version(config, version, **kwargs):
     """
-    :version: is either an increment or a semantic version. Given an increment
+    version is either an increment or a semantic version. Given an increment
     the current version (based on the latest git commit, or the initial version
     from the config) is incremented.
     Given a version, that version is used as is provided it is valid
@@ -163,15 +163,23 @@ def get_new_version(config, version, **kwargs):
 def do_changelog(config, version, **kwargs):
     if not get_conf_value(config, "changelog/enabled"):
         return
-
-    changelog_file = get_conf_value(config, "changelog/file")
+    changelog_config = get_conf_value(config, "changelog")
+    changelog_file = changelog_config["file"]
     # If no changelog file and create is off, prompt
     if not kwargs["dryrun"] and not os.path.isfile(changelog_file):
-        if not get_conf_value(config, "changelog/create"):
+        if not changelog_config["create"]:
             if not click.confirm("No changelog file found. Create it?"):
                 return
             # Ok to create/update it now
-    changelog.write(config, version, kwargs["dryrun"])
+    changelog.write(
+        changelog_file,
+        changelog_config["version"],
+        changelog_config["commit"],
+        changelog_config["separator"],
+        changelog_config["open"],
+        version,
+        kwargs["dryrun"],
+    )
     print_ok("Changelog updated")
 
 
@@ -183,9 +191,9 @@ def commit(config, version, **kwargs):
     if not kwargs["dryrun"] and not gitops.is_repo_dirty():
         print("No unstaged changes to repo. Making no new commit.")
         return
-
+    commit_config = get_conf_value(config, "commit")
     template.token_data["version"] = version
-    commit_msg = template.render(get_conf_value(config, "commit/message"))
+    commit_msg = template.render(commit_config["message"])
     if kwargs["dryrun"]:
         print("Create commit with commit msg: {}".format(commit_msg))
     else:
@@ -201,9 +209,9 @@ def tag(config, version, **kwargs):
     if not kwargs["dryrun"] and gitops.is_repo_dirty():
         print("Unstaged changes to repo. Cannot make a tag.")
         sys.exit(1)
-
+    tag_config = get_conf_value(config, "tag")
     template.token_data["version"] = version
-    tag_name = template.render(get_conf_value(config, "tag/name"))
+    tag_name = template.render(tag_config["name"])
     if kwargs["dryrun"]:
         print("Create tag {} with msg {}".format(version, tag_name))
     else:

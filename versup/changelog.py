@@ -22,8 +22,9 @@ def show_file(changelog_file):
         pass
 
 
-def write(conf, version, dryrun=False):
-    changelog_file = get_conf_value(conf, "changelog/file")
+def write(
+    changelog_file, version_line, changelog_line, separator, show, version, dryrun=False
+):
     commits = gitops.get_commit_messages()
 
     if dryrun:
@@ -34,11 +35,9 @@ def write(conf, version, dryrun=False):
             commit_data["hash7"] = commit_data["hash"][:7]
             commit_data["hash8"] = commit_data["hash"][:8]
 
-            commit_line = template.render(
-                get_conf_value(conf, "changelog/commit"), commit_data
-            )
+            commit_line = template.render(changelog_line, commit_data)
             print(commit_line)
-        print(get_conf_value(conf, "changelog/separator"))
+        print(separator)
     else:
         # Read original changelog
         try:
@@ -47,9 +46,7 @@ def write(conf, version, dryrun=False):
         except FileNotFoundError:
             original_data = ""
 
-        version = template.render(
-            get_conf_value(conf, "changelog/version"), {"version": version}
-        )
+        version = template.render(version_line, {"version": version})
         with open(changelog_file, "w+") as fh:
             fh.write(version + "\n")
             for commit_data in commits:
@@ -58,12 +55,10 @@ def write(conf, version, dryrun=False):
                 commit_data["hash7"] = commit_data["hash"][:7]
                 commit_data["hash8"] = commit_data["hash"][:8]
 
-                commit_line = template.render(
-                    get_conf_value(conf, "changelog/commit"), commit_data
-                )
+                commit_line = template.render(changelog_line, commit_data)
                 fh.write(commit_line + "\n")
 
-            fh.write(get_conf_value(conf, "changelog/separator") + original_data)
+            fh.write(separator + original_data)
 
-        if get_conf_value(conf, "changelog/open"):
+        if show:
             show_file(changelog_file)
