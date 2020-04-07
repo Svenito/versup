@@ -1,3 +1,7 @@
+### Version 0.3.2
+- Undo original fix for changelog entries
+- Fix pyroject toml name
+
 ### Version 0.3.1
 - Also update package version
 
