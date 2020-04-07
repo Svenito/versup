@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "versup"
-version = "0.3.2"
+version = "0.3.3"
 description = ""
 authors = ["Sven Steinbauer <sven@unlogic.co.uk>"]
 license = "MIT"
