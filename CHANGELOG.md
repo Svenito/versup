@@ -1,3 +1,6 @@
+### Version 0.3.1
+- Also update package version
+
 ### Version 0.3.0
 - Fix file update newline character
 - Move pycov to dev deps
