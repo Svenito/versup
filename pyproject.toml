@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Sven Steinbauer <sven@unlogic.co.uk>"]
 license = "MIT"
-readme = "README.rst"
+readme = "README.md"
 repository = "https://gitlab.com/unlogic/versup"
 
 [tool.poetry.dependencies]

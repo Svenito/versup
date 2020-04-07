@@ -1,0 +1,12 @@
+{
+  "files": {
+    "docs/source/conf.py": [
+      ["version = u\"([\\d\\.]+)\"", "version = u\"[version]\""],
+      ["release = u\"([\\d\\.]+)\"", "release = u\"[version]\""]
+    ],
+    "pyproject.py": [["version = \"([\\d\\.]+)\"", "version = \"[version]\""]]
+  },
+  "changelog": {
+    "commit": "- [message]"
+  }
+}
