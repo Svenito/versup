@@ -1,6 +1,7 @@
 import re
 import versup.template as template
 from versup.conf_reader import get_conf_value
+from colorama import Style
 
 
 def update_file_data(data, replace_list):
@@ -11,7 +12,24 @@ def update_file_data(data, replace_list):
     return updated_data
 
 
-def update_files(new_version, files):
+def show_updates(filename, data, replace_list):
+    regex = replace_list[0]
+    new_text = replace_list[1]
+
+    lines = data.split("/n")
+    for line in lines:
+        line = line.strip()
+        m = re.match(regex, line)
+        if m:
+            updated_data = re.sub(regex, new_text, line, flags=re.M)
+            print(
+                "In file {3}{0}{4} replace {3}{1}{4} with {3}{2}{4}".format(
+                    filename, line, updated_data, Style.BRIGHT, Style.RESET_ALL
+                )
+            )
+
+
+def update_files(new_version, files, dryrun):
     if not files:
         # No files to update
         return
@@ -33,7 +51,11 @@ def update_files(new_version, files):
 
         for replace in files[filename]:
             replace[1] = template.render(replace[1], template_data)
-            data = update_file_data(data, replace)
+            if dryrun:
+                show_updates(filename, data, replace)
+            else:
+                data = update_file_data(data, replace)
 
-        with open(filename, "w") as file_h:
-            file_h.write(data)
+        if not dryrun:
+            with open(filename, "w") as file_h:
+                file_h.write(data)
