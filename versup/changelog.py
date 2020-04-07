@@ -28,7 +28,7 @@ def write(conf, version, dryrun=False):
 
     if dryrun:
         print("Writing changelog entries:\n")
-        for commit_data in commits:
+        for commit_data in commits[:-1]:
             commit_data["hash"] = commit_data["hash"]
             commit_data["hash4"] = commit_data["hash"][:4]
             commit_data["hash7"] = commit_data["hash"][:7]
