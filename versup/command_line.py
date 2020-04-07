@@ -124,7 +124,7 @@ def bump_version(latest_version, increment):
 
 def get_new_version(config, version, **kwargs):
     """
-    :version: is either an increment or a semantic version. Given an increment
+    version is either an increment or a semantic version. Given an increment
     the current version (based on the latest git commit, or the initial version
     from the config) is incremented.
     Given a version, that version is used as is provided it is valid

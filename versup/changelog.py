@@ -7,6 +7,12 @@ import sys
 
 
 def show_file(changelog_file):
+    """
+    Open the supplied file with $EDITOR
+
+    :changelog_file: The path to the file to open.
+
+    """
     with open(changelog_file, "r") as fh:
         data = fh.read()
 
@@ -23,6 +29,17 @@ def show_file(changelog_file):
 
 
 def write(conf, version, dryrun=False):
+    """
+    Write the new changelog file. Gets the changelog filename (and optional
+    path) from the config. Parses the commit messages and prepends the
+    commits to the original text and saves out the file.
+    Creates the file if there it doesn't exist
+
+    :conf: The config settings for this run
+    :version: The new version to use
+    :dryrun: Whether this is a dryrun. If true does not write file but
+             prints new content to stdout
+    """
     changelog_file = get_conf_value(conf, "changelog/file")
     commits = gitops.get_commit_messages()
 
