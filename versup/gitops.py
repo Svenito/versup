@@ -60,9 +60,12 @@ def get_commit_messages():
         "\n"
     )
     out = []
+
     for commit in commits:
         data = dict()
         split_commit = commit.split("||")
+        if len(split_commit) < 2:
+            return out
         data["hash"] = split_commit[0]
         data["author_name"] = split_commit[1]
         data["author_email"] = split_commit[2]
