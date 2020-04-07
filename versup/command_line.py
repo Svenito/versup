@@ -98,7 +98,7 @@ def apply_bump(config, version, **kwargs):
     # Run through all stages of a release
     # Update the files specified in config
     files_to_update = get_conf_value(config, "files")
-    file_updater.update_files(version, files_to_update)
+    file_updater.update_files(version, files_to_update, kwargs["dryrun"])
 
     # create changelog
     if not kwargs["no_changelog"] and get_conf_value(config, "changelog/enabled"):
