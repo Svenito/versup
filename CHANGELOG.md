@@ -1,3 +1,16 @@
+### Version 0.4.0
+- Python 2.7 fixes
+- Return only actual files updated
+- Return only actual files updated
+- Fix fileupdate matching in dryrun
+- Print out file update status
+- Update version to 1.0.0
+- Return only actual files updated
+- Fix fileupdate matching in dryrun
+- Print out file update status
+- update poetry.lock
+- Support for Python 2.7
+
 ### Version 0.3.2
 - Undo original fix for changelog entries
 - Fix pyroject toml name
