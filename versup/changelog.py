@@ -2,7 +2,7 @@ from versup.conf_reader import get_conf_value
 import versup.gitops as gitops
 import sys
 import versup.template as template
-from subprocess import run, PIPE
+import pprint
 import sys
 
 
@@ -17,12 +17,7 @@ def show_file(changelog_file):
         data = fh.read()
 
     try:
-        pager = run(
-            ["less", "-F", "-R", "-S", "-X", "-K"],
-            stdout=sys.stdout,
-            input=data,
-            encoding="ascii",
-        )
+        pprint.pprint(data)
     except KeyboardInterrupt:
         # let less handle this, -K will exit cleanly
         pass
