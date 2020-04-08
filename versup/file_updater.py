@@ -19,7 +19,7 @@ def show_updates(filename, data, replace_list):
     lines = data.split("\n")
     for line in lines:
         line = line.strip()
-        m = re.match(regex, line)
+        m = re.search(regex, line)
         if m:
             updated_data = re.sub(regex, new_text, line, flags=re.M)
             print(
