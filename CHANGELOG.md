@@ -1,3 +1,9 @@
+### Version 1.0.0
+- Return only actual files updated
+- Fix fileupdate matching in dryrun
+- Print out file update status
+- update poetry.lock
+
 ### Version 0.3.2
 - Undo original fix for changelog entries
 - Fix pyroject toml name
