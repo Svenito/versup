@@ -36,7 +36,7 @@ def update_files(new_version, files, dryrun):
 
     filenames = list(files.keys())
     template_data = {"version": new_version}
-
+    updated_files = []
     for filename in filenames:
         try:
             with open(filename, "r") as file_h:
@@ -44,6 +44,8 @@ def update_files(new_version, files, dryrun):
         except FileNotFoundError:
             print("Unable to find {} to update.".format(filename))
             continue
+
+        updated_files.append(filename)
 
         # If it's only one entry make it a list to simplify program flow
         if not any(isinstance(el, list) for el in files[filename]):
@@ -59,3 +61,5 @@ def update_files(new_version, files, dryrun):
         if not dryrun:
             with open(filename, "w") as file_h:
                 file_h.write(data)
+
+    return updated_files
