@@ -10,6 +10,10 @@ config_files = [
 
 
 def write_default_to_home():
+    """
+    Copy the default settings to the user's home directory if
+    it does not exist yet
+    """
     home_file = os.path.expanduser(config_files[0])
     if not os.path.isfile(home_file):
         with open(home_file, "w+") as f:
@@ -28,7 +32,9 @@ def parse_config_file(config_file):
 
 
 def merge(a, b, path=None):
-    "merges b into a"
+    """
+    Recursively merges two dictionaries b into a. Duplicate keys, b overrides a
+    """
     if path is None:
         path = []
     for key in b:
@@ -50,6 +56,10 @@ def merge_configs_with_default():
     for config_file in config_files:
         config = parse_config_file(config_file)
         merge(current_config, config)
+    # Finally merge the default local and the current_config. This allows
+    # adding new keys to the default config in future releases without
+    # having to overwrite the user's home dir config
+    current_config = merge(default_conf, current_config)
     return current_config
 
 

@@ -95,7 +95,9 @@ def do_versup(ctx, **kwargs):
 
 @script_runner.prepost_script("bump")
 def apply_bump(config, version, **kwargs):
-    # Run through all stages of a release
+    """
+    Runs through all the stages of the release as defined by the config file.
+    """
     # Update the files specified in config
     files_to_update = get_conf_value(config, "files")
     updated = file_updater.update_files(version, files_to_update, kwargs["dryrun"])
@@ -119,6 +121,12 @@ def apply_bump(config, version, **kwargs):
 
 
 def bump_version(latest_version, increment):
+    """
+    bump the latest version by the given increment
+
+    :version: the version number as a string
+    "increment" the semantic increment as a string "minor, major etc"
+    """
     func = "bump_{}".format(increment)
     return semver.__dict__[func](latest_version)
 
@@ -162,6 +170,11 @@ def get_new_version(config, version, **kwargs):
 
 @script_runner.prepost_script("changelog")
 def do_changelog(config, version, **kwargs):
+    """
+    Write the changelog file if config is set to write it. If it
+    does not exist, prompt user if they want to create it, if "create changelog"
+    is True in the config.
+    """
     if not get_conf_value(config, "changelog/enabled"):
         return
     changelog_config = get_conf_value(config, "changelog")
@@ -186,6 +199,9 @@ def do_changelog(config, version, **kwargs):
 
 @script_runner.prepost_script("commit")
 def commit(config, version, **kwargs):
+    """
+    Create the version up commit if enabled in the config
+    """
     if not get_conf_value(config, "commit/enabled"):
         return
 
@@ -204,6 +220,9 @@ def commit(config, version, **kwargs):
 
 @script_runner.prepost_script("tag")
 def tag(config, version, **kwargs):
+    """
+    Tag the latest commit with the new version release
+    """
     if not get_conf_value(config, "tag/enabled"):
         return
 
