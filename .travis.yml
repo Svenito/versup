@@ -15,5 +15,4 @@ script: poetry run make test
 jobs:
   include:
     if: branch = master
-    - stage: deploy
-      script: poetry publish -u $PYPIUSERNAME -p $PYPIPASSWORD
+    script: poetry publish -u $PYPIUSERNAME -p $PYPIPASSWORD
