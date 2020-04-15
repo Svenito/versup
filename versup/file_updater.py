@@ -5,6 +5,15 @@ from colorama import Style
 
 
 def update_file_data(data, replace_list):
+    """
+    The replace list is a list of two strings, the first is a regex
+    defining what is to be replaced, the second the text to replace the
+    matches with
+    :data: the source data on which to run the replace on
+    :replace_list: list of a regex string and the string to replace with
+
+    :returns: the updated data
+    """
     regex = replace_list[0]
     new_text = replace_list[1]
 
@@ -13,6 +22,11 @@ def update_file_data(data, replace_list):
 
 
 def show_updates(filename, data, replace_list):
+    """
+    This is the same as :update_file_data: but for dry runs. It will
+    search for the matches to replace and print out the changes that will
+    occur instead of actually updating the files
+    """
     regex = replace_list[0]
     new_text = replace_list[1]
 
@@ -30,6 +44,14 @@ def show_updates(filename, data, replace_list):
 
 
 def update_files(new_version, files, dryrun):
+    """
+    Will update the given files with the defined regex from
+    the config files and the text to replace with
+
+    :new_version: the new version for the next release
+    :files: a list of filenames with path on which to run the replace
+    :dryrun: boolean flag whether to do a dry run or not
+    """
     if not files:
         # No files to update
         return
