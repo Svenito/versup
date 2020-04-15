@@ -1,4 +1,5 @@
 language: python
+
 python:
   - "3.6"
   - "3.7"
@@ -6,12 +7,18 @@ python:
 
 before_install:
   - pip install poetry
-
 install:
   - poetry install
 
-script:
-  - poetry run make test
+stages:
+  - test
+  - name: deploy
+    if: branch = master
 
-after_script:
-  - coveralls
+jobs:
+  include:
+    - stage: test
+      script: poetry run make test
+      after_script: coveralls
+    - stage: deploy
+      script: poetry publish -u $PYPIUSERNAME -p $PYPIPASSWORD

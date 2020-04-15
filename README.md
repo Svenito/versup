@@ -4,7 +4,7 @@ MIT license
 
 [![Documentation Status](https://readthedocs.org/projects/versup/badge/?version=latest)](https://versup.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/versup.svg)](https://badge.fury.io/py/versup)
-
+[![Coverage Status](https://coveralls.io/repos/github/Svenito/versup/badge.svg?branch=next)](https://coveralls.io/github/Svenito/versup?branch=next)
 ** Still in early stages, so use with caution **
 
 Bump your project version, update version numbers in your files, create a changelog,
