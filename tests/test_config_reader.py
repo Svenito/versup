@@ -1,5 +1,7 @@
 import versup.conf_reader as conf_reader
 import pytest
+import os
+from unittest.mock import patch, mock_open
 
 
 @pytest.fixture()
@@ -12,6 +14,7 @@ class TestConfigReader:
         conf = conf_reader.parse_config_file("./tests/test_conf.json")
         assert conf["scripts"]["postbump"] == "echo POST"
         conf = conf_reader.parse_config_file("./tests/testsss_conf.json")
+        assert conf == {}
 
     def test_merge(self):
         a = {
@@ -34,3 +37,16 @@ class TestConfigReader:
         assert a == "echo POST"
         b = conf_reader.get_conf_value(config_file, "scripts/postbumpdddd")
         assert b == None
+
+    def test_write_default_to_home(self):
+        open_mock = mock_open()
+        with patch("os.path.isfile", lambda x: False, create=True):
+            with patch("versup.conf_reader.open", open_mock, create=True):
+                conf_reader.write_default_to_home()
+        open_mock.assert_called_with(os.path.expanduser("~/.config/versup.json"), "w+")
+
+    def test_merge_configs_with_default(self):
+        open_mock = mock_open()
+        with patch("os.path.isfile", lambda x: False, create=True):
+            with patch("versup.conf_reader.open", open_mock, create=True):
+                conf_reader.write_default_to_home()
