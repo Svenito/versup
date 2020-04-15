@@ -14,5 +14,5 @@ script: poetry run make test
 
 jobs:
   include:
-    if: branch = master
+    if: branch = master AND tag IS present
     script: poetry publish -u $PYPIUSERNAME -p $PYPIPASSWORD
