@@ -10,15 +10,10 @@ before_install:
 install:
   - poetry install
 
-stages:
-  - test
-  - name: deploy
-    if: branch = master
+script: poetry run make test
 
 jobs:
   include:
-    - stage: test
-      script: poetry run make test
-      after_script: coveralls
+    if: branch = master
     - stage: deploy
       script: poetry publish -u $PYPIUSERNAME -p $PYPIPASSWORD
