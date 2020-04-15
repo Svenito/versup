@@ -12,3 +12,6 @@ install:
 
 script:
   - poetry run make test
+
+after_script:
+  - coveralls
