@@ -3,7 +3,7 @@ import versup.gitops as gitops
 import sys
 import versup.template as template
 from subprocess import run, PIPE
-import sys
+import os
 
 
 def show_file(changelog_file):
@@ -13,18 +13,13 @@ def show_file(changelog_file):
     :changelog_file: The path to the file to open.
 
     """
-    with open(changelog_file, "r") as fh:
-        data = fh.read()
-
     try:
-        pager = run(
-            ["less", "-F", "-R", "-S", "-X", "-K"],
-            stdout=sys.stdout,
-            input=data,
-            encoding="ascii",
-        )
-    except KeyboardInterrupt:
-        # let less handle this, -K will exit cleanly
+        if os.sys.platform == "win32":
+            os.system("notepad.exe {}".format(changelog_file))
+        else:
+            editor = os.getenv("EDITOR", "vi")
+            os.system("{} {}".format(editor, changelog_file))
+    except:
         pass
 
 
