@@ -10,9 +10,14 @@ before_install:
 install:
   - poetry install
 
-script: poetry run make test
+script:
+  - poetry run make test
+  - coveralls
 
 jobs:
   include:
-    if: branch = master AND tag IS present
-    script: poetry publish -u $PYPIUSERNAME -p $PYPIPASSWORD
+    - stage: deploy
+      before_install: pip install poetry
+      install: poetry install
+      if: branch = master AND tag IS present
+      script: poetry publish --build -u $PYPIUSERNAME -p $PYPIPASSWORD
