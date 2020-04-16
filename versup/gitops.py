@@ -3,14 +3,14 @@ import os
 import semver
 
 
-def get_repo():
+def get_repo():  # pragma: no cover
     """
     Get the repo for the current working directory.
     """
     return Repo(os.getcwd())
 
 
-def get_username():
+def get_username():  # pragma: no cover
     """
     Return the username of the current repo
     """
@@ -18,7 +18,7 @@ def get_username():
     return repo.config_reader().get_value("user", "name")
 
 
-def get_email():
+def get_email():  # pragma: no cover
     """
     Return the configured email of the current repo
     """
@@ -26,7 +26,7 @@ def get_email():
     return repo.config_reader().get_value("user", "email")
 
 
-def is_repo_dirty():
+def is_repo_dirty():  # pragma: no cover
     """
     Check if the current repo is dirty or not, including untracked files
     """
@@ -34,7 +34,7 @@ def is_repo_dirty():
     return repo.is_dirty(untracked_files=True)
 
 
-def get_latest_tag():
+def get_latest_tag():  # pragma: no cover
     """
     Get the latest tag that matches a semantic version. This is used to work
     out the original version from which to version up from
@@ -51,7 +51,7 @@ def get_latest_tag():
     raise ValueError
 
 
-def create_new_tag(new_version, tag_name):
+def create_new_tag(new_version, tag_name):  # pragma: no cover
     """
     Create a new tag given the new version and tagname string
 
@@ -62,7 +62,7 @@ def create_new_tag(new_version, tag_name):
     repo.create_tag(new_version, message=tag_name)
 
 
-def create_commit(commit_msg):
+def create_commit(commit_msg):  # pragma: no cover
     """
     create a commit with the given message
 
