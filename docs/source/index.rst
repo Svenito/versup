@@ -105,6 +105,7 @@ These support tag fields that are replaced with information. Know fields are:
 - [version]: The new version
 - [message]: The new commit message
 - [date]: Today's date formatted according to `tokens/date/format` in the config
+- [version_date]: Today's date formatted according to `tokens/version_date/format` in the config
 - [hash]: The new commit hash, full length
 - [hash4]: The new commit hash, first four characters
 - [hash7]: The new commit hash, first seven characters

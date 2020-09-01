@@ -7,8 +7,6 @@ MIT license
 [![Build Status](https://travis-ci.com/Svenito/versup.svg?branch=master)](https://travis-ci.com/Svenito/versup)
 [![Coverage Status](https://coveralls.io/repos/github/Svenito/versup/badge.svg?branch=next)](https://coveralls.io/github/Svenito/versup?branch=next)
 
-** Still in early stages, so use with caution **
-
 Bump your project version, update version numbers in your files, create a changelog,
 make a commit, and tag it, all in one easy step. versup is also quite configurable.
 
@@ -107,6 +105,7 @@ These support tag fields that are replaced with information. Know fields are:
 - version: The new version
 - message: The new commit message
 - date: Today's date formatted according to `tokens/date/format` in the config
+- version_date: Today's date formatted according to `tokens/version_date/format` in the config
 - hash: The new commit hash, full length
 - hash4: The new commit hash, first four characters
 - hash7: The new commit hash, first seven characters
@@ -141,3 +140,5 @@ stages of the bump process. These are under the `scripts` section. They are
 called as-is and receive the new version number as the only argument. They
 can be anything, shell scripts, python scripts, etc, but they must be
 executable in a regular shell, as they will be invoked as such.
+
+Full Read The Docs can be found at [https://versup.readthedocs.io](https://versup.readthedocs.io)
