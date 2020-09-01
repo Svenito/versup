@@ -49,6 +49,6 @@ default_conf = {
         "precommit": "",  # Script to execute before committing
         "postcommit": "",  # Script to execute after committing
         "pretag": "",  # Script to execute before tagging
-        "posttag": ""  # Script to execute after tagging
+        "posttag": "",  # Script to execute after tagging
     },
 }
