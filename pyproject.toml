@@ -20,6 +20,7 @@ pytest = "^3.0"
 sphinx = "^3.0.0"
 sphinx_rtd_theme = "^0.4.3"
 coveralls = "^2.0.0"
+black = "^20.8b1"
 
 [tool.poetry.scripts]
 versup = "versup.__main__:main"
