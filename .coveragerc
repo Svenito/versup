@@ -1,0 +1,8 @@
+[run]
+omit =
+    # omit this single file
+    versup/printer.py
+    versup/__init__.py
+    versup/__main__.py
+    versup/custom_cmd_group.py
+    versup/command_line.py
