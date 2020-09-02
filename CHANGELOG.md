@@ -1,3 +1,16 @@
+### Version 1.0.2
+- Add some coverage exclusions
+- Fix deprecation warning for Semver
+- Update dependencies
+- Update docs
+- Fix black formatting error
+- Add Black to the test CI task
+- Add some coverage exclusions
+- Test coveralls submission
+- Change how changelog is opened
+- Improve test coverage
+- update readme with travis badge
+
 ### Version 1.0.0
 - Return only actual files updated
 - Fix fileupdate matching in dryrun
