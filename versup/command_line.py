@@ -19,13 +19,21 @@ import versup.script_runner as script_runner
 from versup.printer import print_ok, print_error, print_warn
 
 
+CONTEXT_SETTINGS = dict(
+    help_option_names=["-h", "--help"],
+)
+
+
 class versupContext(object):
     conf = None
     template = None
     version = None
 
 
-@click.group(cls=DefaultCommandGroup)
+@click.group(
+    cls=DefaultCommandGroup,
+    context_settings=CONTEXT_SETTINGS
+)
 @click.pass_context
 @click.version_option(version=__version__)
 def cli(ctx, **kwargs):
@@ -35,7 +43,9 @@ def cli(ctx, **kwargs):
     ctx.obj = bobj
 
 
-@cli.command()
+@cli.command(
+    context_settings=CONTEXT_SETTINGS
+)
 @click.pass_context
 @click.option("-l", "--local", is_flag=True)
 @click.option("-g", "--global", is_flag=True)
@@ -50,7 +60,11 @@ def show_config(ctx, **kwargs):
     pprint.pprint(config)
 
 
-@cli.command(default_command=True, name="increment/version")
+@cli.command(
+    default_command=True,
+    name="increment/version",
+    context_settings=CONTEXT_SETTINGS
+)
 @click.pass_context
 @click.argument("increment")
 @click.option("--no-commit", is_flag=True, help="Skip making commit")
