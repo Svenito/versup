@@ -30,10 +30,7 @@ class versupContext(object):
     version = None
 
 
-@click.group(
-    cls=DefaultCommandGroup,
-    context_settings=CONTEXT_SETTINGS
-)
+@click.group(cls=DefaultCommandGroup, context_settings=CONTEXT_SETTINGS)
 @click.pass_context
 @click.version_option(version=__version__)
 def cli(ctx, **kwargs):
@@ -43,9 +40,7 @@ def cli(ctx, **kwargs):
     ctx.obj = bobj
 
 
-@cli.command(
-    context_settings=CONTEXT_SETTINGS
-)
+@cli.command(context_settings=CONTEXT_SETTINGS)
 @click.pass_context
 @click.option("-l", "--local", is_flag=True)
 @click.option("-g", "--global", is_flag=True)
@@ -61,9 +56,7 @@ def show_config(ctx, **kwargs):
 
 
 @cli.command(
-    default_command=True,
-    name="increment/version",
-    context_settings=CONTEXT_SETTINGS
+    default_command=True, name="increment/version", context_settings=CONTEXT_SETTINGS
 )
 @click.pass_context
 @click.argument("increment")
