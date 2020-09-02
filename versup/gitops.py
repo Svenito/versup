@@ -43,7 +43,7 @@ def get_latest_tag():
     latest_tags = repo.git.tag(sort="-creatordate").split("\n")[:10]
     for tag in latest_tags:
         try:
-            semver.parse_version_info(tag)
+            semver.VersionInfo.parse(tag)
         except ValueError:
             continue
         return tag
