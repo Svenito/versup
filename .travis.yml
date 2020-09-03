@@ -5,23 +5,17 @@ python:
   - "3.7"
   - "3.8"
 
-#before_install:
-#  - pip install poetry
-#install:
-#  - poetry install
+before_install:
+  - pip install poetry
+install:
+  - poetry install
 
-#script:
-#  - poetry run make test
-#  - coveralls
+script:
+  - poetry run make test
+  - coveralls
 
 jobs:
   include:
-    - stage: test
-      before_install: pip install poetry
-      install: poetry install
-      script:
-        - poetry run make test
-        - coveralls
     - stage: deploy
       before_install: pip install poetry
       install: poetry install
