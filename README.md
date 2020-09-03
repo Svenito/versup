@@ -1,7 +1,6 @@
 # versup
 
-MIT license
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Documentation Status](https://readthedocs.org/projects/versup/badge/?version=latest)](https://versup.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/versup.svg)](https://badge.fury.io/py/versup)
 [![Build Status](https://travis-ci.com/Svenito/versup.svg?branch=master)](https://travis-ci.com/Svenito/versup)
