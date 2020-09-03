@@ -1,3 +1,8 @@
+### Version 1.0.3
+- Add licence badge to readme
+- Add Black badge to README
+- Add convenient help option (#5)
+
 ### Version 1.0.2
 - Add some coverage exclusions
 - Fix deprecation warning for Semver
