@@ -44,7 +44,13 @@ def test_write_new_changelog(tmpdir):
     filename = tmpdir.join("new_changelog.txt")
     with patch("versup.gitops.get_commit_messages", mocked_get_commit_messages):
         changelog.write(
-            filename, "Version [version]", "- [message]", "\n", False, "1.2.3", False,
+            filename,
+            "Version [version]",
+            "- [message]",
+            "\n",
+            False,
+            "1.2.3",
+            False,
         )
     with open(filename) as f:
         newlog = f.read()
@@ -58,7 +64,13 @@ def test_write_new_changelog(tmpdir):
 def test_update_changelog(filename):
     with patch("versup.gitops.get_commit_messages", mocked_get_commit_messages):
         changelog.write(
-            filename, "Version [version]", "- [message]", "\n", False, "1.2.3", False,
+            filename,
+            "Version [version]",
+            "- [message]",
+            "\n",
+            False,
+            "1.2.3",
+            False,
         )
     with open(filename) as f:
         newlog = f.read()
@@ -78,7 +90,13 @@ def test_dryrun(filename):
 
     with patch("versup.gitops.get_commit_messages", mocked_get_commit_messages):
         changelog.write(
-            filename, "Version [version]", "- [message]", "\n", False, "1.2.3", True,
+            filename,
+            "Version [version]",
+            "- [message]",
+            "\n",
+            False,
+            "1.2.3",
+            True,
         )
     sys.stdout = sys.__stdout__
     output = capturedOutput.getvalue().split("\n")
