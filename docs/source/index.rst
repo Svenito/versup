@@ -36,7 +36,7 @@ Configuration
 
 One intial launch, versup copies a default config to your home directory (`~/.config/versup.json`) which has some good defaults.
 
-.. code-block:: json
+.. code:: python
 
    {
       "force": False,  # Force the command without prompting the user
@@ -119,14 +119,14 @@ Updating files
 versup can update versions in files. The way this works is by configuring a regex
 for each file that you want to update. So for example:
 
-.. code-block:: json
+.. code::
 
    "files": {
       "README.rst": [
          ["Version ([\\d\\.]+) ", "Version [version] "],
          ["Version is ([\\d\\.]+)", "Version is [version]"]
       ]
-   },
+   }
 
 
 Here the file `README.rst` is updated by matching a regex `Version ([\\d\\.]+)`
@@ -135,14 +135,57 @@ regular expressions. The text that is matched is then replaced with the next arg
 `Version [version]` where `[version]` is the new version. You can regex and replace on
 anything really.
 
-# Scripts
-
-There are a number of pre and post scripts that can be executed at various
+Scriptsdeveloper-pages pre and post scripts that can be executed at various
 stages of the bump process. These are under the `scripts` section. They are
 called as-is and receive the new version number as the only argument. They
 can be anything, shell scripts, python scripts, etc, but they must be
 executable in a regular shell, as they will be invoked as such.
 
+
+Commandline options
+===================
+
+Versup has two command line options
+
+.. code::
+
+   Options:
+   --version   Show the version and exit.
+   -h, --help  Show this message and exit.
+
+And the following Commands
+
+.. code::
+
+   increment/version  Increment or set project version
+   show-config Show the config to be used for the next version updated
+
+The `increment` or `version` command has the following options
+
+.. code::
+
+   --no-commit     Skip making commit
+   --no-changelog  Skip changelog update
+   --no-tag        Skip creating tag
+   -n, --dryrun    Show what will be done but don't apply anything
+
+The `show-config` command accepts these options
+
+.. code:: bash
+
+   -l, --local Show the local configuration options
+   -g, --global Show the global configuration options
+
+Contributing to Versup
+======================
+
+If you'd like to contribute to Versup please read the :ref:`developer-pages` guide
+
+Indices and tables
+==================
+
+* :ref:`modindex`
+* :ref:`search`
 
 
 .. toctree::
@@ -151,8 +194,3 @@ executable in a regular shell, as they will be invoked as such.
 
 
 
-Indices and tables
-==================
-
-* :ref:`modindex`
-* :ref:`search`
