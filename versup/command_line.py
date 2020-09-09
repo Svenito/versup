@@ -19,7 +19,9 @@ import versup.script_runner as script_runner
 from versup.printer import print_ok, print_error, print_warn
 
 
-CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"],)
+CONTEXT_SETTINGS = dict(
+    help_option_names=["-h", "--help"],
+)
 
 
 class versupContext(object):
