@@ -21,12 +21,11 @@ def write_default_to_home():
 
 
 def parse_config_file(config_file):
-    cwd = os.getcwd()
     d = {}
     try:
         with open(os.path.expanduser(config_file), "r") as conf_file:
             d = json.loads(conf_file.read())
-    except FileNotFoundError:
+    except IOError:
         pass
     return d
 

@@ -19,9 +19,7 @@ import versup.script_runner as script_runner
 from versup.printer import print_ok, print_error, print_warn
 
 
-CONTEXT_SETTINGS = dict(
-    help_option_names=["-h", "--help"],
-)
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"],)
 
 
 class versupContext(object):
@@ -42,8 +40,8 @@ def cli(ctx, **kwargs):
 
 @cli.command(context_settings=CONTEXT_SETTINGS)
 @click.pass_context
-@click.option("-l", "--local", is_flag=True)
-@click.option("-g", "--global", is_flag=True)
+@click.option("-l", "--local", is_flag=True, help="Show local configuration options")
+@click.option("-g", "--global", is_flag=True, help="Show global configuration options")
 def show_config(ctx, **kwargs):
     import pprint
 
@@ -63,14 +61,19 @@ def show_config(ctx, **kwargs):
 @click.option("--no-commit", is_flag=True, help="Skip making commit")
 @click.option("--no-changelog", is_flag=True, help="Skip changelog update")
 @click.option("--no-tag", is_flag=True, help="Skip creating tag")
-@click.option("-n", "--dryrun", is_flag=True, help="Show what will be done.")
+@click.option(
+    "-n",
+    "--dryrun",
+    is_flag=True,
+    help="Show what will be done without applying anything",
+)
 def do_versup(ctx, **kwargs):
     """
     Increment or set project version
     """
     ctx.obj.version = kwargs["increment"]
 
-    if not ctx.obj.version in get_conf_value(ctx.obj.conf, "version/increments"):
+    if ctx.obj.version not in get_conf_value(ctx.obj.conf, "version/increments"):
         try:
             # Parse to see if version format is ok
             semver.parse_version_info(ctx.obj.version)
@@ -155,7 +158,7 @@ def get_new_version(config, version, **kwargs):
 
     try:
         latest_version = gitops.get_latest_tag()
-    except:
+    except ValueError:
         latest_version = get_conf_value(config, "version/initial")
 
     # TODO: What happens if there's no latest version?
