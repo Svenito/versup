@@ -5,6 +5,19 @@ python:
   - "3.7"
   - "3.8"
 
+jobs:
+  include:
+    - stage: "test"
+      python: 2.7.16
+      before_install: pip install poetry
+      install: poetry install
+      script:
+        - poetry run make test
+        - coveralls
+    - stage: "deploy"
+      script:
+        - echo deploy
+
 before_install:
   - pip install poetry
 install:
@@ -12,14 +25,5 @@ install:
 
 script:
   - poetry run black --check versup
-  - poetry run black --diff versup
   - poetry run make test
   - coveralls
-
-jobs:
-  include:
-    - stage: deploy
-      before_install: pip install poetry
-      install: poetry install
-      if: branch = master AND tag IS present
-      script: poetry publish --build -u $PYPIUSERNAME -p $PYPIPASSWORD
