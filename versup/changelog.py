@@ -47,8 +47,8 @@ def write(
             commit_data["hash8"] = commit_data["hash"][:8]
 
             commit_line = template.render(changelog_line, commit_data)
-            print(unicode(commit_line, "utf-8"))
-        print(unicode(separator, "utf-8"))
+            print(commit_line)
+        print(separator)
     else:
         # Read original changelog
         try:
