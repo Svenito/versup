@@ -12,6 +12,7 @@ install:
 
 script:
   - poetry run black --check versup
+  - poetry run black --diff versup
   - poetry run make test
   - coveralls
 
