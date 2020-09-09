@@ -11,6 +11,7 @@ install:
   - poetry install
 
 script:
+  - poetry run black --check versup
   - poetry run make test
   - coveralls
 
