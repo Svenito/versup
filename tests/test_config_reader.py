@@ -1,7 +1,11 @@
 import versup.conf_reader as conf_reader
 import pytest
 import os
-from unittest.mock import patch, mock_open
+
+try:
+    from unittest.mock import patch, mock_open
+except ImportError:
+    from mock import patch, mock_open
 
 
 @pytest.fixture()
@@ -37,7 +41,7 @@ def test_get_conf_value(config_file):
     a = conf_reader.get_conf_value(config_file, "scripts/postbump")
     assert a == "echo POST"
     b = conf_reader.get_conf_value(config_file, "scripts/postbumpdddd")
-    assert b == None
+    assert b is None
 
 
 def test_write_default_to_home():

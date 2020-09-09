@@ -1,6 +1,6 @@
+from __future__ import print_function
 import re
 import versup.template as template
-from versup.conf_reader import get_conf_value
 from colorama import Style
 
 
@@ -37,7 +37,7 @@ def show_updates(filename, data, replace_list):
         if m:
             updated_data = re.sub(regex, new_text, line, flags=re.M)
             print(
-                "In file {3}{0}{4} replace {3}{1}{4} with {3}{2}{4}".format(
+                u"In file {3}{0}{4} replace {3}{1}{4} with {3}{2}{4}".format(
                     filename, line, updated_data, Style.BRIGHT, Style.RESET_ALL
                 )
             )
@@ -63,7 +63,7 @@ def update_files(new_version, files, dryrun):
         try:
             with open(filename, "r") as file_h:
                 data = file_h.read()
-        except FileNotFoundError:
+        except IOError:
             print("Unable to find {} to update.".format(filename))
             continue
 
