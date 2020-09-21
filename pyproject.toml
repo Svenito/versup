@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "versup"
 version = "1.0.3"
-description = ""
+description = "Version up your project with ease."
 authors = ["Sven Steinbauer <sven@unlogic.co.uk>"]
 license = "MIT"
 readme = "README.md"
