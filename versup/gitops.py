@@ -26,6 +26,11 @@ def get_email():  # pragma: no cover
     return repo.config_reader().get_value("user", "email")
 
 
+def get_current_branch():
+    repo = get_repo()
+    return repo.active_branch.name
+
+
 def is_repo_dirty():  # pragma: no cover
     """
     Check if the current repo is dirty or not, including untracked files
@@ -106,3 +111,8 @@ def get_commit_messages():
 
         out.append(data)
     return out
+
+
+def check_current_branch_matches(expected_branch):
+    current_branch = get_current_branch()
+    return current_branch == expected_branch

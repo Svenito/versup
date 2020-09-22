@@ -73,6 +73,17 @@ def do_versup(ctx, **kwargs):
     """
     Increment or set project version
     """
+    current_branch = gitops.get_current_branch()
+    target_branch = get_conf_value(ctx.obj.conf, "commit/mainbranch")
+    if not gitops.check_current_branch_matches(target_branch):
+        print_warn(
+            "Main branch set to '{0}'. Currently on '{1}'".format(
+                target_branch, current_branch
+            )
+        )
+        if not kwargs["dryrun"] and not click.confirm("Continue anyway?"):
+            return
+
     ctx.obj.version = kwargs["increment"]
 
     if ctx.obj.version not in get_conf_value(ctx.obj.conf, "version/increments"):
