@@ -49,11 +49,8 @@ One intial launch, versup copies a default config to your home directory (`~/.co
                "major",
                "minor",
                "patch",
-               "premajor",
-               "preminor",
-               "prepatch",
                "prerelease",
-               "custom",
+               "build"
          ],  # List of available increments to pick from
       },
       "changelog": {
@@ -68,6 +65,7 @@ One intial launch, versup copies a default config to your home directory (`~/.co
       "commit": {
          "enabled": True,  # Commit the changes automatically
          "message": "Update version to [version]",  # Template for the commit message
+         "mainbranch": "master",  # name of the main development or release branch
       },
       "tag": {
          "enabled": True,  # Tag the bump commit
@@ -95,6 +93,10 @@ One intial launch, versup copies a default config to your home directory (`~/.co
 
 You can edit this file to affect all bumps, or create a `.versup.json` file in your project root
 and versup will use these values to override the global ones.
+
+It is worth noting that the default config will be merged at runtime into the global config so that
+any new settings that get added to the config are present. The global config will remain unaffected however.
+New config settings need to be added manually in the meantime. There is a plan to automate this in future releases.
 
 Template tags
 =============
@@ -134,8 +136,19 @@ which will match any text like `Version 1.3` or `Version 1.3.7`. They are standa
 regular expressions. The text that is matched is then replaced with the next argument
 `Version [version]` where `[version]` is the new version. You can regex and replace on
 anything really.
+The supported increments are those supported by
+`Python Semver <https://python-semver.readthedocs.io/en/latest/usage.html#raising-parts-of-a-version>`_.
 
-Scriptsdeveloper-pages pre and post scripts that can be executed at various
+- major
+- minor
+- patch
+- prerelease
+- build
+
+Scripts
+=======
+
+There are a number of pre and post scripts that can be executed at various
 stages of the bump process. These are under the `scripts` section. They are
 called as-is and receive the new version number as the only argument. They
 can be anything, shell scripts, python scripts, etc, but they must be

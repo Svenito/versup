@@ -33,7 +33,7 @@ or from the default version in the config file.
 
 # Configuration
 
-One intial launch, versup copies a default config to your home directory (`~/.config/versup.json`) which has some good defaults.
+On intial launch, versup copies a default config to your home directory (`~/.config/versup.json`) which has some good defaults.
 
 ```
 {
@@ -97,10 +97,14 @@ One intial launch, versup copies a default config to your home directory (`~/.co
 You can edit this file to affect all bumps, or create a `.versup.json` file in your project root
 and versup will use these values to override the global ones.
 
+It is worth noting that the default config will be merged at runtime into the global config so that
+any new settings that get added to the config are present. The global config will remain unaffected however.
+New config settings need to be added manually in the meantime. There is a plan to automate this in future releases.
+
 # Template tags
 
 In various places you can define what text to use for commit messages, or tags etc.
-These support tag fields that are replaced with information. Know fields are:
+These support tag fields that are replaced with relevant information. Known fields are:
 
 - version: The new version
 - message: The new commit message
@@ -132,6 +136,14 @@ which will match any text like `Version 1.3` or `Version 1.3.7`. They are standa
 regular expressions. The text that is matched is then replaced with the next argument
 `Version [version]` where `[version]` is the new version. You can regex and replace on
 anything really.
+
+The supported increments are those supported by [Python Semver](https://python-semver.readthedocs.io/en/latest/usage.html#raising-parts-of-a-version)
+
+- major
+- minor
+- patch
+- prerelease
+- build
 
 # Scripts
 
