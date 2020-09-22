@@ -1,3 +1,30 @@
+### Version 1.1.0
+- Add .vscode to .gitignore
+- Update docs and README
+- Check that current branch matches main branch
+- Merge branch 'python2' of github.com:Svenito/versup into python2
+- Add description to pyproject.toml
+- update the docs with developer guide
+- Conditional deploy for travis test
+- Fix command_line formattin for newer black
+- Another travis config test:
+- Add a diff to black to troubleshoot:
+- Move black check into travis file
+- Fix the unicode issues in the changelog tests
+- Make Versup compatiable with Python 2
+- Revert "Try different travis config"
+- Try different travis config
+- update the docs with developer guide
+- Conditional deploy for travis test
+- Fix command_line formattin for newer black
+- Another travis config test:
+- Add a diff to black to troubleshoot:
+- Move black check into travis file
+- Fix the unicode issues in the changelog tests
+- Make Versup compatiable with Python 2
+- Revert "Try different travis config"
+- Try different travis config
+
 ### Version 1.0.3
 - Add licence badge to readme
 - Add Black badge to README
