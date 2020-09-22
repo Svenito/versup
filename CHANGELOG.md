@@ -1,3 +1,6 @@
+### Version 1.1.1
+- Fix black formatting
+
 ### Version 1.1.0
 - Add .vscode to .gitignore
 - Update docs and README
