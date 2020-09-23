@@ -264,4 +264,4 @@ def tag(config, version, **kwargs):
 
 
 def main():
-    cli()
+    cli(prog_name="versup")
