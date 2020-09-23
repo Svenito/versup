@@ -1,3 +1,6 @@
+### Version 1.1.2
+- Set explicit name for CLI
+
 ### Version 1.1.1
 - Fix black formatting
 
