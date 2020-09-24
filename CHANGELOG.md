@@ -1,3 +1,7 @@
+### Version 1.1.4
+- Fix the python2 issue with subprocess
+- Add information to developer docs
+
 ### Version 1.1.3
 - Handle empty files field in config
 
