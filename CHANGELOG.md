@@ -1,3 +1,6 @@
+### Version 1.1.3
+- Handle empty files field in config
+
 ### Version 1.1.2
 - Set explicit name for CLI
 
