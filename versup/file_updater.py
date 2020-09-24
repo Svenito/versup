@@ -54,7 +54,7 @@ def update_files(new_version, files, dryrun):
     """
     if not files:
         # No files to update
-        return
+        return []
 
     filenames = list(files.keys())
     template_data = {"version": new_version}
