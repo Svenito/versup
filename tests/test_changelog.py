@@ -2,9 +2,9 @@ import versup.changelog as changelog
 import pytest
 
 try:
-    from unittest.mock import patch
+    from unittest.mock import patch, Mock
 except ImportError:
-    from mock import patch
+    from mock import patch, Mock
 
 import io
 import sys
@@ -109,8 +109,6 @@ def test_show_file_linux_vi(os_system):
 
 @patch("os.system")
 def test_show_file_windows(os_system):
-    from unittest.mock import Mock
-
     with patch("sys.platform", Mock(return_value="win32")):
         sys.platform = "win32"
         changelog.show_file("/tmp/file")

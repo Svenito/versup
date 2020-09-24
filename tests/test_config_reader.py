@@ -57,6 +57,10 @@ def test_merge_configs_with_default(config_file):
 
     open_mock = mock_open(read_data=json.dumps(config_file))
     with patch("versup.conf_reader.write_default_to_home", return_value=""):
-        with patch("builtins.open", open_mock, create=True):
-            output = conf_reader.merge_configs_with_default()
+        try:
+            with patch("builtins.open", open_mock, create=True):
+                output = conf_reader.merge_configs_with_default()
+        except ImportError:
+            with patch("__builtin__.open", open_mock, create=True):
+                output = conf_reader.merge_configs_with_default()
     assert output["scripts"]["prebump"] == "echo PRE"
