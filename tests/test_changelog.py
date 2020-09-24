@@ -89,13 +89,47 @@ def test_update_changelog(filename):
     assert len(newlog.split("\n")) == 8
 
 
+@patch("os.system")
+def test_show_file_linux_custom_editor(os_system):
+    import os
+
+    os.environ["EDITOR"] = "/usr/bin/editor"
+    changelog.show_file("/tmp/file")
+    os_system.assert_called_once_with("/usr/bin/editor /tmp/file")
+
+
+@patch("os.system")
+def test_show_file_linux_vi(os_system):
+    import os
+
+    os.environ.pop("EDITOR", None)
+    changelog.show_file("/tmp/file")
+    os_system.assert_called_once_with("vi /tmp/file")
+
+
+@patch("os.system")
+def test_show_file_windows(os_system):
+    from unittest.mock import Mock
+
+    with patch("sys.platform", Mock(return_value="win32")):
+        sys.platform = "win32"
+        changelog.show_file("/tmp/file")
+    os_system.assert_called_once_with("notepad.exe /tmp/file")
+
+
 def test_dryrun(filename):
     capturedOutput = io.StringIO()
     sys.stdout = capturedOutput
 
     with patch("versup.gitops.get_commit_messages", mocked_get_commit_messages):
         changelog.write(
-            filename, "Version [version]", "- [message]", u"\n", False, "1.2.3", True,
+            filename,
+            "Version [version]",
+            "- [message]",
+            u"\n",
+            False,
+            "1.2.3",
+            True,
         )
     sys.stdout = sys.__stdout__
     output = capturedOutput.getvalue().split("\n")

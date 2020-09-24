@@ -52,8 +52,11 @@ def test_write_default_to_home():
     open_mock.assert_called_with(os.path.expanduser("~/.config/versup.json"), "w+")
 
 
-def test_merge_configs_with_default():
-    open_mock = mock_open()
-    with patch("os.path.isfile", lambda x: False, create=True):
-        with patch("versup.conf_reader.open", open_mock, create=True):
-            conf_reader.write_default_to_home()
+def test_merge_configs_with_default(config_file):
+    import json
+
+    open_mock = mock_open(read_data=json.dumps(config_file))
+    with patch("versup.conf_reader.write_default_to_home", return_value=""):
+        with patch("builtins.open", open_mock, create=True):
+            output = conf_reader.merge_configs_with_default()
+    assert output["scripts"]["prebump"] == "echo PRE"

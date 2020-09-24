@@ -2,6 +2,7 @@ from __future__ import print_function
 import versup.gitops as gitops
 import versup.template as template
 import os
+import sys
 
 
 def show_file(changelog_file):
@@ -12,7 +13,7 @@ def show_file(changelog_file):
 
     """
     try:
-        if os.sys.platform == "win32":
+        if sys.platform == "win32":
             os.system("notepad.exe {}".format(changelog_file))
         else:
             editor = os.getenv("EDITOR", "vi")
