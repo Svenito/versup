@@ -16,8 +16,8 @@ gitpython = [
 click = "^7.0"
 semver = "^2.8"
 colorama = "^0.4.3"
-subprocess.run = [
-    {version = "^0.0.8", python = "^2.7"}
+"subprocess.run" = [
+    {version = "^2.1", python = "^2.7"}
 ]
 
 [tool.poetry.dev-dependencies]
