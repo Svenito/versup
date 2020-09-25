@@ -14,7 +14,9 @@ def prepost_script(taskname):
 
     The original function must have an argument list like
 
-    function(config, version, **kwargs)
+    .. code:: python
+
+        function(config, version, **kwargs)
 
     in order for the decorator to function correctly
     """

@@ -148,7 +148,7 @@ def bump_version(latest_version, increment):
     bump the latest version by the given increment
 
     :version: the version number as a string
-    "increment" the semantic increment as a string "minor, major etc"
+    :increment: the semantic increment as a string "minor, major etc"
     """
     func = "bump_{}".format(increment)
     return semver.__dict__[func](latest_version)

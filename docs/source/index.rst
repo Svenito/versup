@@ -6,6 +6,9 @@
 Versup documentation
 ====================
 
+Readme File
+===========
+
 Versup automates versioning up a project by creating a commit, tagging the release,
 creating a changelog, and updating the version across files. Of course, this is all
 configurable.
@@ -34,69 +37,15 @@ or from the default version in the config file.
 Configuration
 =============
 
-One intial launch, versup copies a default config to your home directory (`~/.config/versup.json`) which has some good defaults.
+Versup has a default configuration which is shown below
 
-.. code:: python
+.. include:: ../../versup/default_conf.py
+   :literal:
 
-   {
-      "force": False,  # Force the command without prompting the user
-      "silent": False,  # Minimize the amount of logs
-      "files": {},  # A map of `relativeFilePath: [regex, replacement, regexFlags?] | [regex, replacement, regexFlags?][]`
-      "version": {
-         "enabled": True,  # Bump the version number
-         "initial": "0.0.0",  # Initial version
-         "increments": [
-               "major",
-               "minor",
-               "patch",
-               "prerelease",
-               "build"
-         ],  # List of available increments to pick from
-      },
-      "changelog": {
-         "enabled": True,  # Enable changelog auto-updates
-         "create": False,  # Create the changelog file if it doesn"t exist
-         "open": True,  # Open the changelog file after bumping
-         "file": "CHANGELOG.md",  # Name of the changelog file
-         "version": "### Version [version]",  # Template for the version line
-         "commit": "- [message]",  # Template for the commit line
-         "separator": "\n",  # Template for the separator between versions sections
-      },
-      "commit": {
-         "enabled": True,  # Commit the changes automatically
-         "message": "Update version to [version]",  # Template for the commit message
-         "mainbranch": "master",  # name of the main development or release branch
-      },
-      "tag": {
-         "enabled": True,  # Tag the bump commit
-         "name": "v[version]",  # Template for the name of the tag
-      },
-      "tokens": {
-         "date": {
-               "format": "%Y-%m-%d"  # Python datetime format to use when generating the `[date]` token
-         },
-         "version_date": {
-               "format": "%Y-%m-%d"  # Python datetime format to use when generating the `[version_date]` token
-         },
-      },
-      "scripts": {
-         "prebump": "",  # Script to execute before bumping the version
-         "postbump": "",  # Script to execute after bumping the version
-         "prechangelog": "",  # Script to execute before updating the changelog
-         "postchangelog": "",  # Script to execute after updating the changelog
-         "precommit": "",  # Script to execute before committing
-         "postcommit": "",  # Script to execute after committing
-         "pretag": "",  # Script to execute before tagging
-         "posttag": ""  # Script to execute after tagging
-      },
-   }
-
-You can edit this file to affect all bumps, or create a `.versup.json` file in your project root
-and versup will use these values to override the global ones.
-
-It is worth noting that the default config will be merged at runtime into the global config so that
-any new settings that get added to the config are present. The global config will remain unaffected however.
-New config settings need to be added manually in the meantime. There is a plan to automate this in future releases.
+If you want to override any settings, you can do this by creating a `~/.config/versup.json`
+file or a `.versup.json` in your local project. Versup will read its default settings,
+then merge in the global config (`~/.config/versup.json`), and finally
+merge in the project level config.
 
 Template tags
 =============

@@ -24,7 +24,9 @@ def parse_config_file(config_file):
     d = {}
     try:
         with open(os.path.expanduser(config_file), "r") as conf_file:
-            d = json.loads(conf_file.read())
+            data = conf_file.read()
+            if data:
+                d = json.loads(data)
     except IOError:
         pass
     return d
@@ -50,7 +52,6 @@ def merge(a, b, path=None):
 
 
 def merge_configs_with_default():
-    write_default_to_home()
     current_config = {}
     for config_file in config_files:
         config = parse_config_file(config_file)

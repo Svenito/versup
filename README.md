@@ -33,7 +33,7 @@ or from the default version in the config file.
 
 # Configuration
 
-On intial launch, versup copies a default config to your home directory (`~/.config/versup.json`) which has some good defaults.
+Versup has a default configuration which is shown below
 
 ```
 {
@@ -47,11 +47,8 @@ On intial launch, versup copies a default config to your home directory (`~/.con
             "major",
             "minor",
             "patch",
-            "premajor",
-            "preminor",
-            "prepatch",
             "prerelease",
-            "custom",
+            "build",
         ],  # List of available increments to pick from
     },
     "changelog": {
@@ -66,10 +63,11 @@ On intial launch, versup copies a default config to your home directory (`~/.con
     "commit": {
         "enabled": True,  # Commit the changes automatically
         "message": "Update version to [version]",  # Template for the commit message
+        "mainbranch": "master",  # name of the main development or release branch
     },
     "tag": {
         "enabled": True,  # Tag the bump commit
-        "name": "v[version]",  # Template for the name of the tag
+        "name": "v[version]",  # Template for the name of the tag in the tag message
     },
     "tokens": {
         "date": {
@@ -88,18 +86,15 @@ On intial launch, versup copies a default config to your home directory (`~/.con
         "postcommit": "",  # Script to execute after committing
         "pretag": "",  # Script to execute before tagging
         "posttag": "",  # Script to execute after tagging
-        "prerelease": "",  # Script to execute before releasing
-        "postrelease": "",  # Script to execute after releasing
     },
 }
+
 ```
 
-You can edit this file to affect all bumps, or create a `.versup.json` file in your project root
-and versup will use these values to override the global ones.
-
-It is worth noting that the default config will be merged at runtime into the global config so that
-any new settings that get added to the config are present. The global config will remain unaffected however.
-New config settings need to be added manually in the meantime. There is a plan to automate this in future releases.
+If you want to override any settings, you can do this by creating a `~/.config/versup.json`
+file or a `.versup.json` in your local project. Versup will read its default settings,
+then merge in the global config (`~/.config/versup.json`), and finally
+merge in the project level config.
 
 # Template tags
 

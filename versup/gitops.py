@@ -61,7 +61,7 @@ def create_new_tag(new_version, tag_name):  # pragma: no cover
     Create a new tag given the new version and tagname string
 
     :new_version: string of new semantic version to use for tag
-    :tag_name" the string to use in the tag's message
+    :tag_name: the string to use in the tag's message
     """
     repo = get_repo()
     repo.create_tag(new_version, message=tag_name)

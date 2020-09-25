@@ -64,3 +64,13 @@ def test_merge_configs_with_default(config_file):
             with patch("__builtin__.open", open_mock, create=True):
                 output = conf_reader.merge_configs_with_default()
     assert output["scripts"]["prebump"] == "echo PRE"
+
+
+def test_parse_config_file_empty_file():
+    conf = conf_reader.parse_config_file("./tests/test_conf_empty.json")
+    assert conf == {}
+
+
+def test_parse_config_file_non_existing_file():
+    conf = conf_reader.parse_config_file("./tests/no_such_file.json")
+    assert conf == {}
