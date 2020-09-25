@@ -1,3 +1,6 @@
+### Version 1.2.0
+- No longer write default to home dir
+
 ### Version 1.1.4
 - Fix the python2 issue with subprocess
 - Add information to developer docs
