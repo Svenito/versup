@@ -117,6 +117,15 @@ What these do is increment the relevant version component and apply a prerelease
 If you try to call `release` on a version that has no pre-release component,
 Versup will error and exit.
 
+Please note that calling `patch`, `minor`, or `major` on a pre-release version will
+do that same as semver. That is
+
+.. code::
+
+    1.2.3-rc.1 -> patch -> 1.2.3
+    1.2.3-rc.1 -> minor -> 1.3.0
+    1.2.3-rc.1 -> major -> 2.0.0
+
 Scripts
 =======
 
