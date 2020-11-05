@@ -92,7 +92,23 @@ The supported increments are those supported by
 - minor
 - patch
 - prerelease
-- build
+- prepatch
+- preminor
+- premajor
+- release
+
+The last four types are special in addition to the default ones included with `semver`.
+What these do is increment the relevant version component and apply a prerelease.
+
+.. code::
+
+    1.2.3 -> prepatch -> 1.2.4-rc.1
+    1.2.3 -> preminor -> 1.3.0-rc.1
+    1.2.3 -> premajor -> 2.0.0-rc.1
+    1.2.3-rc.3 -> release -> 1.2.3
+
+If you try to call `release` on a version that has no pre-release component,
+Versup will error and exit.
 
 Scripts
 =======
