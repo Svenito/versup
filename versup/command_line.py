@@ -24,6 +24,10 @@ CONTEXT_SETTINGS = dict(
 )
 
 
+class VersupError(Exception):
+    pass
+
+
 class versupContext(object):
     conf = None
     template = None
@@ -150,8 +154,18 @@ def bump_version(latest_version, increment):
     :version: the version number as a string
     :increment: the semantic increment as a string "minor, major etc"
     """
-    func = "bump_{}".format(increment)
-    return semver.__dict__[func](latest_version)
+    latest = semver.VersionInfo.parse(latest_version)
+    if increment == "release":
+        if latest.prerelease:
+            new_version = latest.next_version(part="patch")
+        else:
+            raise VersupError("No pre-release version found.")
+    elif increment in ["prepatch", "preminor", "premajor"]:
+        action = increment[3:]
+        new_version = latest.next_version(part=action).bump_prerelease()
+    else:
+        new_version = latest.next_version(part=increment)
+    return str(new_version)
 
 
 def get_new_version(config, version, **kwargs):
@@ -173,10 +187,19 @@ def get_new_version(config, version, **kwargs):
         latest_version = gitops.get_latest_tag()
     except ValueError:
         latest_version = get_conf_value(config, "version/initial")
+        print_warn(
+            "No previous version tag found. Using initial value from config: {}.".format(
+                latest_version
+            )
+        )
 
     # TODO: What happens if there's no latest version?
     if version in get_conf_value(config, "version/increments"):
-        new_version = bump_version(latest_version, version)
+        try:
+            new_version = bump_version(latest_version, version)
+        except VersupError as e:
+            print(e)
+            sys.exit(1)
     else:
         try:
             semver.parse_version_info(version)

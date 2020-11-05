@@ -5,5 +5,5 @@ omit =
     versup/__init__.py
     versup/__main__.py
     versup/custom_cmd_group.py
-    versup/command_line.py
+    # versup/command_line.py
     tests/*

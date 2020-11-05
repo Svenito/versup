@@ -10,7 +10,9 @@ default_conf = {
             "minor",
             "patch",
             "prerelease",
-            "build",
+            "prepatch",
+            "preminor",
+            "premajor",
         ],  # List of available increments to pick from
     },
     "changelog": {
