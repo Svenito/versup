@@ -85,6 +85,10 @@ which will match any text like `Version 1.3` or `Version 1.3.7`. They are standa
 regular expressions. The text that is matched is then replaced with the next argument
 `Version [version]` where `[version]` is the new version. You can regex and replace on
 anything really.
+
+Increment actions
+=================
+
 The supported increments are those supported by
 `Python Semver <https://python-semver.readthedocs.io/en/latest/usage.html#raising-parts-of-a-version>`_.
 
@@ -92,6 +96,9 @@ The supported increments are those supported by
 - minor
 - patch
 - prerelease
+
+as well as
+
 - prepatch
 - preminor
 - premajor
