@@ -7,13 +7,6 @@ python:
 
 jobs:
   include:
-    - stage: "test"
-      python: 2.7.16
-      before_install: pip install poetry
-      install: poetry install
-      script:
-        - poetry run make test
-        - coveralls
     - stage: "deploy"
       if: branch = MASTER AND tag IS present
 
