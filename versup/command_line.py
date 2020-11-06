@@ -67,6 +67,7 @@ def show_config(ctx, **kwargs):
 @click.option("--no-commit", is_flag=True, help="Skip making commit")
 @click.option("--no-changelog", is_flag=True, help="Skip changelog update")
 @click.option("--no-tag", is_flag=True, help="Skip creating tag")
+@click.option("--no-fileupdate", is_flag=True, help="Skip updating files")
 @click.option(
     "-n",
     "--dryrun",
@@ -126,9 +127,10 @@ def apply_bump(config, version, **kwargs):
     Runs through all the stages of the release as defined by the config file.
     """
     # Update the files specified in config
-    files_to_update = get_conf_value(config, "files")
-    updated = file_updater.update_files(version, files_to_update, kwargs["dryrun"])
-    print_ok("Updated {}".format(", ".join(updated)))
+    if not kwargs["no_fileupdate"]:
+        files_to_update = get_conf_value(config, "files")
+        updated = file_updater.update_files(version, files_to_update, kwargs["dryrun"])
+        print_ok("Updated {}".format(", ".join(updated)))
 
     # create changelog
     if not kwargs["no_changelog"] and get_conf_value(config, "changelog/enabled"):
