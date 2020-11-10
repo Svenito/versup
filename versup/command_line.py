@@ -88,16 +88,22 @@ def do_versup(ctx, **kwargs):
 
     ctx.obj.version = kwargs["increment"]
 
-    if ctx.obj.version not in get_conf_value(ctx.obj.conf, "version/increments"):
-        try:
-            # Parse to see if version format is ok
-            semver.parse_version_info(ctx.obj.version)
-        except ValueError:
-            print_error("Supplied version is invalid")
-            return
-
     try:
-        version = get_new_version(ctx.obj.conf, ctx.obj.version, **kwargs)
+        try:
+            latest_version = gitops.get_latest_tag()
+        except ValueError:
+            latest_version = get_conf_value(ctx.obj.conf, "version/initial")
+            print_warn(
+                "No previous version tag found. Using initial value from config: {}.".format(
+                    latest_version
+                )
+            )
+        version = get_new_version(
+            latest_version,
+            ctx.obj.version,
+            get_conf_value(ctx.obj.conf, "version/increments"),
+            kwargs["dryrun"],
+        )
     except VersupError as e:
         print_error(str(e))
         return

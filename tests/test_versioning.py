@@ -2,8 +2,21 @@ from versup import __version__
 import pytest
 from versup import versioning
 
-# def test_version():
-# assert __version__ == "0.1.0"
+
+def test_get_new_version_explicit():
+    assert "1.6.88" == versioning.get_new_version("1.2.3", "1.6.88", [], False)
+
+
+def test_get_new_version_explicit_raise():
+    with pytest.raises(Exception) as e_info:
+        versioning.get_new_version("1.4.2", "1.pies.88", [], False)
+
+
+def test_get_new_version_explicit_raise():
+    with pytest.raises(Exception) as e_info:
+        versioning.get_new_version("1.4.2", "minor", ["major"], False)
+
+    assert "1.5.0" == versioning.get_new_version("1.4.2", "minor", ["minor"], False)
 
 
 def test_patch_increment():
