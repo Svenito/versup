@@ -1,7 +1,6 @@
 import sys
 import os
 import click
-import semver
 import datetime
 
 from versup import __version__
@@ -25,7 +24,7 @@ CONTEXT_SETTINGS = dict(
 )
 
 
-class versupContext(object):
+class VersupContext(object):
     conf = None
     template = None
     version = None
@@ -35,7 +34,7 @@ class versupContext(object):
 @click.pass_context
 @click.version_option(version=__version__)
 def cli(ctx, **kwargs):
-    bobj = versupContext()
+    bobj = VersupContext()
     bobj.conf = merge_configs_with_default()
     bobj.template_data = template.token_data
     ctx.obj = bobj
