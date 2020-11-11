@@ -13,5 +13,8 @@
   },
   "changelog": {
     "commit": "- [message]"
+  },
+  "commit": {
+    "mainbranch": "main"
   }
 }

@@ -1,3 +1,10 @@
+### Version 1.3.0
+- Remove semver import and rename class
+- Add option to skip file updates
+- Remove python 2 support
+- Add pre* actions
+- Dependency updates
+
 ### Version 1.2.0
 - No longer write default to home dir
 
