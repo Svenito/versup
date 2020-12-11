@@ -4,7 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/versup/badge/?version=latest)](https://versup.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/versup.svg)](https://badge.fury.io/py/versup)
 [![Build Status](https://travis-ci.com/Svenito/versup.svg?branch=master)](https://travis-ci.com/Svenito/versup)
-[![Coverage Status](https://coveralls.io/repos/github/Svenito/versup/badge.svg?branch=master)](https://coveralls.io/github/Svenito/versup?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/Svenito/versup/badge.svg?branch=main)](https://coveralls.io/github/Svenito/versup?branch=main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Bump your project version, update version numbers in your files, create a changelog,
