@@ -51,5 +51,5 @@ def test_get_current_branch(mock_repo):
 
 
 def test_check_current_branch_matches(mock_repo):
-    assert gitops.check_current_branch_matches("master") == True
-    assert gitops.check_current_branch_matches("testing") == False
+    assert gitops.check_current_branch_matches("master") is True
+    assert gitops.check_current_branch_matches("testing") is False

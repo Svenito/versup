@@ -43,9 +43,16 @@ def get_latest_tag():  # pragma: no cover
     """
     Get the latest tag that matches a semantic version. This is used to work
     out the original version from which to version up from
+    It uses the `merged` option to only get tags from the currently active branch
+    as branches might have different versioning paths.
+
+    git --merged=<current branch> --sort=-creatordate
     """
     repo = get_repo()
-    latest_tags = repo.git.tag(sort="-creatordate").split("\n")[:10]
+    current_branch = get_current_branch()
+    latest_tags = repo.git.tag(sort="-creatordate", merged=current_branch).split("\n")[
+        :10
+    ]
     for tag in latest_tags:
         try:
             semver.VersionInfo.parse(tag)
