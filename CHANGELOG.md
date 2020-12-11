@@ -1,3 +1,6 @@
+### Version 1.4.0
+- Get latest version tag from branch parents
+
 ### Version 1.3.0
 - Remove semver import and rename class
 - Add option to skip file updates
