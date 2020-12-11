@@ -126,6 +126,18 @@ do that same as semver. That is
     1.2.3-rc.1 -> minor -> 1.3.0
     1.2.3-rc.1 -> major -> 2.0.0
 
+Versup will try to retrieve the latest version from the list of previous
+tags. Any tag that is a valid semantic version is considered to be a tag.
+It will also only retrieve tags that are ancestors of the current commit.
+
+In this example
+
+.. image:: imgs/branch-control.png
+
+If the currently checked out commit is ``commit 4``, running ``versup minor``
+will result in the next version being ``2.3.0``, as the ``3.0.0`` tag isn't
+reachable from ``commit 4``
+
 Scripts
 =======
 
