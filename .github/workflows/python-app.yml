@@ -42,9 +42,7 @@ jobs:
       run: |
         poetry run make test
     - name: Coveralls
+      env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         coveralls
-      #uses: coverallsapp/github-action@master
-      #with:
-      #github-token: ${{ secrets.GITHUB_TOKEN }}
         
