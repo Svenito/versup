@@ -29,7 +29,7 @@ def write(
     Write the new changelog file. Gets the changelog filename (and optional
     path) from the config. Parses the commit messages and prepends the
     commits to the original text and saves out the file.
-    Creates the file if there it doesn't exist
+    Creates the file if it doesn't exist
 
     :version: The new version to use
     :dryrun: Whether this is a dryrun. If true does not write file but
