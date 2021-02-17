@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Documentation Status](https://readthedocs.org/projects/versup/badge/?version=latest)](https://versup.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/versup.svg)](https://badge.fury.io/py/versup)
-[![Build Status](https://travis-ci.com/Svenito/versup.svg?branch=master)](https://travis-ci.com/Svenito/versup)
+![Python application](https://github.com/Svenito/versup/workflows/Python%20application/badge.svg?branch=main)
 [![Coverage Status](https://coveralls.io/repos/github/Svenito/versup/badge.svg?branch=main)](https://coveralls.io/github/Svenito/versup?branch=main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
