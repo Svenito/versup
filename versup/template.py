@@ -15,7 +15,7 @@ token_data = {
 }
 
 
-def render(string: str, data: Dict[str, str]={}):
+def render(string: str, data: Dict[str, str] = {}):
     # Merge new data with default
     new_data: Dict[str, Union[str, None]] = {**token_data, **data}
 

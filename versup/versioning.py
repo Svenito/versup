@@ -6,6 +6,7 @@ from versup import VersupError
 from versup.conf_reader import get_conf_value
 from typing import List
 
+
 def bump_version(latest_version: str, increment: str) -> str:
     """
     bump the latest version by the given increment
@@ -27,8 +28,9 @@ def bump_version(latest_version: str, increment: str) -> str:
     return str(new_version)
 
 
-def get_new_version(current_version: str, new_version: str, increments: List[str],
-                    dryrun: bool) -> str:
+def get_new_version(
+    current_version: str, new_version: str, increments: List[str], dryrun: bool
+) -> str:
     """
     version is either an increment or a semantic version. Given an increment
     the current version (based on the latest git commit, or the initial version

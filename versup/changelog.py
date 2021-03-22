@@ -23,8 +23,13 @@ def show_file(changelog_file: str):
 
 
 def write(
-    changelog_file: str, version_line: str, changelog_line: str, separator: str,
-    show: bool, version: str, dryrun: bool =False
+    changelog_file: str,
+    version_line: str,
+    changelog_line: str,
+    separator: str,
+    show: bool,
+    version: str,
+    dryrun: bool = False,
 ):
     """
     Write the new changelog file. Gets the changelog filename (and optional
