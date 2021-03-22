@@ -12,7 +12,7 @@ def test_get_new_version_explicit_raise():
         versioning.get_new_version("1.4.2", "1.pies.88", [], False)
 
 
-def test_get_new_version_explicit_raise():
+def test_get_new_version_increment_raise():
     with pytest.raises(Exception) as e_info:
         versioning.get_new_version("1.4.2", "minor", ["major"], False)
 
