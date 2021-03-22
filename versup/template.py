@@ -1,4 +1,5 @@
 import re
+from typing import Dict, Union
 
 token_data = {
     "version": None,
@@ -14,9 +15,9 @@ token_data = {
 }
 
 
-def render(string, data={}):
+def render(string: str, data: Dict[str, str]={}):
     # Merge new data with default
-    new_data = {**token_data, **data}
+    new_data: Dict[str, Union[str, None]] = {**token_data, **data}
 
     for k, v in new_data.items():
         # Check if value is not None and if the key is valid

@@ -1,5 +1,6 @@
 import os
 import json
+from typing import Optional, Dict, List, Any
 from versup.default_conf import default_conf
 
 
@@ -9,8 +10,8 @@ config_files = [
 ]
 
 
-def parse_config_file(config_file):
-    d = {}
+def parse_config_file(config_file: str) -> dict:
+    d: Dict[str, str] = {}
     try:
         with open(os.path.expanduser(config_file), "r") as conf_file:
             data = conf_file.read()
@@ -21,7 +22,7 @@ def parse_config_file(config_file):
     return d
 
 
-def merge(a, b, path=None):
+def merge(a: dict, b: dict, path: list = None):
     """
     Recursively merges two dictionaries b into a. Duplicate keys, b overrides a
     """
@@ -40,8 +41,8 @@ def merge(a, b, path=None):
     return a
 
 
-def merge_configs_with_default():
-    current_config = {}
+def merge_configs_with_default() -> dict:
+    current_config: Dict[str, Any] = {}
     for config_file in config_files:
         config = parse_config_file(config_file)
         merge(current_config, config)
@@ -52,9 +53,9 @@ def merge_configs_with_default():
     return current_config
 
 
-def get_conf_value(config_data, key_path):
-    paths = key_path.split("/")
-    root = config_data
+def get_conf_value(config_data: dict, key_path: str) -> Optional[str]:
+    paths: List[str] = key_path.split("/")
+    root: Dict = config_data
 
     for p in paths:
         try:

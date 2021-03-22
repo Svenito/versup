@@ -3,7 +3,7 @@ import subprocess
 from versup.conf_reader import get_conf_value
 
 
-def prepost_script(taskname):
+def prepost_script(taskname: str):
     """
     This a decorator function that will run the configured pre and post scripts
     defined in the config before and after calling one the decorated function.

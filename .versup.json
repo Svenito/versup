@@ -16,5 +16,8 @@
   },
   "commit": {
     "mainbranch": "main"
+  },
+  "tag": {
+    "name": "v[version]"
   }
 }

@@ -1,16 +1,17 @@
 from git import Repo
 import os
 import semver
+from typing import List, Dict
 
 
-def get_repo():  # pragma: no cover
+def get_repo() -> Repo:  # pragma: no cover
     """
     Get the repo for the current working directory.
     """
     return Repo(os.getcwd())
 
 
-def get_username():  # pragma: no cover
+def get_username() -> str:  # pragma: no cover
     """
     Return the username of the current repo
     """
@@ -18,7 +19,7 @@ def get_username():  # pragma: no cover
     return repo.config_reader().get_value("user", "name")
 
 
-def get_email():  # pragma: no cover
+def get_email() -> str:  # pragma: no cover
     """
     Return the configured email of the current repo
     """
@@ -26,12 +27,12 @@ def get_email():  # pragma: no cover
     return repo.config_reader().get_value("user", "email")
 
 
-def get_current_branch():
+def get_current_branch() -> str:
     repo = get_repo()
     return repo.active_branch.name
 
 
-def is_repo_dirty():  # pragma: no cover
+def is_repo_dirty() -> bool:  # pragma: no cover
     """
     Check if the current repo is dirty or not, including untracked files
     """
@@ -39,7 +40,7 @@ def is_repo_dirty():  # pragma: no cover
     return repo.is_dirty(untracked_files=True)
 
 
-def get_latest_tag():  # pragma: no cover
+def get_latest_tag() -> str:  # pragma: no cover
     """
     Get the latest tag that matches a semantic version. This is used to work
     out the original version from which to version up from
@@ -63,7 +64,7 @@ def get_latest_tag():  # pragma: no cover
     raise ValueError
 
 
-def create_new_tag(new_version, tag_name):  # pragma: no cover
+def create_new_tag(new_version: str, tag_name: str):  # pragma: no cover
     """
     Create a new tag given the new version and tagname string
 
@@ -74,7 +75,7 @@ def create_new_tag(new_version, tag_name):  # pragma: no cover
     repo.create_tag(new_version, message=tag_name)
 
 
-def create_commit(commit_msg):  # pragma: no cover
+def create_commit(commit_msg: str):  # pragma: no cover
     """
     create a commit with the given message
 
@@ -87,7 +88,7 @@ def create_commit(commit_msg):  # pragma: no cover
     repo.git.commit("-m", commit_msg)
 
 
-def get_commit_messages():
+def get_commit_messages() -> List[Dict[str, str]]:
     """
     Get all the commit messages since the last versup run.
     Uses the output of the git log to the last versup tag, and returns
@@ -103,7 +104,7 @@ def get_commit_messages():
     commits = repo.git.log("--pretty=format:%H||%an||%ae||%at||%s", commit_range).split(
         "\n"
     )
-    out = []
+    out: List[Dict[str, str]] = [{}]
 
     for commit in commits:
         data = dict()
@@ -120,6 +121,6 @@ def get_commit_messages():
     return out
 
 
-def check_current_branch_matches(expected_branch):
+def check_current_branch_matches(expected_branch: str) -> bool:
     current_branch = get_current_branch()
     return current_branch == expected_branch

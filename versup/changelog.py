@@ -5,7 +5,7 @@ import os
 import sys
 
 
-def show_file(changelog_file):
+def show_file(changelog_file: str):
     """
     Open the supplied file with $EDITOR
 
@@ -23,7 +23,8 @@ def show_file(changelog_file):
 
 
 def write(
-    changelog_file, version_line, changelog_line, separator, show, version, dryrun=False
+    changelog_file: str, version_line: str, changelog_line: str, separator: str,
+    show: bool, version: str, dryrun: bool =False
 ):
     """
     Write the new changelog file. Gets the changelog filename (and optional
