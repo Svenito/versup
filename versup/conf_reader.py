@@ -1,10 +1,10 @@
 import os
 import json
-from typing import Any, Dict, List, Any, Final
+from typing import Any, Dict, List, Any
 from versup.default_conf import default_conf
 
 
-config_files: Final = [
+config_files = [
     "~/.config/versup.json",
     "./.versup.json",
 ]
