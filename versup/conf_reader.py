@@ -1,10 +1,10 @@
 import os
 import json
-from typing import Any, Dict, List, Any
+from typing import Any, Dict, List, Any, Final
 from versup.default_conf import default_conf
 
 
-config_files = [
+config_files: Final = [
     "~/.config/versup.json",
     "./.versup.json",
 ]
@@ -56,12 +56,12 @@ def merge_configs_with_default() -> dict:
 def get_conf_value(config_data: dict, key_path: str) -> Any:
     paths: List[str] = key_path.split("/")
     root: Dict = config_data
-
+    v: Any = ""
     for p in paths:
         try:
             v = root[p]
             root = v
         except KeyError:
             # TODO: Raise here?
-            return ""
+            return None
     return v

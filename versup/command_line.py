@@ -34,15 +34,18 @@ class VersupContext(object):
 @click.pass_context
 @click.version_option(version=__version__)
 def cli(ctx, **kwargs):
-    bobj = VersupContext()
-    bobj.conf = merge_configs_with_default()
-    ctx.obj = bobj
+    versup_ctx = VersupContext()
+    versup_ctx.conf = merge_configs_with_default()
+    ctx.obj = versup_ctx
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)
 @click.pass_context
 @click.option("-l", "--local", is_flag=True, help="Show local configuration options")
 @click.option("-g", "--global", is_flag=True, help="Show global configuration options")
+@click.option(
+    "-c", "--current", is_flag=True, help="Show current configuration options"
+)
 def show_config(ctx, **kwargs):
     import pprint
 
@@ -51,6 +54,8 @@ def show_config(ctx, **kwargs):
         config = parse_config_file("./.versup.json")
     if kwargs["global"]:
         config = parse_config_file("~/.config/versup.json")
+    if kwargs["current"]:
+        config = merge_configs_with_default()
     pprint.pprint(config)
 
 

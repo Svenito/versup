@@ -2,12 +2,16 @@ from colorama import Fore, Back, Style
 
 
 def print_ok(message: str):
-    print(Fore.GREEN + u"\u2713 " + Fore.RESET + message + "\n")
+    print(u"{0}\u2713 {1}{2}\n".format(Fore.GREEN, Fore.RESET, message))
 
 
 def print_error(message: str):
-    print(Fore.RED + Style.BRIGHT + u"\u2717 " + Style.RESET_ALL + message + "\n")
+    print(
+        u"{0}{1}\u2717 {2}{3}\n".format(
+            Fore.RED, Style.BRIGHT, Style.RESET_ALL, message
+        )
+    )
 
 
 def print_warn(message: str):
-    print(Fore.RED + Style.BRIGHT + u"! " + Style.RESET_ALL + message + "\n")
+    print(u"{0}{1}! {2}{3}\n".format(Fore.RED, Style.BRIGHT, Style.RESET_ALL, message))

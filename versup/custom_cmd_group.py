@@ -5,11 +5,11 @@ class DefaultCommandGroup(click.Group):
     """allow a default command for a group"""
 
     def command(self, *args, **kwargs):
-        default_command = kwargs.pop("default_command", False)
+        default_command: bool = kwargs.pop("default_command", False)
         if default_command and not args:
             kwargs["name"] = kwargs.get("name", "<>")
         decorator = super(DefaultCommandGroup, self).command(*args, **kwargs)
-
+        self.default_command = ""
         if default_command:
 
             def new_decorator(f):

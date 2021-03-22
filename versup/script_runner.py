@@ -1,6 +1,7 @@
 import subprocess
 
 from versup.conf_reader import get_conf_value
+from typing import Dict, TypeVar, Callable, Any
 
 
 def prepost_script(taskname: str):
@@ -21,8 +22,8 @@ def prepost_script(taskname: str):
     in order for the decorator to function correctly
     """
 
-    def doit(function):
-        def wrapper(config, version, **kwargs):
+    def doit(function: Callable[..., Any]) -> Callable[..., Any]:
+        def wrapper(config: Dict, version: str, **kwargs) -> Any:
             pre_script = get_conf_value(config, "scripts/pre{}".format(taskname))
 
             if pre_script:

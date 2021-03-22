@@ -15,10 +15,10 @@ def update_file_data(data: str, replace_list: list) -> str:
 
     :returns: the updated data
     """
-    regex = replace_list[0]
-    new_text = replace_list[1]
+    regex: str = replace_list[0]
+    new_text: str = replace_list[1]
 
-    updated_data = re.sub(regex, new_text, data, flags=re.M)
+    updated_data: str = re.sub(regex, new_text, data, flags=re.M)
     return updated_data
 
 
@@ -28,10 +28,10 @@ def show_updates(filename: str, data: str, replace_list: List[str]):
     search for the matches to replace and print out the changes that will
     occur instead of actually updating the files
     """
-    regex = replace_list[0]
-    new_text = replace_list[1]
+    regex: str = replace_list[0]
+    new_text: str = replace_list[1]
 
-    lines = data.split("\n")
+    lines: List[str] = data.split("\n")
     for line in lines:
         line = line.strip()
         m = re.search(regex, line)
