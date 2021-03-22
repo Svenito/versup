@@ -2,6 +2,7 @@ import sys
 import os
 import click
 import datetime
+from typing import Dict, Any
 
 from versup import __version__
 from versup.conf_reader import (
@@ -25,9 +26,8 @@ CONTEXT_SETTINGS = dict(
 
 
 class VersupContext(object):
-    conf = None
-    template = None
-    version = None
+    conf: Dict = {}
+    version: str = ""
 
 
 @click.group(cls=DefaultCommandGroup, context_settings=CONTEXT_SETTINGS)
@@ -36,7 +36,6 @@ class VersupContext(object):
 def cli(ctx, **kwargs):
     bobj = VersupContext()
     bobj.conf = merge_configs_with_default()
-    bobj.template_data = template.token_data
     ctx.obj = bobj
 
 
@@ -74,8 +73,8 @@ def do_versup(ctx, **kwargs):
     """
     Increment or set project version
     """
-    current_branch = gitops.get_current_branch()
-    target_branch = get_conf_value(ctx.obj.conf, "commit/mainbranch")
+    current_branch: str = gitops.get_current_branch()
+    target_branch: str = get_conf_value(ctx.obj.conf, "commit/mainbranch")
     if not gitops.check_current_branch_matches(target_branch):
         print_warn(
             "Main branch set to '{0}'. Currently on '{1}'".format(
@@ -89,15 +88,15 @@ def do_versup(ctx, **kwargs):
 
     try:
         try:
-            latest_version = gitops.get_latest_tag()
+            latest_version: str = gitops.get_latest_tag()
         except ValueError:
-            latest_version = get_conf_value(ctx.obj.conf, "version/initial")
+            latest_version: str = get_conf_value(ctx.obj.conf, "version/initial")
             print_warn(
                 "No previous version tag found. Using initial value from config: {}.".format(
                     latest_version
                 )
             )
-        version = get_new_version(
+        version: str = get_new_version(
             latest_version,
             ctx.obj.version,
             get_conf_value(ctx.obj.conf, "version/increments"),
@@ -134,7 +133,7 @@ def apply_bump(config, version, **kwargs):
     """
     # Update the files specified in config
     if not kwargs["no_fileupdate"]:
-        files_to_update = get_conf_value(config, "files")
+        files_to_update: Dict[str, Any] = get_conf_value(config, "files")
         updated = file_updater.update_files(version, files_to_update, kwargs["dryrun"])
         print_ok("Updated {}".format(", ".join(updated)))
 
@@ -164,8 +163,8 @@ def do_changelog(config, version, **kwargs):
     """
     if not get_conf_value(config, "changelog/enabled"):
         return
-    changelog_config = get_conf_value(config, "changelog")
-    changelog_file = changelog_config["file"]
+    changelog_config: Dict = get_conf_value(config, "changelog")
+    changelog_file: str = changelog_config["file"]
     # If no changelog file and create is off, prompt
     if not kwargs["dryrun"] and not os.path.isfile(changelog_file):
         if not changelog_config["create"]:
@@ -195,9 +194,9 @@ def commit(config, version, **kwargs):
     if not kwargs["dryrun"] and not gitops.is_repo_dirty():
         print("No unstaged changes to repo. Making no new commit.")
         return
-    commit_config = get_conf_value(config, "commit")
+    commit_config: Dict = get_conf_value(config, "commit")
     template.token_data["version"] = version
-    commit_msg = template.render(commit_config["message"])
+    commit_msg: str = template.render(commit_config["message"])
     if kwargs["dryrun"]:
         print("Create commit with commit msg: {}".format(commit_msg))
     else:
@@ -216,9 +215,9 @@ def tag(config, version, **kwargs):
     if not kwargs["dryrun"] and gitops.is_repo_dirty():
         print("Unstaged changes to repo. Cannot make a tag.")
         sys.exit(1)
-    tag_config = get_conf_value(config, "tag")
+    tag_config: Dict = get_conf_value(config, "tag")
     template.token_data["version"] = version
-    tag_name = template.render(tag_config["name"])
+    tag_name: str = template.render(tag_config["name"])
     if kwargs["dryrun"]:
         print("Create tag {} with msg {}".format(version, tag_name))
     else:

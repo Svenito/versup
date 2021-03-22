@@ -1,6 +1,6 @@
 import os
 import json
-from typing import Optional, Dict, List, Any
+from typing import Any, Dict, List, Any
 from versup.default_conf import default_conf
 
 
@@ -53,7 +53,7 @@ def merge_configs_with_default() -> dict:
     return current_config
 
 
-def get_conf_value(config_data: dict, key_path: str) -> Optional[str]:
+def get_conf_value(config_data: dict, key_path: str) -> Any:
     paths: List[str] = key_path.split("/")
     root: Dict = config_data
 
@@ -63,5 +63,5 @@ def get_conf_value(config_data: dict, key_path: str) -> Optional[str]:
             root = v
         except KeyError:
             # TODO: Raise here?
-            return None
+            return ""
     return v

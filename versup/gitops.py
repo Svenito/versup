@@ -104,7 +104,7 @@ def get_commit_messages() -> List[Dict[str, str]]:
     commits = repo.git.log("--pretty=format:%H||%an||%ae||%at||%s", commit_range).split(
         "\n"
     )
-    out: List[Dict[str, str]] = [{}]
+    out: List[Dict[str, str]] = []
 
     for commit in commits:
         data = dict()

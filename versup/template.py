@@ -1,7 +1,7 @@
 import re
 from typing import Dict, Union
 
-token_data = {
+token_data: Dict[str, Union[str, None]] = {
     "version": None,
     "version_date": None,
     "message": None,
