@@ -24,8 +24,8 @@ def prepost_script(taskname: str):
 
     def doit(function: Callable[..., Any]) -> Callable[..., Any]:
         def wrapper(config: Dict, version: str, **kwargs) -> Any:
-
-            if pre_script := get_conf_value(config, "scripts/pre{}".format(taskname)):
+            pre_script = get_conf_value(config, "scripts/pre{}".format(taskname))
+            if pre_script:
                 if kwargs["dryrun"]:
                     print("Execute pre script `{}`\n".format(pre_script))
                 else:
@@ -33,7 +33,8 @@ def prepost_script(taskname: str):
 
             value = function(config, version, **kwargs)
 
-            if post_script := get_conf_value(config, "scripts/post{}".format(taskname)):
+            post_script = get_conf_value(config, "scripts/post{}".format(taskname))
+            if post_script:
                 if kwargs["dryrun"]:
                     print("Execute post script `{}`\n".format(post_script))
                 else:
