@@ -82,9 +82,7 @@ def do_versup(ctx, **kwargs):
     target_branch: str = get_conf_value(ctx.obj.conf, "commit/mainbranch")
     if not gitops.check_current_branch_matches(target_branch):
         print_warn(
-            "Main branch set to '{0}'. Currently on '{1}'".format(
-                target_branch, current_branch
-            )
+            f"Main branch set to '{target_branch}'. Currently on '{current_branch}'"
         )
         if not kwargs["dryrun"] and not click.confirm("Continue anyway?"):
             return
@@ -97,9 +95,7 @@ def do_versup(ctx, **kwargs):
         except ValueError:
             latest_version: str = get_conf_value(ctx.obj.conf, "version/initial")
             print_warn(
-                "No previous version tag found. Using initial value from config: {}.".format(
-                    latest_version
-                )
+                f"No previous version tag found. Using initial value from config: {latest_version}"
             )
         version: str = get_new_version(
             latest_version,
@@ -140,7 +136,7 @@ def apply_bump(config, version, **kwargs):
     if not kwargs["no_fileupdate"]:
         files_to_update: Dict[str, Any] = get_conf_value(config, "files")
         updated = file_updater.update_files(version, files_to_update, kwargs["dryrun"])
-        print_ok("Updated {}".format(", ".join(updated)))
+        print_ok(f"Updated {', '.join(updated)}")
 
     # create changelog
     if not kwargs["no_changelog"] and get_conf_value(config, "changelog/enabled"):
@@ -203,7 +199,7 @@ def commit(config, version, **kwargs):
     template.token_data["version"] = version
     commit_msg: str = template.render(commit_config["message"])
     if kwargs["dryrun"]:
-        print("Create commit with commit msg: {}".format(commit_msg))
+        print(f"Create commit with commit msg: {commit_msg}")
     else:
         gitops.create_commit(commit_msg)
     print_ok("Commit created")
@@ -224,11 +220,11 @@ def tag(config, version, **kwargs):
     template.token_data["version"] = version
     tag_name: str = template.render(tag_config["name"])
     if kwargs["dryrun"]:
-        print("Create tag {} with msg {}".format(version, tag_name))
+        print(f"Create tag {version} with msg {tag_name}")
     else:
         gitops.create_new_tag(version, tag_name)
 
-    print_ok("Tag {} created".format(tag_name))
+    print_ok(f"Tag {tag_name} created")
 
 
 def main():

@@ -14,8 +14,7 @@ def parse_config_file(config_file: str) -> dict:
     d: Dict[str, str] = {}
     try:
         with open(os.path.expanduser(config_file), "r") as conf_file:
-            data = conf_file.read()
-            if data:
+            if data := conf_file.read():
                 d = json.loads(data)
     except IOError:
         pass

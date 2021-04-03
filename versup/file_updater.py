@@ -15,8 +15,7 @@ def update_file_data(data: str, replace_list: list) -> str:
 
     :returns: the updated data
     """
-    regex: str = replace_list[0]
-    new_text: str = replace_list[1]
+    regex, new_text = replace_list
 
     updated_data: str = re.sub(regex, new_text, data, flags=re.M)
     return updated_data
@@ -28,8 +27,7 @@ def show_updates(filename: str, data: str, replace_list: List[str]):
     search for the matches to replace and print out the changes that will
     occur instead of actually updating the files
     """
-    regex: str = replace_list[0]
-    new_text: str = replace_list[1]
+    regex, new_text = replace_list
 
     lines: List[str] = data.split("\n")
     for line in lines:
@@ -38,7 +36,7 @@ def show_updates(filename: str, data: str, replace_list: List[str]):
         if m:
             updated_data = re.sub(regex, new_text, line, flags=re.M)
             print(
-                u"In file {3}{0}{4} replace {3}{1}{4} with {3}{2}{4}".format(
+                "In file {3}{0}{4} replace {3}{1}{4} with {3}{2}{4}".format(
                     filename, line, updated_data, Style.BRIGHT, Style.RESET_ALL
                 )
             )
@@ -65,7 +63,7 @@ def update_files(new_version: str, files: Dict[str, Any], dryrun: bool) -> list:
             with open(filename, "r") as file_h:
                 data = file_h.read()
         except IOError:
-            print("Unable to find {} to update.".format(filename))
+            print(f"Unable to find {filename} to update.")
             continue
 
         updated_files.append(filename)
