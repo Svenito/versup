@@ -1,6 +1,6 @@
 import os
 import json
-from typing import Any, Dict, List, Any
+from typing import Any, Dict, List
 from versup.default_conf import default_conf
 
 

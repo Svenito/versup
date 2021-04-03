@@ -1,9 +1,6 @@
 import semver
 
-from versup import gitops
-from versup.printer import print_warn
 from versup import VersupError
-from versup.conf_reader import get_conf_value
 from typing import List
 
 

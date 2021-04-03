@@ -95,7 +95,8 @@ def do_versup(ctx, **kwargs):
         except ValueError:
             latest_version: str = get_conf_value(ctx.obj.conf, "version/initial")
             print_warn(
-                f"No previous version tag found. Using initial value from config: {latest_version}"
+                "No previous version tag found. Using initial value from "
+                f"config: {latest_version}"
             )
         version: str = get_new_version(
             latest_version,
