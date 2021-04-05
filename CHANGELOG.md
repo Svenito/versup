@@ -1,3 +1,32 @@
+### Version 1.5.0
+- Warn about unstaged files earlier
+- Only commit changed files
+- Fix missing fstring in printer
+- Edit github action for flake8 lint
+- Fix flake8 errors
+- remove walrusops
+- Some refactoring
+- Remove Final from conf_reader
+- Add "current" option to show config
+- Update docs for changelog
+- Fix default value for getting commit messages
+- Add install of mypy to action
+- Black formatting fixes
+- Merge branch 'main' of github.com:Svenito/versup into main
+- Add 3.9 to Python list for actions
+- Add MyPy type checking
+- Add Python 3.9 to actions
+- Create python-package.yml
+- Update README
+- Fix up coveralls run
+- Add token to coveralls
+- Add token to coveralls
+- Clean up unused code
+- Add coveralls pip install
+- Update python-app.yml
+- Create python-app.yml
+- Update coveralls badge with main branch
+
 ### Version 1.4.0
 - Get latest version tag from branch parents
 
