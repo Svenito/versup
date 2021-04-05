@@ -1,3 +1,6 @@
+### Version 1.5.1
+- Remove unused import of sys
+
 ### Version 1.5.0
 - Warn about unstaged files earlier
 - Only commit changed files
