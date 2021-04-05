@@ -10,4 +10,4 @@ def print_error(message: str):
 
 
 def print_warn(message: str):
-    print("{Fore.RED}{Style.BRIGHT}! {Style.RESET_ALL}{message}\n")
+    print(f"{Fore.RED}{Style.BRIGHT}! {Style.RESET_ALL}{message}\n")
