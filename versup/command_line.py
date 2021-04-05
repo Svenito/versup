@@ -2,7 +2,7 @@ import sys
 import os
 import click
 import datetime
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from versup import __version__
 from versup.conf_reader import (
@@ -199,10 +199,14 @@ def commit(config, version, **kwargs):
     commit_config: Dict = get_conf_value(config, "commit")
     template.token_data["version"] = version
     commit_msg: str = template.render(commit_config["message"])
+    files_to_update: List[str] = list(get_conf_value(config, "files").keys())
+    changelog_file: str = get_conf_value(config, "changelog")["file"]
+    files_to_update.append(changelog_file)
+
     if kwargs["dryrun"]:
         print(f"Create commit with commit msg: {commit_msg}")
     else:
-        gitops.create_commit(commit_msg)
+        gitops.create_commit(commit_msg, files_to_update)
     print_ok("Commit created")
 
 

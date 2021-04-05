@@ -75,7 +75,7 @@ def create_new_tag(new_version: str, tag_name: str):  # pragma: no cover
     repo.create_tag(new_version, message=tag_name)
 
 
-def create_commit(commit_msg: str):  # pragma: no cover
+def create_commit(commit_msg: str, files_updated: List[str] = None):  # pragma: no cover
     """
     create a commit with the given message
 
@@ -83,8 +83,10 @@ def create_commit(commit_msg: str):  # pragma: no cover
     """
     repo = get_repo()
     index = repo.index
-    changed_files = [item.a_path for item in repo.index.diff(None)]
-    index.add(repo.untracked_files + changed_files)
+    changed_files = [
+        f.a_path for f in repo.index.diff(None) if f.a_path in files_updated
+    ]
+    index.add(changed_files)
     repo.git.commit("-m", commit_msg)
 
 
