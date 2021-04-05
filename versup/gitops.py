@@ -75,6 +75,12 @@ def create_new_tag(new_version: str, tag_name: str):  # pragma: no cover
     repo.create_tag(new_version, message=tag_name)
 
 
+def get_unstaged_changes() -> List[str]:
+    repo = get_repo()
+    changed_files = [item.a_path for item in repo.index.diff(None)]
+    return repo.untracked_files + changed_files
+
+
 def create_commit(commit_msg: str, files_updated: List[str] = None):  # pragma: no cover
     """
     create a commit with the given message

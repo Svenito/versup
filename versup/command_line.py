@@ -87,6 +87,12 @@ def do_versup(ctx, **kwargs):
         if not kwargs["dryrun"] and not click.confirm("Continue anyway?"):
             return
 
+    unstaged_files = "\n".join(gitops.get_unstaged_changes())
+    if unstaged_files:
+        print_warn(f"There are unstaged files\n{unstaged_files}")
+        if not kwargs["dryrun"] and not click.confirm("Continue with versup?"):
+            return
+
     ctx.obj.version = kwargs["increment"]
 
     try:
@@ -218,9 +224,6 @@ def tag(config, version, **kwargs):
     if not get_conf_value(config, "tag/enabled"):
         return
 
-    if not kwargs["dryrun"] and gitops.is_repo_dirty():
-        print("Unstaged changes to repo. Cannot make a tag.")
-        sys.exit(1)
     tag_config: Dict = get_conf_value(config, "tag")
     template.token_data["version"] = version
     tag_name: str = template.render(tag_config["name"])
