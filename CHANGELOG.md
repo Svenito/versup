@@ -1,3 +1,6 @@
+### Version 1.5.2
+- fix incorrect default for create_commit func
+
 ### Version 1.5.1
 - Remove unused import of sys
 
