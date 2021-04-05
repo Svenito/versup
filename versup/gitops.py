@@ -77,11 +77,11 @@ def create_new_tag(new_version: str, tag_name: str):  # pragma: no cover
 
 def get_unstaged_changes() -> List[str]:
     repo = get_repo()
-    changed_files = [item.a_path for item in repo.index.diff(None)]
+    changed_files: List[str] = [item.a_path for item in repo.index.diff(None)]
     return repo.untracked_files + changed_files
 
 
-def create_commit(commit_msg: str, files_updated: List[str] = None):  # pragma: no cover
+def create_commit(commit_msg: str, files_updated: List[str] = []):  # pragma: no cover
     """
     create a commit with the given message
 
@@ -89,9 +89,7 @@ def create_commit(commit_msg: str, files_updated: List[str] = None):  # pragma: 
     """
     repo = get_repo()
     index = repo.index
-    changed_files = [
-        f.a_path for f in repo.index.diff(None) if f.a_path in files_updated
-    ]
+    changed_files = [f.a_path for f in index.diff(None) if f.a_path in files_updated]
     index.add(changed_files)
     repo.git.commit("-m", commit_msg)
 
