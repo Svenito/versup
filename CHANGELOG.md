@@ -1,3 +1,6 @@
+### Version 1.5.3
+- handle exception when gitconfig is missing entries
+
 ### Version 1.5.2
 - fix incorrect default for create_commit func
 
