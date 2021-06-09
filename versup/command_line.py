@@ -125,8 +125,16 @@ def do_versup(ctx, **kwargs):
     )
     template.token_data["version_date"] = template_date
 
-    template.token_data["author_name"] = gitops.get_username()
-    template.token_data["author_email"] = gitops.get_email()
+    try:
+        template.token_data["author_name"] = gitops.get_username()
+    except gitops.MissingConfig:
+        print_error("Gitconfig missing username. Unable to continue.")
+        return
+    try:
+        template.token_data["author_email"] = gitops.get_email()
+    except gitops.MissingConfig:
+        print_error("Gitconfig missing email. Unable to continue.")
+        return
 
     template.token_data["message"] = get_conf_value(ctx.obj.conf, "commit/message")
 
