@@ -1,7 +1,12 @@
 from git import Repo
+import configparser
 import os
 import semver
 from typing import List, Dict
+
+
+class MissingConfig(Exception):
+    pass
 
 
 def get_repo() -> Repo:  # pragma: no cover
@@ -16,7 +21,10 @@ def get_username() -> str:  # pragma: no cover
     Return the username of the current repo
     """
     repo = get_repo()
-    return repo.config_reader().get_value("user", "name")
+    try:
+        return repo.config_reader().get_value("user", "name")
+    except (configparser.NoSectionError, configparser.NoOptionError):
+        raise MissingConfig
 
 
 def get_email() -> str:  # pragma: no cover
@@ -24,7 +32,10 @@ def get_email() -> str:  # pragma: no cover
     Return the configured email of the current repo
     """
     repo = get_repo()
-    return repo.config_reader().get_value("user", "email")
+    try:
+        return repo.config_reader().get_value("user", "email")
+    except (configparser.NoSectionError, configparser.NoOptionError):
+        raise MissingConfig
 
 
 def get_current_branch() -> str:
