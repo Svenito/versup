@@ -51,7 +51,7 @@ def write(
     commits: List[Dict[str, str]] = gitops.get_commit_messages()
 
     if dryrun:
-        print(u"Writing changelog entries:\n")
+        print("Writing changelog entries:\n")
         for commit_data in commits:
             commit_data["hash"] = commit_data["hash"]
             commit_data["hash4"] = commit_data["hash"][:4]
