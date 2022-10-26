@@ -1,3 +1,6 @@
+### Version 1.5.4
+- Update project details and deps
+
 ### Version 1.5.3
 - handle exception when gitconfig is missing entries
 
