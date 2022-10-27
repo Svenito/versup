@@ -9,24 +9,24 @@ repository = "https://github.com/Svenito/versup"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-gitpython = "^3.0"
+gitpython = "^3.1"
 click = "^8.0"
-semver = "^2.8, <3"
-colorama = "^0.4.3"
+semver = "^2.13, <3"
+colorama = "^0.4.6"
 setuptools = "^65.5.0"
 
 
 [tool.poetry.dev-dependencies]
-pytest-cov = "^2.8"
-pytest = "^3.0"
-sphinx = "^3.0.0"
+pytest-cov = "^4.0"
+pytest = "^7.2"
+sphinx = "^5.3.0"
 sphinx_rtd_theme = "^0.4.3"
-coveralls = "^2.0.0"
+coveralls = "^3.3.1"
 black = "^22.10.0"
-coverage = "^5.5"
-flake8 = "^3.9.2"
-mypy = "^0.901"
-types-click = "^0.1.14"
+coverage = "^6.5"
+flake8 = "^5.0.4"
+mypy = "^0.982"
+types-click = "^7.1.8"
 
 [tool.poetry.scripts]
 versup = "versup.__main__:main"
