@@ -1,3 +1,13 @@
+### Version 1.5.5
+- fix for coveralls
+- Update dependecies
+- convert gitops value to str for mypy
+- Update lock file
+- Remove py 3.7
+- Update black
+- Add py 3.10 to workflow list
+- Up python req for setuptools
+
 ### Version 1.5.4
 - Update project details and deps
 
