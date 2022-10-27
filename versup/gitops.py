@@ -22,7 +22,7 @@ def get_username() -> str:  # pragma: no cover
     """
     repo = get_repo()
     try:
-        return repo.config_reader().get_value("user", "name")
+        return str(repo.config_reader().get_value("user", "name"))
     except (configparser.NoSectionError, configparser.NoOptionError):
         raise MissingConfig
 
@@ -33,7 +33,7 @@ def get_email() -> str:  # pragma: no cover
     """
     repo = get_repo()
     try:
-        return repo.config_reader().get_value("user", "email")
+        return str(repo.config_reader().get_value("user", "email"))
     except (configparser.NoSectionError, configparser.NoOptionError):
         raise MissingConfig
 
