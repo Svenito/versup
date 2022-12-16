@@ -15,7 +15,7 @@ In order for your pull request to be accepted there are a few things to note:
 Currently the Black formatter does not run for Python 2 tests as it's not available.
 Once Python 2 is fully end of life, support for Python 2 will be removed.
 
-Installing for devlopment
+Installing for development
 =========================
 
 This is best done via poetry and is as simple as
