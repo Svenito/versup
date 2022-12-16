@@ -114,7 +114,7 @@ def get_commit_messages() -> List[Dict[str, str]]:
     # git log --pretty=oneline HEAD...0.2.0
     try:
         latest_tag = get_latest_tag()
-        commit_range = "HEAD...{}".format(latest_tag)
+        commit_range = f"HEAD...{latest_tag}"
     except ValueError:
         commit_range = "HEAD"
     repo = get_repo()

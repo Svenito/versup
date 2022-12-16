@@ -15,10 +15,10 @@ def show_file(changelog_file: str):
     """
     try:
         if sys.platform == "win32":
-            os.system("notepad.exe {}".format(changelog_file))
+            os.system(f"notepad.exe {changelog_file}")
         else:
             editor = os.getenv("EDITOR", "vi")
-            os.system("{} {}".format(editor, changelog_file))
+            os.system(f"{editor} {changelog_file}")
     except Exception:
         pass
 

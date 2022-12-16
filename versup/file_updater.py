@@ -36,9 +36,9 @@ def show_updates(filename: str, data: str, replace_list: List[str]):
         if m:
             updated_data = re.sub(regex, new_text, line, flags=re.M)
             print(
-                "In file {3}{0}{4} replace {3}{1}{4} with {3}{2}{4}".format(
-                    filename, line, updated_data, Style.BRIGHT, Style.RESET_ALL
-                )
+                f"In file {Style.BRIGHT}{filename}{Style.RESET_ALL} replace "
+                f"{Style.BRIGHT}{line}{Style.RESET_ALL} with "
+                f"{Style.BRIGHT}{updated_data}{Style.RESET_ALL}"
             )
 
 

@@ -24,19 +24,19 @@ def prepost_script(taskname: str):
 
     def doit(function: Callable[..., Any]) -> Callable[..., Any]:
         def wrapper(config: Dict, version: str, **kwargs) -> Any:
-            pre_script = get_conf_value(config, "scripts/pre{}".format(taskname))
+            pre_script = get_conf_value(config, f"scripts/pre{taskname}")
             if pre_script:
                 if kwargs["dryrun"]:
-                    print("Execute pre script `{}`\n".format(pre_script))
+                    print(f"Execute pre script `{pre_script}`\n")
                 else:
                     subprocess.call(pre_script.split() + [version])
 
             value = function(config, version, **kwargs)
 
-            post_script = get_conf_value(config, "scripts/post{}".format(taskname))
+            post_script = get_conf_value(config, f"scripts/post{taskname}")
             if post_script:
                 if kwargs["dryrun"]:
-                    print("Execute post script `{}`\n".format(post_script))
+                    print(f"Execute post script `{post_script}`\n")
                 else:
                     subprocess.call(post_script.split())
 
