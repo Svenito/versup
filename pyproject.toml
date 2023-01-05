@@ -13,7 +13,7 @@ gitpython = "^3.1"
 click = "^8.0"
 semver = "^2.13, <3"
 colorama = "^0.4.6"
-setuptools = "^65.5.0"
+setuptools = "^65.5.3"
 
 
 [tool.poetry.dev-dependencies]
