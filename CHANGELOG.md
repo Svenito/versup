@@ -1,3 +1,10 @@
+### Version 1.5.6
+- Update setuptools dependency
+- Fix some sphinx doc issues
+- Create codeql.yml
+- Change format to f-strings
+- Update certifi for CVE-2022-23491
+
 ### Version 1.5.5
 - fix for coveralls
 - Update dependecies
