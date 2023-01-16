@@ -14,7 +14,7 @@ class MockGit:
 
 
 class MockBranch:
-    name = "master"
+    name = "main"
 
 
 class MockConfigparser:
@@ -65,9 +65,9 @@ def test_get_commit_messages(mock_repo):
 def test_get_current_branch(mock_repo):
     branch = gitops.get_current_branch()
 
-    assert branch == "master"
+    assert branch == "main"
 
 
 def test_check_current_branch_matches(mock_repo):
-    assert gitops.check_current_branch_matches("master") is True
+    assert gitops.check_current_branch_matches("main") is True
     assert gitops.check_current_branch_matches("testing") is False

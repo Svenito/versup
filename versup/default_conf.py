@@ -27,7 +27,7 @@ default_conf = {
     "commit": {
         "enabled": True,  # Commit the changes automatically
         "message": "Update version to [version]",  # Template for the commit message
-        "mainbranch": "master",  # name of the main development or release branch
+        "mainbranch": "main",  # name of the main development or release branch
     },
     "tag": {
         "enabled": True,  # Tag the bump commit
