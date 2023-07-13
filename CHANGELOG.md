@@ -1,3 +1,7 @@
+### Version 1.5.7
+- Update dependencies for requests patch for CVE-2023-32681
+- Change default main branch name to "main"
+
 ### Version 1.5.6
 - Update setuptools dependency
 - Fix some sphinx doc issues
