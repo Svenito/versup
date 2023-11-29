@@ -31,6 +31,9 @@ types-click = "^7.1.8"
 [tool.poetry.scripts]
 versup = "versup.__main__:main"
 
+[tool.poetry.group.dev.dependencies]
+isort = "^5.12.0"
+
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"

@@ -1,8 +1,9 @@
-import versup.changelog as changelog
 import pytest
 
+import versup.changelog as changelog
+
 try:
-    from unittest.mock import patch, Mock
+    from unittest.mock import Mock, patch
 except ImportError:
     from mock import patch, Mock
 
@@ -17,21 +18,21 @@ def mocked_get_commit_messages():
             "author_name": "Author",
             "author_email": "user@mail.com",
             "date": "1586565955",
-            "message": u"Message 1",
+            "message": "Message 1",
         },
         {
             "hash": "72da59cde34278c184b183ac0820a11b30f80511",
             "author_name": "Author",
             "author_email": "user@mail.com",
             "date": "1586965934",
-            "message": u"Message 2",
+            "message": "Message 2",
         },
         {
             "hash": "beefca2e856978c184b183ac0820a11b30f80522",
             "author_name": "Author",
             "author_email": "user@mail.com",
             "date": "1586955955",
-            "message": u"Message 3",
+            "message": "Message 3",
         },
     ]
 
@@ -124,7 +125,7 @@ def test_dryrun(filename):
             filename,
             "Version [version]",
             "- [message]",
-            u"\n",
+            "\n",
             False,
             "1.2.3",
             True,

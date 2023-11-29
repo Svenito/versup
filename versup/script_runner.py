@@ -1,7 +1,7 @@
 import subprocess
+from typing import Any, Callable, Dict
 
 from versup.conf_reader import get_conf_value
-from typing import Dict, Callable, Any
 
 
 def prepost_script(taskname: str):

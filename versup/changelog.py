@@ -1,9 +1,11 @@
 from __future__ import print_function
-import versup.gitops as gitops
-import versup.template as template
+
 import os
 import sys
-from typing import List, Dict
+from typing import Dict, List
+
+import versup.gitops as gitops
+import versup.template as template
 
 
 def show_file(changelog_file: str):

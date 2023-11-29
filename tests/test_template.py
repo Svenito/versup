@@ -1,5 +1,6 @@
-import versup.template as template
 import pytest
+
+import versup.template as template
 
 
 def test_render():

@@ -1,6 +1,9 @@
-import versup.gitops as gitops
-import pytest
 import configparser
+
+import pytest
+
+import versup.gitops as gitops
+
 
 class MockGit:
     @staticmethod
@@ -10,7 +13,6 @@ class MockGit:
     @staticmethod
     def log(*args, **kwargs):
         return "5d804e0b826978c184b183ac0820a11b30f8052c||User Name||user@email.com||1586965955||update readme with travis badge\n4539d9c8d682e76924fcca7c73295283f24ffb85||User Name||user@email.com||1586965850||Update version to 1.0.1\na902c9ac29d118d728f887b900268134766ad131||User Name||user@email.com||1586946947||Add conditional to travis deploy task\nc89100943b648712946ef1eb1704be28c5e8461c||User Name||user@email.com||1586946740||Fix up travis again"
-
 
 
 class MockBranch:
@@ -35,8 +37,6 @@ class MockRepo:
     @staticmethod
     def is_dirty():
         return True
-
-
 
 
 @pytest.fixture

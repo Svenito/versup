@@ -1,6 +1,6 @@
-from versup import __version__
 import pytest
-from versup import versioning
+
+from versup import __version__, versioning
 
 
 def test_get_new_version_explicit():

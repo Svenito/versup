@@ -1,6 +1,7 @@
-import versup.file_updater as file_updater
-import sys
 import io
+import sys
+
+import versup.file_updater as file_updater
 
 
 def test_update_file_data():

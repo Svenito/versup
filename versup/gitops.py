@@ -1,8 +1,9 @@
-from git import Repo
 import configparser
 import os
+from typing import Dict, List
+
 import semver
-from typing import List, Dict
+from git import Repo
 
 
 class MissingConfig(Exception):

@@ -1,11 +1,13 @@
-import versup.conf_reader as conf_reader
-import pytest
 import os
 
+import pytest
+
+import versup.conf_reader as conf_reader
+
 try:
-    from unittest.mock import patch, mock_open
+    from unittest.mock import mock_open, patch
 except ImportError:
-    from mock import patch, mock_open
+    from mock import mock_open, patch
 
 
 @pytest.fixture()

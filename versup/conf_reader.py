@@ -1,8 +1,8 @@
-import os
 import json
+import os
 from typing import Any, Dict, List
-from versup.default_conf import default_conf
 
+from versup.default_conf import default_conf
 
 config_files = [
     "~/.config/versup.json",

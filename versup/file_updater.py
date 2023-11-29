@@ -1,8 +1,11 @@
 from __future__ import print_function
+
 import re
-import versup.template as template
+from typing import Any, Dict, List
+
 from colorama import Style
-from typing import Dict, List, Any
+
+import versup.template as template
 
 
 def update_file_data(data: str, replace_list: list) -> str:

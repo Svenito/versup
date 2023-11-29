@@ -1,22 +1,22 @@
-import os
-import click
 import datetime
-from typing import Dict, Any, List
+import os
+from typing import Any, Dict, List
 
-from versup import __version__
+import click
+
+import versup.changelog as changelog
+import versup.file_updater as file_updater
+import versup.gitops as gitops
+import versup.script_runner as script_runner
+import versup.template as template
+from versup import VersupError, __version__
 from versup.conf_reader import (
     get_conf_value,
     merge_configs_with_default,
     parse_config_file,
 )
-from versup import VersupError
 from versup.custom_cmd_group import DefaultCommandGroup
-import versup.file_updater as file_updater
-import versup.gitops as gitops
-import versup.template as template
-import versup.changelog as changelog
-import versup.script_runner as script_runner
-from versup.printer import print_ok, print_error, print_warn
+from versup.printer import print_error, print_ok, print_warn
 from versup.versioning import get_new_version
 
 CONTEXT_SETTINGS = dict(

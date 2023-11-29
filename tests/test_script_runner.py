@@ -1,12 +1,12 @@
-import versup.script_runner as script_runner
-import versup.conf_reader as conf_reader
-
 import pytest
 
+import versup.conf_reader as conf_reader
+import versup.script_runner as script_runner
+
 try:
-    from unittest.mock import patch, call
+    from unittest.mock import call, patch
 except ImportError:
-    from mock import patch, call
+    from mock import call, patch
 
 
 @pytest.fixture()

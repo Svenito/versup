@@ -1,7 +1,8 @@
+from typing import List
+
 import semver
 
 from versup import VersupError
-from typing import List
 
 
 def bump_version(latest_version: str, increment: str) -> str:
