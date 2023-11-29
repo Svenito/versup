@@ -1,3 +1,6 @@
+### Version 1.5.9
+- Update dependencies and isort/black code
+
 ### Version 1.5.8
 - Update deps via poetry update
 
