@@ -26,37 +26,29 @@ def test_update_files(tmpdir):
 
 
 def test_return_empty_list_for_no_files():
-    assert file_updater.update_files("3.4.5", {}, False) == []
+    assert file_updater.update_files("3.4.5", {}, False) == ([], {})
 
 
 def test_return_empty_list_if_file_not_found():
-    assert (
-        file_updater.update_files(
-            "3.4.5",
-            {
-                "doesnotexist": [
-                    ["Version ([\\d\\.]+) ", "Version [version] "],
-                    ["Version is ([\\d\\.]+)", "Version is [version]"],
-                ]
-            },
-            False,
-        )
-        == []
-    )
+    assert file_updater.update_files(
+        "3.4.5",
+        {
+            "doesnotexist": [
+                ["Version ([\\d\\.]+) ", "Version [version] "],
+                ["Version is ([\\d\\.]+)", "Version is [version]"],
+            ]
+        },
+        False,
+    ) == ([], {})
 
 
 def test_dry_run(tmpdir):
-    temp_file = tmpdir.join("testfile.txt")
+    filename = "testfile.txt"
+    temp_file = tmpdir.join(filename)
     temp_file.write("this is a file to replace 1.2.3 with new version")
     files = {str(temp_file.realpath()): ["1.2.3", "3.4.5"]}
 
-    capturedOutput = io.StringIO()
-    sys.stdout = capturedOutput
+    updated_files, updates = file_updater.update_files("3.4.5", files, True)
 
-    file_updater.update_files("3.4.5", files, True)
-
-    sys.stdout = sys.__stdout__
-    output = capturedOutput.getvalue().split("\n")
-
-    assert "with" in output[0]
-    assert "replace 3.4.5" in output[0]
+    assert filename in updates.keys()
+    assert "replace 3.4.5" in updates[filename]

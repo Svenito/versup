@@ -3,6 +3,8 @@ import os
 from typing import Any, Dict, List
 
 import click
+from rich import print
+from rich.prompt import Confirm
 
 import versup.changelog as changelog
 import versup.file_updater as file_updater
@@ -16,7 +18,7 @@ from versup.conf_reader import (
     parse_config_file,
 )
 from versup.custom_cmd_group import DefaultCommandGroup
-from versup.printer import print_error, print_ok, print_warn
+from versup.printer import make_file_tree, print_error, print_ok, print_warn
 from versup.versioning import get_new_version
 
 CONTEXT_SETTINGS = dict(
@@ -46,7 +48,7 @@ def cli(ctx, **kwargs):
     "-c", "--current", is_flag=True, help="Show current configuration options"
 )
 def show_config(ctx, **kwargs):
-    import pprint
+    from rich.pretty import pprint
 
     config = ctx.obj.conf
     if kwargs["local"]:
@@ -55,7 +57,8 @@ def show_config(ctx, **kwargs):
         config = parse_config_file("~/.config/versup.json")
     if kwargs["current"]:
         config = merge_configs_with_default()
-    pprint.pprint(config)
+
+    pprint(config)
 
 
 @cli.command(
@@ -77,19 +80,31 @@ def do_versup(ctx, **kwargs):
     """
     Increment or set project version
     """
+    print()
+    if kwargs["dryrun"]:
+        print(
+            "[bold green]:arrow_forward:[/bold green] Dry run set. No changes will be"
+            " made.\n"
+        )
     current_branch: str = gitops.get_current_branch()
     target_branch: str = get_conf_value(ctx.obj.conf, "commit/mainbranch")
     if not gitops.check_current_branch_matches(target_branch):
         print_warn(
             f"Main branch set to '{target_branch}'. Currently on '{current_branch}'"
         )
-        if not kwargs["dryrun"] and not click.confirm("Continue anyway?"):
+        if not kwargs["dryrun"] and not Confirm.ask("Continue anyway?"):
             return
 
-    unstaged_files = "\n".join(gitops.get_unstaged_changes())
+    unstaged_files = gitops.get_unstaged_changes()
     if unstaged_files:
-        print_warn(f"There are unstaged files\n{unstaged_files}")
-        if not kwargs["dryrun"] and not click.confirm("Continue with versup?"):
+        print_warn("There are unstaged files")
+
+        tree = make_file_tree(unstaged_files)
+
+        print(tree)
+        print()
+
+        if not kwargs["dryrun"] and not Confirm.ask("Continue with versup?"):
             return
 
     ctx.obj.version = kwargs["increment"]
@@ -149,8 +164,13 @@ def apply_bump(config, version, **kwargs):
     # Update the files specified in config
     if not kwargs["no_fileupdate"]:
         files_to_update: Dict[str, Any] = get_conf_value(config, "files")
-        updated = file_updater.update_files(version, files_to_update, kwargs["dryrun"])
-        print_ok(f"Updated {', '.join(updated)}")
+        updated, updates = file_updater.update_files(
+            version, files_to_update, kwargs["dryrun"]
+        )
+        print_ok("Updated strings in the following files:")
+        tree = make_file_tree(updated, updates)
+        print(tree)
+        print()
 
     # create changelog
     if not kwargs["no_changelog"] and get_conf_value(config, "changelog/enabled"):
@@ -183,7 +203,7 @@ def do_changelog(config, version, **kwargs):
     # If no changelog file and create is off, prompt
     if not kwargs["dryrun"] and not os.path.isfile(changelog_file):
         if not changelog_config["create"]:
-            if not click.confirm("No changelog file found. Create it?"):
+            if not Confirm.ask("No changelog file found. Create it?"):
                 return
             # Ok to create/update it now
     changelog.write(
@@ -235,11 +255,17 @@ def tag(config, version, **kwargs):
     template.token_data["version"] = version
     tag_name: str = template.render(tag_config["name"])
     if kwargs["dryrun"]:
-        print(f"Create tag {version} with msg {tag_name}")
+        print(
+            f"Create tag [bold cyan]{version}[/bold cyan] with message [bold"
+            f" cyan]{tag_name}[/bold cyan]"
+        )
     else:
         gitops.create_new_tag(version, tag_name)
 
-    print_ok(f"Tag {tag_name} created")
+    print_ok(
+        f"Tag for [bold cyan]{version}[/bold cyan] with message [cyan"
+        f" bold]{tag_name}[/cyan bold] created"
+    )
 
 
 def main():

@@ -35,10 +35,14 @@ default_conf = {
     },
     "tokens": {
         "date": {
-            "format": "%Y-%m-%d"  # Python datetime format to use when generating the `[date]` token
+            "format": (  # Python datetime format to use when generating the `[date]` token
+                "%Y-%m-%d"
+            )
         },
         "version_date": {
-            "format": "%Y-%m-%d"  # Python datetime format to use when generating the `[version_date]` token
+            "format": (  # Python datetime format to use when generating the `[version_date]` token
+                "%Y-%m-%d"
+            )
         },
     },
     "scripts": {

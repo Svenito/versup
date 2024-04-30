@@ -3,7 +3,7 @@ from __future__ import print_function
 import re
 from typing import Any, Dict, List
 
-from colorama import Style
+from rich import print
 
 import versup.template as template
 
@@ -24,28 +24,30 @@ def update_file_data(data: str, replace_list: list) -> str:
     return updated_data
 
 
-def show_updates(filename: str, data: str, replace_list: List[str]):
+def get_updates(filename: str, data: str, replace_list: List[str]):
     """
     This is the same as :update_file_data: but for dry runs. It will
     search for the matches to replace and print out the changes that will
     occur instead of actually updating the files
     """
     regex, new_text = replace_list
-
+    updates = {}
     lines: List[str] = data.split("\n")
     for line in lines:
         line = line.strip()
         m = re.search(regex, line)
         if m:
             updated_data = re.sub(regex, new_text, line, flags=re.M)
-            print(
-                f"In file {Style.BRIGHT}{filename}{Style.RESET_ALL} replace "
-                f"{Style.BRIGHT}{line}{Style.RESET_ALL} with "
-                f"{Style.BRIGHT}{updated_data}{Style.RESET_ALL}"
+            updates[filename.split("/")[-1]] = (
+                f"[bold red]{line}[/bold red] :arrow_forward: [bold"
+                f" green]{updated_data}[bold green]"
             )
+    return updates
 
 
-def update_files(new_version: str, files: Dict[str, Any], dryrun: bool) -> list:
+def update_files(
+    new_version: str, files: Dict[str, Any], dryrun: bool
+) -> tuple[list, dict]:
     """
     Will update the given files with the defined regex from
     the config files and the text to replace with
@@ -56,11 +58,12 @@ def update_files(new_version: str, files: Dict[str, Any], dryrun: bool) -> list:
     """
     if not files:
         # No files to update
-        return []
+        return [], {}
 
     filenames = list(files.keys())
     template_data = {"version": new_version}
     updated_files: List[str] = []
+    updates: dict[str, str] = {}
     for filename in filenames:
         try:
             with open(filename, "r") as file_h:
@@ -75,11 +78,10 @@ def update_files(new_version: str, files: Dict[str, Any], dryrun: bool) -> list:
         if not any(isinstance(el, list) for el in files[filename]):
             files[filename] = [files[filename]]
 
-        replace: List[str] = []
         for replace in files[filename]:
             replace[1] = template.render(replace[1], template_data)
             if dryrun:
-                show_updates(filename, data, replace)
+                updates = updates | get_updates(filename, data, replace)
             else:
                 data = update_file_data(data, replace)
 
@@ -87,4 +89,4 @@ def update_files(new_version: str, files: Dict[str, Any], dryrun: bool) -> list:
             with open(filename, "w") as file_h:
                 file_h.write(data)
 
-    return updated_files
+    return updated_files, updates

@@ -12,8 +12,9 @@ python = "^3.8"
 gitpython = "^3.1"
 click = "^8.0"
 semver = "^2.13, <3"
-colorama = "^0.4.6"
 setuptools = "^65.5.3"
+rich = "^13.7.1"
+flake8-pyproject = "^1.2.3"
 
 
 [tool.poetry.dev-dependencies]
@@ -33,6 +34,15 @@ versup = "versup.__main__:main"
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.12.0"
+
+[tool.flake8]
+max-line-length = 88
+per-file-ignores = [
+    'default_conf.py:E501',
+]
+
+[tool.isort]
+profile = "black"
 
 [build-system]
 requires = ["poetry>=0.12"]
