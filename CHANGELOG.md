@@ -1,3 +1,7 @@
+### Version 1.6.0
+- Use rich UI
+- Update deps
+
 ### Version 1.5.9
 - Update dependencies and isort/black code
 
