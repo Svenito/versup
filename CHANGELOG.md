@@ -1,3 +1,10 @@
+### Version 1.6.1
+- Update dependencies
+- flake8 to ignore black formatting choices
+- Ignore some flake rules
+- Add run on test branch
+- Remove 3.8 and add 3.11, 3.12
+
 ### Version 1.6.0
 - Use rich UI
 - Update deps
