@@ -22,7 +22,7 @@ def parse_config_file(config_file: str) -> dict:
     return d
 
 
-def merge(a: dict, b: dict, path: list = None):
+def merge(a: dict, b: dict, path: list | None = None):
     """
     Recursively merges two dictionaries b into a. Duplicate keys, b overrides a
     """

@@ -1,6 +1,3 @@
-import io
-import sys
-
 import versup.file_updater as file_updater
 
 

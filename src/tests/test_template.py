@@ -1,5 +1,3 @@
-import pytest
-
 import versup.template as template
 
 

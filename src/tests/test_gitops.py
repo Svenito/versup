@@ -1,5 +1,3 @@
-import configparser
-
 import pytest
 
 import versup.gitops as gitops

@@ -35,14 +35,9 @@ dev-dependencies = [
 ]
 package = true
 
-[tool.flake8]
-max-line-length = 88
-extend-ignore = [
-    "E203", "E231", "W604"
-]
-per-file-ignores = [
-    "default:conf.py:E501"
-]
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]
 
 [tool.ruff.format]
 quote-style = "double"

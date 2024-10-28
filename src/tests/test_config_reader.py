@@ -1,5 +1,3 @@
-import os
-
 import pytest
 
 import versup.conf_reader as conf_reader
@@ -12,13 +10,13 @@ except ImportError:
 
 @pytest.fixture()
 def config_file():
-    yield conf_reader.parse_config_file("./tests/test_conf.json")
+    yield conf_reader.parse_config_file("./src/tests/test_conf.json")
 
 
 def test_parse_config_file():
-    conf = conf_reader.parse_config_file("./tests/test_conf.json")
+    conf = conf_reader.parse_config_file("./src/tests/test_conf.json")
     assert conf["scripts"]["postbump"] == "echo POST"
-    conf = conf_reader.parse_config_file("./tests/testsss_conf.json")
+    conf = conf_reader.parse_config_file("./src/tests/testsss_conf.json")
     assert conf == {}
 
 
