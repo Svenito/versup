@@ -4,5 +4,5 @@ test:
 	@ coverage html -d coverage_report
 	@ coverage xml -o coverage.xml
 	@ coverage report
-	@ flake8 versup
-	@ mypy versup --ignore-missing-imports
+	@ flake8 src/versup
+	@ mypy src/versup --ignore-missing-imports

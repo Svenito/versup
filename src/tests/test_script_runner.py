@@ -11,7 +11,7 @@ except ImportError:
 
 @pytest.fixture()
 def config_file():
-    yield conf_reader.parse_config_file("./tests/test_conf.json")
+    yield conf_reader.parse_config_file("./src/tests/test_conf.json")
 
 
 @patch("subprocess.call")
