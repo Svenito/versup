@@ -1,3 +1,10 @@
+### Version 1.6.2
+- Update readme
+- Update dependencies
+- Merge pull request #13 from Svenito/poetry-to-uv
+- Modify github action to use uv
+- Move versup to src folder
+
 ### Version 1.6.1
 - Update dependencies
 - flake8 to ignore black formatting choices
