@@ -12,13 +12,13 @@ make a commit, and tag it, all in one easy step. versup is also quite configurab
 
 # Install
 
-Install with either poetry
+Install as per normal package from PyPi
 
-`poetry install`
+`pip install versup`
 
-or pip
+For development, clone this repo and run versup with
 
-`pip install .`
+`uv run versup`
 
 # Quick start
 
