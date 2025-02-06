@@ -1,5 +1,5 @@
 > [!IMPORTANT]
-> Development of versup has been moved to [Codeberg](https://codeberg.org/unlogic/versup). This repo serves as a mirror now.
+> If you are viewing this on Github, this repo is a mirror from [Codeberg](https://codeberg.org/unlogic/versup)
 
 # versup
 
