@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> Development of versup has been moved to [Codeberg](https://codeberg.org/unlogic/versup). This repo serves as a mirror now.
+
 # versup
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
