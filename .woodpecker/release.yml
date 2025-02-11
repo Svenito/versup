@@ -1,22 +1,20 @@
 steps:
-    test:
+    release:
         image: python:${TAG}-slim-bullseye
         environment:
             UV_LINK_MODE: copy
+            PYPI_TOKEN:
+                from_secret: pypitoken
         when:
-            event: push
+            - event: tag
+            ref: refs/tags/v*
         commands:
-            - apt-get update
-            - apt-get install -y git
             - python -m pip install --upgrade pip
             - pip install uv
-            - uv sync --all-extras --dev
-            - uv run pytest src/tests
+            - uv publish --username __token__ --password 
 
 depends_on:
-    - lint
-    - format
-    - mypy
+    - test
 
 matrix:
     TAG:

@@ -1,7 +1,9 @@
 steps:
     lint:
+        environment:
+            UV_LINK_MODE: copy
         image: python:3.12-slim-bullseye
-        when:
+        when:        
             event: push
         commands:
             - python -m pip install --upgrade pip

@@ -1,6 +1,9 @@
 steps:
     formatcheck:
         image: python:3.12-slim-bullseye
+        environment:
+            UV_LINK_MODE: copy
+        
         when:
             event: push
         commands:
