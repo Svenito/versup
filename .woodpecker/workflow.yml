@@ -1,0 +1,17 @@
+steps:
+    test:
+        image: python:${TAG}-buster
+        when:
+            event: push
+        commands:
+            - python -m pip install --upgrade pip
+            - pip install uv
+            - uv python install ${TAG}
+            - uv sync --all-extras --dev
+            - uv run pytest src/tests
+
+matrix:
+    TAG:
+        - 3.10
+        - 3.11
+        - 3.12
