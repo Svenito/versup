@@ -1,6 +1,6 @@
 steps:
     test:
-        image: python:${TAG}-alpine
+        image: python:${TAG}-slim-bullseye
         when:
             event: push
         commands:
