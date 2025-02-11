@@ -5,7 +5,7 @@ steps:
             event: push
         commands:
             - apt-get update
-            - apt-get install git
+            - apt-get install -y git
             - python -m pip install --upgrade pip
             - pip install uv
             - uv python install ${TAG}
