@@ -1,6 +1,6 @@
 steps:
     test:
-        image: python:${TAG}-buster
+        image: python:${TAG}-alpine
         when:
             event: push
         commands:
