@@ -8,9 +8,13 @@ steps:
             - apt-get install -y git
             - python -m pip install --upgrade pip
             - pip install uv
-            - uv python install ${TAG}
             - uv sync --all-extras --dev
             - uv run pytest src/tests
+
+depends_on:
+    - lint
+    - format
+    - mypy
 
 matrix:
     TAG:
