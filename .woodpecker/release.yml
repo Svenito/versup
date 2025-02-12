@@ -8,12 +8,18 @@ steps:
         when:
             - event: tag
               ref: refs/tags/v*
+            - event: push
+              branch: main
+        
         commands:
             - python -m pip install --upgrade pip
             - pip install uv
-            - uv publish --username __token__ --password 
+            - uv publish --username __token__ --password ${PYPI_TOKEN}
 
 depends_on:
+    - lint
+    - mypy
+    - format
     - test
 
 matrix:
