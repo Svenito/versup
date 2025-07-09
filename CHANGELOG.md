@@ -1,3 +1,6 @@
+### Version 1.6.4
+- Fix typo in pyproject.toml
+
 ### Version 1.6.3
 - Fix mypy error for list type
 - Update dependencies
