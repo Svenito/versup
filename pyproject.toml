@@ -1,7 +1,7 @@
 [project]
 name = "versup"
 version = "1.6.3"
-description = "Version up your porject with ease."
+description = "Version up your project with ease."
 readme = "README.md"
 requires-python = ">=3.8"
 authors=[{name="Sven Steinbauer", email="sven@unlogic.co.uk"}]
