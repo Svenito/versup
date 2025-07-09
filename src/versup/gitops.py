@@ -89,7 +89,7 @@ def create_new_tag(new_version: str, tag_name: str):  # pragma: no cover
 
 def get_unstaged_changes() -> List[str]:
     repo = get_repo()
-    changed_files: List[str] = [item.a_path for item in repo.index.diff(None)]
+    changed_files: List[str] = [str(item.a_path) for item in repo.index.diff(None)]
     return repo.untracked_files + changed_files
 
 
