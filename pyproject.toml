@@ -1,6 +1,6 @@
 [project]
 name = "versup"
-version = "1.6.2"
+version = "1.6.3"
 description = "Version up your porject with ease."
 readme = "README.md"
 requires-python = ">=3.8"

@@ -1,3 +1,9 @@
+### Version 1.6.3
+- Fix mypy error for list type
+- Update dependencies
+- Remove github workflows
+- Update README
+
 ### Version 1.6.2
 - Update readme
 - Update dependencies
