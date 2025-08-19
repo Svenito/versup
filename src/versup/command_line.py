@@ -27,7 +27,7 @@ CONTEXT_SETTINGS = dict(
 
 
 class VersupContext(object):
-    conf: Dict = {}
+    conf: Dict[str, Any] = {}
     version: str = ""
 
 
@@ -158,7 +158,7 @@ def do_versup(ctx, **kwargs):
 
 
 @script_runner.prepost_script("bump")
-def apply_bump(config, version, **kwargs):
+def apply_bump(config: Dict[str, Any], version: str, **kwargs) -> None:
     """
     Runs through all the stages of the release as defined by the config file.
     """

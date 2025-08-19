@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
 
 import versup.gitops as gitops
 import versup.template as template

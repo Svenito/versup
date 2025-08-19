@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Union
+from typing import Dict, Union, Optional
 
 token_data: Dict[str, Union[str, None]] = {
     "version": None,
@@ -15,7 +15,11 @@ token_data: Dict[str, Union[str, None]] = {
 }
 
 
-def render(string: str, data: Dict[str, str] = {}):
+def render(string: str, data: Optional[Dict[str, str]] = None) -> str:
+    """Safely render template with provided data."""
+    if data is None:
+        data = {}
+
     # Merge new data with default
     new_data: Dict[str, Union[str, None]] = {**token_data, **data}
 

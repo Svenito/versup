@@ -1,6 +1,6 @@
 import configparser
 import os
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import semver
 from git import Repo
@@ -73,7 +73,7 @@ def get_latest_tag() -> str:  # pragma: no cover
             continue
         return tag
 
-    raise ValueError
+    raise ValueError("No semantic version tags found")
 
 
 def create_new_tag(new_version: str, tag_name: str):  # pragma: no cover
@@ -93,12 +93,17 @@ def get_unstaged_changes() -> List[str]:
     return repo.untracked_files + changed_files
 
 
-def create_commit(commit_msg: str, files_updated: List[str] = []):  # pragma: no cover
+def create_commit(
+    commit_msg: str, files_updated: Optional[List[str]] = None
+):  # pragma: no cover
     """
-    create a commit with the given message
+    Create a commit with the given message
 
     :commit_msg: string to use for the commit message
     """
+    if files_updated is None:
+        files_updated = []
+
     repo = get_repo()
     index = repo.index
     changed_files = [f.a_path for f in index.diff(None) if f.a_path in files_updated]
@@ -125,7 +130,7 @@ def get_commit_messages() -> List[Dict[str, str]]:
     out: List[Dict[str, str]] = []
 
     for commit in commits:
-        data = dict()
+        data: Dict[str, str] = {}
         split_commit = commit.split("||")
         if len(split_commit) < 2:
             return out

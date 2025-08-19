@@ -1,7 +1,5 @@
-from __future__ import print_function
-
 import re
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 from rich import print
 
@@ -43,9 +41,9 @@ def validate_file_path(filename: str) -> bool:
         return False
 
 
-def update_file_data(data: str, replace_list: list) -> str:
+def update_file_data(data: str, replace_list: Tuple[str, str]) -> str:
     """
-    The replace list is a list of two strings, the first is a regex
+    The replace list is a tuple of two strings, the first is a regex
     defining what is to be replaced, the second the text to replace the
     matches with
     :data: the source data on which to run the replace on
@@ -59,7 +57,9 @@ def update_file_data(data: str, replace_list: list) -> str:
     return updated_data
 
 
-def get_updates(filename: str, data: str, replace_list: List[str]):
+def get_updates(
+    filename: str, data: str, replace_list: Tuple[str, str]
+) -> Dict[str, str]:
     """
     This is the same as :update_file_data: but for dry runs. It will
     search for the matches to replace and print out the changes that will
@@ -82,7 +82,7 @@ def get_updates(filename: str, data: str, replace_list: List[str]):
 
 def update_files(
     new_version: str, files: Dict[str, Any], dryrun: bool
-) -> tuple[list, dict]:
+) -> Tuple[List[str], Dict[str, str]]:
     """
     Will update the given files with the defined regex from
     the config files and the text to replace with
@@ -98,7 +98,7 @@ def update_files(
     filenames = list(files.keys())
     template_data = {"version": new_version}
     updated_files: List[str] = []
-    updates: dict[str, str] = {}
+    updates: Dict[str, str] = {}
     for filename in filenames:
         if not validate_file_path(filename):
             print(f"Invalid file path {filename}")

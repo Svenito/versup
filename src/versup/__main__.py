@@ -1,7 +1,7 @@
 import versup.command_line
 
 
-def main():
+def main() -> None:
     versup.command_line.main()
 
 
