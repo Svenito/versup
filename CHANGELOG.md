@@ -1,3 +1,8 @@
+### Version 1.7.0
+- Improve gitops tests
+- Typing fixes
+- file updater improvements
+
 ### Version 1.6.4
 - Fix typo in pyproject.toml
 
