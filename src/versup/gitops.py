@@ -34,7 +34,10 @@ def get_email() -> str:  # pragma: no cover
     """
     repo = get_repo()
     try:
-        return str(repo.config_reader().get_value("user", "email"))
+        email = str(repo.config_reader().get_value("user", "email"))
+        if not email:
+            raise MissingConfig
+        return email
     except (configparser.NoSectionError, configparser.NoOptionError):
         raise MissingConfig
 
