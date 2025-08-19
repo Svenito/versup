@@ -110,10 +110,11 @@ def do_versup(ctx, **kwargs):
     ctx.obj.version = kwargs["increment"]
 
     try:
+        latest_version: str = ""
         try:
-            latest_version: str = gitops.get_latest_tag()
+            latest_version = gitops.get_latest_tag()
         except ValueError:
-            latest_version: str = get_conf_value(ctx.obj.conf, "version/initial")
+            latest_version = get_conf_value(ctx.obj.conf, "version/initial")
             print_warn(
                 "No previous version tag found. Using initial value from "
                 f"config: {latest_version}"

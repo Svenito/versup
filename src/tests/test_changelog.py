@@ -90,30 +90,30 @@ def test_update_changelog(filename):
     assert len(newlog.split("\n")) == 8
 
 
-@patch("os.system")
-def test_show_file_linux_custom_editor(os_system):
+@patch("subprocess.run")
+def test_show_file_linux_custom_editor(run_cmd):
     import os
 
     os.environ["EDITOR"] = "/usr/bin/editor"
     changelog.show_file("/tmp/file")
-    os_system.assert_called_once_with("/usr/bin/editor /tmp/file")
+    run_cmd.assert_called_once_with(["/usr/bin/editor", "/tmp/file"], check=False)
 
 
-@patch("os.system")
-def test_show_file_linux_vi(os_system):
+@patch("subprocess.run")
+def test_show_file_linux_vi(run_cmd):
     import os
 
     os.environ.pop("EDITOR", None)
     changelog.show_file("/tmp/file")
-    os_system.assert_called_once_with("vi /tmp/file")
+    run_cmd.assert_called_once_with(["vi", "/tmp/file"], check=False)
 
 
-@patch("os.system")
-def test_show_file_windows(os_system):
+@patch("subprocess.run")
+def test_show_file_windows(run_cmd):
     with patch("sys.platform", Mock(return_value="win32")):
         sys.platform = "win32"
         changelog.show_file("/tmp/file")
-    os_system.assert_called_once_with("notepad.exe /tmp/file")
+    run_cmd.assert_called_once_with(["notepad.exe", "/tmp/file"], check=False)
 
 
 def test_dryrun(filename):

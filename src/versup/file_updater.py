@@ -6,6 +6,41 @@ from typing import Any, Dict, List
 from rich import print
 
 import versup.template as template
+import os
+from pathlib import Path
+
+
+def is_file_in_project(filename: str) -> bool:
+    """Check if file is within the project directory."""
+
+    try:
+        file_abs = os.path.abspath(filename)
+        file_abs = os.path.normpath(file_abs)
+
+        project_root = os.path.abspath(os.getcwd())
+
+        # Check if file path starts with project root
+        common = os.path.commonprefix([file_abs, project_root])
+        return common == project_root
+    except (OSError, AttributeError):
+        return False
+
+
+def validate_file_path(filename: str) -> bool:
+    """Validate that file path is safe and within expected directory."""
+    try:
+        # Resolve to absolute path and check for symlinks
+        resolved_path = os.path.realpath(filename)
+        path_obj = Path(resolved_path)
+
+        # Check if path is absolute or contains '..'
+        if not path_obj.is_absolute() or ".." in filename:
+            return False
+        if not is_file_in_project(filename):
+            return False
+        return True
+    except (OSError, ValueError):
+        return False
 
 
 def update_file_data(data: str, replace_list: list) -> str:
@@ -65,6 +100,10 @@ def update_files(
     updated_files: List[str] = []
     updates: dict[str, str] = {}
     for filename in filenames:
+        if not validate_file_path(filename):
+            print(f"Invalid file path {filename}")
+            continue
+
         try:
             with open(filename, "r") as file_h:
                 data = file_h.read()

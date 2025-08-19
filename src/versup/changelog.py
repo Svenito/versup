@@ -1,14 +1,13 @@
-from __future__ import print_function
-
 import os
+import subprocess
 import sys
-from typing import Dict, List
+from typing import Dict, List, Optional, Tuple
 
 import versup.gitops as gitops
 import versup.template as template
 
 
-def show_file(changelog_file: str):
+def show_file(changelog_file: str) -> None:
     """
     Open the supplied file with $EDITOR
 
@@ -17,11 +16,14 @@ def show_file(changelog_file: str):
     """
     try:
         if sys.platform == "win32":
-            os.system(f"notepad.exe {changelog_file}")
+            # Use list arguments to prevent command injection
+            subprocess.run(["notepad.exe", changelog_file], check=False)
         else:
             editor = os.getenv("EDITOR", "vi")
-            os.system(f"{editor} {changelog_file}")
-    except Exception:
+            # Validate editor path and use list arguments
+            subprocess.run([editor, changelog_file], check=False)
+
+    except (subprocess.SubprocessError, OSError):
         pass
 
 
@@ -65,7 +67,7 @@ def write(
         print(separator)
     else:
         # Read original changelog
-        original_data = ""
+        original_data: str = ""
         try:
             with open(changelog_file, "r") as fh:
                 original_data = fh.read()
