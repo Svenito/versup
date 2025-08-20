@@ -1,3 +1,6 @@
+### Version 1.7.1
+- Update minimum python to 3.10
+
 ### Version 1.7.0
 - Improve gitops tests
 - Typing fixes
